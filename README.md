@@ -10,12 +10,13 @@
 
 ## What This Does
 
-1. Reads your trading strategy from `rules.json`
-2. Pulls live indicator data from your TradingView chart via MCP
-3. Calculates MACD from raw price data (works on the **free TradingView plan**)
-4. Runs a safety check — every condition in your strategy must pass
-5. Executes a trade via BitGet only if all conditions are met
-6. Logs every decision to `safety-check-log.json` — full audit trail
+**Five things you get from this setup:**
+
+1. **Claude connected to your exchange** — reads your TradingView chart and executes trades on BitGet automatically
+2. **A safety check** — every condition in your strategy must pass before a single trade goes through
+3. **24/7 cloud execution** — deploy to Railway and it runs on a schedule, even when your laptop is closed
+4. **Automatic tax accounting** — every trade logged to `trades.csv` with date, price, fees, and net amount, ready for your accountant
+5. **Free** — no email, no course, no upsell. Everything is in this repo.
 
 ---
 
@@ -204,6 +205,14 @@ Every trade the bot places is automatically written to `trades.csv` with the col
 | Mode | Paper / Live |
 
 At tax time: open the file, hand it to your accountant, or import it directly into your accounting software. Nothing to reconstruct.
+
+For a quick summary of your trading activity, run:
+
+```bash
+node bot.js --tax-summary
+```
+
+This prints total trades, volume, and fees paid.
 
 ---
 

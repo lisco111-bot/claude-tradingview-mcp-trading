@@ -10,7 +10,7 @@
  */
 
 import "dotenv/config";
-import { readFileSync, writeFileSync, existsSync } from "fs";
+import { readFileSync, writeFileSync, existsSync, appendFileSync } from "fs";
 import crypto from "crypto";
 
 // ─── Config ────────────────────────────────────────────────────────────────
@@ -266,6 +266,119 @@ async function placeBitGetOrder(symbol, side, sizeUSD, price) {
   return data.data;
 }
 
+// ─── Tax CSV Logging ─────────────────────────────────────────────────────────
+
+const CSV_FILE = "trades.csv";
+const CSV_HEADERS = [
+  "Date",
+  "Time (UTC)",
+  "Exchange",
+  "Symbol",
+  "Side",
+  "Quantity",
+  "Price",
+  "Total USD",
+  "Fee (est.)",
+  "Net Amount",
+  "Order ID",
+  "Mode",
+  "Notes",
+].join(",");
+
+function writeTradeCsv(logEntry) {
+  const now = new Date(logEntry.timestamp);
+  const date = now.toISOString().slice(0, 10);
+  const time = now.toISOString().slice(11, 19);
+
+  let side = "";
+  let quantity = "";
+  let totalUSD = "";
+  let fee = "";
+  let netAmount = "";
+  let orderId = "";
+  let mode = "";
+  let notes = "";
+
+  if (!logEntry.allPass) {
+    const failed = logEntry.conditions
+      .filter((c) => !c.pass)
+      .map((c) => c.label)
+      .join("; ");
+    mode = "BLOCKED";
+    orderId = "BLOCKED";
+    notes = `Failed: ${failed}`;
+  } else if (logEntry.paperTrading) {
+    side = "BUY";
+    quantity = (logEntry.tradeSize / logEntry.price).toFixed(6);
+    totalUSD = logEntry.tradeSize.toFixed(2);
+    fee = (logEntry.tradeSize * 0.001).toFixed(4);
+    netAmount = (logEntry.tradeSize - parseFloat(fee)).toFixed(2);
+    orderId = logEntry.orderId || "";
+    mode = "PAPER";
+    notes = "All conditions met";
+  } else {
+    side = "BUY";
+    quantity = (logEntry.tradeSize / logEntry.price).toFixed(6);
+    totalUSD = logEntry.tradeSize.toFixed(2);
+    fee = (logEntry.tradeSize * 0.001).toFixed(4);
+    netAmount = (logEntry.tradeSize - parseFloat(fee)).toFixed(2);
+    orderId = logEntry.orderId || "";
+    mode = "LIVE";
+    notes = logEntry.error ? `Error: ${logEntry.error}` : "All conditions met";
+  }
+
+  const row = [
+    date,
+    time,
+    "BitGet",
+    logEntry.symbol,
+    side,
+    quantity,
+    logEntry.price.toFixed(2),
+    totalUSD,
+    fee,
+    netAmount,
+    orderId,
+    mode,
+    `"${notes}"`,
+  ].join(",");
+
+  if (!existsSync(CSV_FILE)) {
+    writeFileSync(CSV_FILE, CSV_HEADERS + "\n");
+  }
+
+  appendFileSync(CSV_FILE, row + "\n");
+  console.log(`Tax record saved → ${CSV_FILE}`);
+}
+
+// Tax summary command: node bot.js --tax-summary
+function generateTaxSummary() {
+  if (!existsSync(CSV_FILE)) {
+    console.log("No trades.csv found — no trades have been recorded yet.");
+    return;
+  }
+
+  const lines = readFileSync(CSV_FILE, "utf8").trim().split("\n");
+  const rows = lines.slice(1).map((l) => l.split(","));
+
+  const live = rows.filter((r) => r[11] === "LIVE");
+  const paper = rows.filter((r) => r[11] === "PAPER");
+  const blocked = rows.filter((r) => r[11] === "BLOCKED");
+
+  const totalVolume = live.reduce((sum, r) => sum + parseFloat(r[7] || 0), 0);
+  const totalFees = live.reduce((sum, r) => sum + parseFloat(r[8] || 0), 0);
+
+  console.log("\n── Tax Summary ──────────────────────────────────────────\n");
+  console.log(`  Total decisions logged : ${rows.length}`);
+  console.log(`  Live trades executed   : ${live.length}`);
+  console.log(`  Paper trades           : ${paper.length}`);
+  console.log(`  Blocked by safety check: ${blocked.length}`);
+  console.log(`  Total volume (USD)     : $${totalVolume.toFixed(2)}`);
+  console.log(`  Total fees paid (est.) : $${totalFees.toFixed(4)}`);
+  console.log(`\n  Full record: ${CSV_FILE}`);
+  console.log("─────────────────────────────────────────────────────────\n");
+}
+
 // ─── Main ────────────────────────────────────────────────────────────────────
 
 async function run() {
@@ -387,14 +500,22 @@ async function run() {
     }
   }
 
-  // Save log
+  // Save decision log
   log.trades.push(logEntry);
   saveLog(log);
-  console.log(`\nLog saved → ${LOG_FILE}`);
+  console.log(`\nDecision log saved → ${LOG_FILE}`);
+
+  // Write tax CSV row for every run (executed, paper, or blocked)
+  writeTradeCsv(logEntry);
+
   console.log("═══════════════════════════════════════════════════════════\n");
 }
 
-run().catch((err) => {
-  console.error("Bot error:", err);
-  process.exit(1);
-});
+if (process.argv.includes("--tax-summary")) {
+  generateTaxSummary();
+} else {
+  run().catch((err) => {
+    console.error("Bot error:", err);
+    process.exit(1);
+  });
+}
