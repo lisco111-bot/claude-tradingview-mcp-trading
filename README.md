@@ -110,6 +110,7 @@ Step-by-step guides for all supported exchanges:
 
 | Exchange | Guide |
 |----------|-------|
+| DeltaExchange | [docs/exchanges/DeltaExchange.md](docs/exchanges/DeltaExchange.md) |
 | BitGet *(used in the video)* | [docs/exchanges/bitget.md](docs/exchanges/bitget.md) |
 | Binance | [docs/exchanges/binance.md](docs/exchanges/binance.md) |
 | Bybit | [docs/exchanges/bybit.md](docs/exchanges/bybit.md) |
