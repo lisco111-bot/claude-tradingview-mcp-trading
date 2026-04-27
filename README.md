@@ -178,8 +178,8 @@ Go to your Railway project → Variables and add everything from `.env.example`:
 | `MAX_TRADE_SIZE_USD` | 100 |
 | `MAX_TRADES_PER_DAY` | 3 |
 | `PAPER_TRADING` | true (set to false when ready) |
-| `SYMBOL` | BTCUSDT |
-| `TIMEFRAME` | 4H |
+| `SYMBOL` | BTCUSD |
+| `TIMEFRAME` | 1M |
 
 ### 3. Set a cron schedule
 
@@ -230,8 +230,8 @@ Every trade the bot places is automatically written to `trades.csv` with the col
 |--------|-------------|
 | Date | ISO date of the trade |
 | Time | UTC time |
-| Exchange | BitGet |
-| Symbol | e.g. BTCUSDT |
+| Exchange | DeltaExchange |
+| Symbol | e.g. BTCUSD |
 | Side | Buy / Sell |
 | Quantity | Units traded |
 | Price | Price per unit at execution |
