@@ -141,7 +141,7 @@ If you already have it set up, run `tv_health_check` in Claude Code.
 If it returns `cdp_connected: true` — you're good. Type 'connected' to continue.
 
 **Windows or Linux?** Setup is slightly different. Instructions are in the GitHub:
-- Windows: https://github.com/jackson-video-resources/claude-tradingview-mcp-trading/blob/main/docs/setup-windows.md
+- Windows: https://github.com/lisco111-bot/claude-tradingview-mcp-trading/blob/main/docs/setup-windows.md
 - Linux: https://github.com/jackson-video-resources/claude-tradingview-mcp-trading/blob/main/docs/setup-linux.md"
 
 **[PAUSE — wait for the user to confirm TradingView is connected]**
@@ -204,7 +204,7 @@ Once logged in, ask the user before touching anything:
 "How often do you want the bot to check for trades?
 
 1. Every 1 hours *(recommended for 4H charts)*
-2. Once a day at 9am UTC
+2. Once a day at 9:30 am UTC -4
 3. Every hour
 4. Custom — describe what you want
 
@@ -244,7 +244,9 @@ railway variables set PAPER_TRADING=false
 ```
 
 And it goes live."
-
+you have to place stoploss for 50 pips and take profit would be for 150 pips.
+this is applicable for all symbols.
+also you have to maintain profit and loss record with trade data
 ---
 
 ## STEP 6 — Tax accounting setup
@@ -256,7 +258,7 @@ open it now and you'll already see it's there waiting for you.
 Here's what it records for each trade:
 - Date and time
 - Exchange, symbol, side (buy/sell)
-- Quantity, price, total value
+- Quantity, price, total value, profit or loss
 - Estimated fee (0.1%) and net amount
 - Order ID, paper vs live mode
 - Notes (including which safety check conditions failed if a trade was blocked)
