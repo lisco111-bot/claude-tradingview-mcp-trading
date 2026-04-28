@@ -69,19 +69,19 @@ For anyone who wants to understand the steps manually, or troubleshoot a specifi
 
 **Mac / Linux:**
 ```bash
-git clone https://github.com/jackson-video-resources/claude-tradingview-mcp-trading
+git clone https://github.com/lisco111-bot/claude-tradingview-mcp-trading
 cd claude-tradingview-mcp-trading
 ```
 
 **Windows:**
 ```powershell
-git clone https://github.com/jackson-video-resources/claude-tradingview-mcp-trading
+git clone https://github.com/lisco111-bot/claude-tradingview-mcp-trading
 cd claude-tradingview-mcp-trading
 ```
 
 ---
 
-### Add your BitGet API credentials
+### Add your Binance API credentials
 
 **Mac / Linux:**
 ```bash
@@ -138,7 +138,6 @@ Step-by-step guides for all supported exchanges:
 | Exchange | Guide |
 |----------|-------|
 | DeltaExchange | [docs/exchanges/DeltaExchange.md](docs/exchanges/DeltaExchange.md) |
-| BitGet *(used in the video)* | [docs/exchanges/bitget.md](docs/exchanges/bitget.md) |
 | Binance | [docs/exchanges/binance.md](docs/exchanges/binance.md) |
 | Bybit | [docs/exchanges/bybit.md](docs/exchanges/bybit.md) |
 | OKX | [docs/exchanges/okx.md](docs/exchanges/okx.md) |
@@ -239,7 +238,7 @@ The example `rules.json` uses the van de Poppe + Tone Vays BTC strategy. To buil
 | File | What it does |
 |------|-------------|
 | `rules.json` | Your strategy — indicators, entry rules, risk rules |
-| `.env` | Your BitGet credentials (gitignored — never commits) |
+| `.env` | Your Binance credentials (gitignored — never commits) |
 | `prompts/01-extract-strategy.md` | Build rules.json from trader transcripts |
 | `prompts/02-one-shot-trade.md` | **The one-shot prompt — paste this to trade** |
 | `safety-check-log.json` | Auto-generated log of every trade decision |
@@ -265,7 +264,7 @@ Every trade the bot places is automatically written to `trades.csv` with the col
 | Total USD | Gross trade value |
 | Fee (est.) | Estimated exchange fee |
 | Net Amount | Total USD minus fee |
-| Order ID | Exchange reference |
+| Order ID | Exchange reference | profit | loss | stoploss = 50 pips | take profit = 150 pips
 | Mode | Paper / Live |
 
 At tax time: open the file, hand it to your accountant, or import it directly into your accounting software. Nothing to reconstruct.
