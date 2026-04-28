@@ -75,7 +75,7 @@ to use the same one, type 'bitget'. Otherwise pick from the list below:
 
 1. BitGet *(Lewis uses this — $1,000 bonus link in description)*
 2. Binance
-3. Bybit
+3. DeltaExchange
 4. OKX
 5. Coinbase Advanced
 6. Kraken
@@ -133,7 +133,7 @@ Type 'ready' when you have your API Key, Secret Key, and Passphrase."
 
 Look up the correct guide from the docs folder and display the full step-by-step
 instructions for their chosen exchange. The guides are at:
-
+- `docs/exchanges/DeltaExchange.md
 - `docs/exchanges/binance.md`
 - `docs/exchanges/bybit.md`
 - `docs/exchanges/okx.md`
