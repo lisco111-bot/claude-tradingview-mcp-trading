@@ -498,16 +498,11 @@ AFTER TRADE IS ON
 [ ] Screenshot saved with annotations
 DISCLAIMER: Educational purposes only. ICT himself states all examples are hypothetical/demo. Trading futures, forex, and options involves
 substantial risk. You may lose more than your investment. Do not trade with money you cannot afford to lose. Not financial advice. Practice on
-demo first.}
+demo first.
+
+stop loss = 50 pips
+take profit = 150 pips}
 
 
 
 
-
-    
-  "exit_rules": [
-    "Exit when
-    "Take profit = 150 pips"
-    " Stop loss = 50 pips " 
-  ],
-}
