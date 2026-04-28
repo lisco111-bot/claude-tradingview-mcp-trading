@@ -1,0 +1,497 @@
+
+VERSION 2.0 — EXPANDED EDITION 832 Videos Analyzed • All Concepts & Models Educational purposes only. All trading involves substantial risk. Practice on demo first.
+TABLE OF CONTENTS
+• Section 1 — Core ICT Concepts (FVG, OB, Liquidity, CE, etc.)
+• Section 2 — Trading Sessions & Macro Windows
+• Section 3 — ICT Trading Models (Silver Bullet, Turtle Soup, AMD, etc.)
+• Section 4 — Advanced PD Arrays (Breaker, Rejection, Propulsion, etc.)
+• Section 5 — Opening Gap Theory (ORG, NWOG, NDOG, Midnight Gap)
+• Section 6 — Market Maker Models (Buy & Sell)
+• Section 7 — Risk Management & Position Sizing
+• Section 8 — Trade Entry Checklist (Step by Step)
+• Section 9 — NY Lunch Reversal Setup
+• Section 10 — Trading Psychology & Journaling
+• Section 11 — Golden Rules (Do's & Don'ts)
+• Section 12 — Complete ICT Glossary
+• Section 13 — Daily Trading Checklist (Print This)
+SECTION 1 — CORE ICT CONCEPTS
+Fair Value Gap (FVG) / BISI / SIBI
+A 3-candle inefficiency where price moves too fast, leaving a gap. Bullish FVG (BISI = Buy Side Imbalance Sell Side
+Inefficiency) forms when candle 1 high is below candle 3 low. Bearish FVG (SIBI) is the opposite. Price consistently
+returns to fill these gaps.
+KEY RULE: Enter at CE of FVG. Bullish = support. Bearish = resistance. Bodies must close inside
+for invalidation.
+Inversion Fair Value Gap (IFVG)
+When price completely breaks through a FVG (bodies close outside it), the FVG inverts. A bullish FVG that gets
+broken becomes a bearish IFVG and vice versa. These are powerful re-entry and continuation signals.
+KEY RULE: Wait for displacement candle to close outside FVG. Then trade back INTO it from the
+new direction.
+1st Presented FVG
+The very FIRST Fair Value Gap that forms after price crosses a key level (like a liquidity pool or opening range). ICT
+considers this the highest probability FVG because it represents the initial algorithmic commitment to a new direction.
+KEY RULE: After liquidity is taken, the FIRST FVG that forms in the new direction = highest
+probability entry. Do not skip it for a 'better' one.
+Order Block (OB)
+The last opposing candle BEFORE a strong impulsive move. Bullish OB = last down-close candle before a rally.
+Bearish OB = last up-close candle before a drop. Enter at the OPEN of the order block candle.
+KEY RULE: Enter at opening price of OB candle. Stop loss beyond the wick. Invalidated when a
+body closes through it.
+Breaker Block
+An Order Block that FAILS — price breaks through it, then comes BACK to it from the other side. The failed bullish OB
+becomes a bearish Breaker. The failed bearish OB becomes a bullish Breaker. More powerful than regular OB
+because trapped traders are squeezed.
+KEY RULE: Only trade Breakers in the direction of the break. The original swing high/low that was
+violated is the entry zone.
+Mitigation Block
+After a loss move, price retraces back to the last opposing candle (where the original move began) to 'mitigate' trapped
+orders. Similar to OB but specifically in context of drawdown recovery.
+KEY RULE: Used for re-entry after a losing trade. Price returns to where it started the losing move
+— that is your mitigation block entry.
+Consequent Encroachment (CE)
+The exact 50% midpoint of ANY range — FVG, Order Block, wick, gap, or suspension block. The single most
+important level inside any array. Candle BODIES respecting CE confirms the setup is valid.
+KEY RULE: Wicks CAN violate CE. BODIES must stay on correct side. If body closes past CE, exit
+or reduce position.
+Suspension Block
+A special candle containing Volume Imbalance at BOTH top AND bottom — creating a 'suspended' zone. The
+midpoint CE is critical. Bodies above CE = bullish. Bodies below CE = bearish.
+KEY RULE: Often forms on daily charts as key turning points. Mark CE carefully. It acts as both
+support and resistance within the block.
+Liquidity Pools (BSL / SSL)
+Buy Side Liquidity (BSL) = equal highs where retail stop losses cluster above. Sell Side Liquidity (SSL) = equal lows
+with stops below. ICT's core belief: algorithms always target liquidity before reversing.
+KEY RULE: Mark ALL relative equal highs and lows. The algorithm WILL sweep them. This sweep =
+your entry signal.
+Volume Imbalance (VI)
+A 2-candle gap: one candle's CLOSE and the next candle's OPEN don't overlap. Measured to exact ticks/quarters.
+Price returns to fill. The 50% midpoint is most important reaction level.
+KEY RULE: Mark exact close-to-open gap. 50% level = CE. Strongest when it aligns with other PD
+arrays.
+Rejection Block
+A candle with an extremely long wick that represents aggressive rejection of a price level. The wick itself acts as a gap
+— ICT treats it identically to a FVG. Grade the wick like a gap using Fibonacci.
+KEY RULE: Draw fib from wick low to wick high (or vice versa). CE = 50% of wick. Trade back into
+the wick expecting rejection at CE.
+Propulsion Block
+A series of consecutive same-direction candles that 'propel' price. When price returns to this zone, it acts as an order
+block. Usually 3+ up-close candles in a row (bullish propulsion) or down-close candles (bearish).
+KEY RULE: Mark the extreme candle of the propulsion series as entry. Bodies must stay within the
+propulsion zone for it to remain valid.
+Vacuum Block
+A large gap in price that acts like a vacuum — price gets 'sucked' through it rapidly with almost no resistance. Forms
+during news events or extreme volatility. No reliable PD arrays exist inside a vacuum block.
+KEY RULE: Do NOT trade inside a vacuum block. Wait for price to exit the vacuum and find the next
+PD array.
+SMT Divergence
+When two correlated instruments (NQ vs ES, or EUR/USD vs GBP/USD) make different highs or lows at the same
+time. SMT = Smart Money Technique. Divergence indicates institutional disagreement = likely reversal.
+KEY RULE: SMT is a QUALIFIER only. It confirms other setups but is NOT a standalone entry
+signal. NQ higher high + ES lower high = bearish SMT.
+SECTION 2 — TRADING SESSIONS & MACRO WINDOWS
+SESSION TIME (EST) KEY ACTIVITY
+Asian Session / Killzone 6:00 PM – 12:00 AM Range formation. Sets up London run. Hunt wicks here.
+London Open Killzone 2:00 AM – 5:00 AM Major moves begin. Best Forex session entries.
+London Close Killzone 10:00 AM – 12:00 PM London exits positions. Often reversal or continuation.
+New York Open (AM) 9:30 AM – 12:00 PM Primary trading window. Most volume. Best setups.
+NY Lunch 12:00 PM – 1:30 PM AVOID. Manipulation zone. Reversals form here.
+NY PM Session 1:30 PM – 4:00 PM Fade lunch. Second opportunity of the day.
+Market On Close (MOC) 3:30 PM – 4:00 PM Final hour macro. Strong algorithmic delivery.
+ALL ICT ALGORITHMIC MACRO WINDOWS
+MACRO TIME (EST) NAME USE FOR
+2:33 – 3:00 AM London Open Macro Forex entries at London open
+4:03 – 4:30 AM London Silver Bullet Forex Silver Bullet setup
+8:50 – 9:10 AM Pre-Market Macro Before regular trading hours open
+9:30 – 10:00 AM Opening Range Watch only — no entries for 20 min
+9:50 – 10:10 AM AM Macro 1 First high-probability entry window
+10:10 – 10:40 AM AM Macro 2 Second morning entry window
+11:15 – 11:30 AM Late AM Macro Before lunch — last AM entry
+11:50 AM – 12:10 PM Pre-Lunch Macro Final AM entry before lunch
+12:00 – 1:30 PM NY Lunch (AVOID) No trading — manipulation period
+1:10 – 1:40 PM NY Lunch Close Macro Reversal as lunch ends
+1:50 – 2:10 PM PM Macro 1 First PM session entry
+2:50 – 3:10 PM PM Macro 2 / Final Hour Strong algorithmic delivery
+3:30 – 4:00 PM Market On Close (MOC) Final hour — strong moves
+10:50 – 11:10 AM Mid-Morning Macro Sometimes used for continuation
+SECTION 3 — ICT TRADING MODELS
+ICT Silver Bullet
+A TIME-BASED model that works during specific 20-minute windows. The setup requires a Fair Value Gap to form
+DURING the macro window, then enter on the retracement into that FVG.
+• Time windows: 3:00-4:00 AM (London), 10:00-11:00 AM (NY AM), 2:00-3:00 PM (NY PM)
+• Wait for price to SWEEP a liquidity level (equal highs or lows)
+• After the sweep, a FVG must form in the OPPOSITE direction
+• Enter inside that FVG during the macro window
+• Target: opposite liquidity pool (equal lows if short, equal highs if long)
+• Stop: beyond the wick that swept liquidity
+Turtle Soup (Short & Long)
+Price runs ABOVE a previous swing high (buy side liquidity) or BELOW a previous swing low (sell side liquidity) by a
+few ticks, trapping breakout traders, then immediately reverses. This fake breakout IS the entry.
+• Identify swing high with equal/relative equal highs (buy side pool)
+• Wait for price to RUN above those highs by 1-5 ticks
+• Look for immediate bearish rejection — a down-close candle forms
+• Enter short at or inside the first FVG that forms after the sweep
+• Stop: just above the new high made during the turtle soup
+• Target: sell side liquidity below (equal lows)
+• Deferred Entry: if you miss the first entry, wait for price to retrace to a Rejection Block
+AMD — Accumulation, Manipulation, Distribution
+ICT's core market cycle theory. Every significant price move has 3 phases. Understanding which phase you're in
+determines your trade direction.
+• ACCUMULATION: Price consolidates in a tight range. Smart money building positions. Do not trade.
+• MANIPULATION (Judas Swing): Price spikes FALSE direction to trap retail. This is the ENTRY signal.
+• DISTRIBUTION: Price runs in the TRUE direction. This is where you hold for targets.
+• Example: Market opens, drops (manipulation/Judas swing), then rallies all day (distribution up)
+• The morning session often shows AMD in real time — the Judas Swing happens at 9:30-10:00 AM
+Market Maker Buy Model (MMBM)
+A bullish delivery pattern. Price first takes out SELL SIDE liquidity (runs stops below lows), then aggressively rallies to
+take out BUY SIDE liquidity (runs highs). The entry is after the sell side is taken.
+• Step 1: Identify sell side liquidity pool below (equal lows)
+• Step 2: Wait for price to SWEEP that sell side (run below the lows)
+• Step 3: Look for first bullish FVG or Order Block after the sweep
+• Step 4: Enter long inside the FVG/OB
+• Target: buy side liquidity above (equal highs)
+• Stop: below the lowest wick of the sell side sweep
+Market Maker Sell Model (MMSM)
+A bearish delivery pattern (opposite of MMBM). Price first takes out BUY SIDE liquidity (runs highs), then aggressively
+drops to take SELL SIDE liquidity (runs lows). Entry is after the buy side is taken.
+• Step 1: Identify buy side liquidity pool above (equal highs, ATH, etc.)
+• Step 2: Wait for price to SWEEP that buy side (run above the highs)
+• Step 3: Look for first bearish FVG or bearish Order Block after the sweep
+• Step 4: Enter short inside the FVG/OB
+• Target: sell side liquidity below (equal lows)
+• Stop: above the wick high of the buy side sweep
+ICT Venom Model
+A specific ICT intraday model introduced in 2025. Uses the pre-session and first hour of trading. Look for a CISD
+(Change In State of Delivery) in the pre-market, then trade the opening range accordingly.
+• Scan pre-market (7:00-9:30 AM) for CISD — 3 consecutive candles that change direction
+• Mark the high and low of the pre-session range
+• At 9:30 open: if bullish CISD, look for buy setups in lower half of pre-session range
+• At 9:30 open: if bearish CISD, look for short setups in upper half of pre-session range
+• Best used with 1st Presented FVG logic in the 9:50-10:10 macro
+One Shot One Kill (OSOK)
+ICT's philosophy for patient, high-conviction trading. Only ONE trade per session, perfectly executed at the most ideal
+setup. Quality over quantity. A true sniper approach.
+• Only enter when ALL conditions align: correct session, right time of day, clear liquidity target, valid PD array
+• If you are not 80%+ confident — DO NOT ENTER
+• One trade per day is sufficient if executed correctly
+• Use the first hours range + 1st Presented FVG for highest probability
+• Target must be at least 3:1 risk/reward
+• After taking a trade (win or loss), close charts for the day
+SECTION 4 — ADVANCED PD ARRAYS
+Balanced Price Range (BPR)
+When a Bullish FVG and a Bearish FVG OVERLAP on the chart — the overlapping zone is called a Balanced Price
+Range. This overlap is an extremely high-probability zone because BOTH buy and sell side inefficiencies converge
+there. Price respects it powerfully.
+CISD — Change In State of Delivery
+Three consecutive candles that shift direction. Used to identify when the algorithm has changed its bias. Bullish CISD
+= 3 up-close candles (last down-close candle before them = bearish OB turned bullish). Bearish CISD = 3 down-close
+candles.
+Reaper PD Array
+ICT's advanced concept introduced in 2023. A specific combination of liquidity sweep + FVG + Order Block that forms
+a highly specific reversal pattern. Named for its 'harvesting' of retail stops.
+Grey Pools
+Institutional order flow zones that are not visible on standard charts. ICT teaches identifying areas where large
+institutional orders cluster based on previous price action patterns. Used for higher timeframe analysis.
+Breakaway Gap
+A gap that forms OUTSIDE a previous range — signaling a true breakout rather than manipulation. Breakaway gaps
+often stay OPEN (don't fill) because they represent genuine institutional commitment. Do NOT fade them.
+Opening Range Gap (ORG)
+Gap between previous day settlement and today's 9:30 open. Has a high, a low, and a CE (midpoint). Price oscillates
+around ORG all day. Filling the ORG is a common intraday draw on liquidity.
+New Day Opening Gap (NDOG)
+Gap between the electronic session open (midnight) and the previous day's close. Smaller than ORG but significant
+for pre-market and overnight traders. Price respects NDOG levels throughout the day.
+Midnight Opening Range
+The range that forms from midnight to 1:00 AM EST (electronic trading open). ICT introduced this as a key reference
+frame in 2025. Price frequently returns to the midnight opening range high/low during the NY session.
+New Week Opening Gap (NWOG)
+Gap between Friday close and Monday open. Major weekly draw on liquidity. Expect price to visit BOTH the high and
+low of the NWOG during the trading week.
+Central Bank Dealers Range (CBDR)
+The range formed between 2:00 PM and 8:00 PM EST (New York close to European open). This range represents
+institutional positioning. A break of the CBDR high or low often signals the direction for the London session.
+Friday Asian Range
+The Asian session range on Fridays is often targeted by the Monday morning move. Mark Friday's Asian high and low.
+Monday often runs one side before reversing.
+SECTION 5 — OPENING GAP THEORY (Complete)
+ICT's Opening Range Gap theory is one of his most practical and repeatable concepts. Every gap creates actionable
+levels. Here is the complete hierarchy:
+GAP TYPE WHEN IT FORMS HIGH PROBABILITY TRADE
+Midnight Gap (NDOG) Midnight EST open vs prev close Price returns to fill or respect CE during NY
+New Week Gap (NWOG) Monday open vs Friday close Visit both high AND low during the week
+RTH Opening Range Gap 9:30 AM vs previous settlement CE respected multiple times during the day
+CBDR 2:00 PM – 8:00 PM EST range Break of CBDR = direction for London session
+Asian Range 6:00 PM – midnight EST London often runs the opposite side of Asian range
+Breakaway Gap Outside previous range DO NOT fade — trade in direction of break
+Volume Imbalance Candle close to next open gap Price fills to CE (50%) of the imbalance
+HOW TO USE FIRST HOUR RANGE
+When you have NO initial bias, ICT teaches using the First Hour Trading Range (9:30-10:30 AM) as your framework:
+• Mark the HIGHEST high and LOWEST low of the first hour (9:30 to 10:30 AM)
+• Calculate 8ths / gradient levels on this range using Fibonacci tool
+• If BULLISH: focus on the UPPER half of the range for entries
+• If BEARISH: focus on the LOWER half of the range for entries
+• Look for FVGs and Order Blocks inside these gradient levels
+• The gradient levels act like mini support/resistance — bodies respect them
+• When uncertain of direction: wait for 10:00 AM news, then use first hour range to frame your trade
+SECTION 6 — MARKET MAKER MODELS DETAIL
+Market Maker Buy Model — Step by Step
+1 — Accumulation
+Price consolidates in a range. Smart money accumulates longs quietly. Retail sees
+a 'boring' market. DO NOT TRADE during accumulation.
+2 — Manipulation
+(Judas Swing Down)
+Price drops BELOW the accumulation low, triggering retail stop losses and
+attracting new shorts. This is the FAKE move. Smart money is buying this drop.
+3 — Distribution
+(Rally)
+Price aggressively rallies, taking out all the equal highs above. All the shorts get
+squeezed. This is where you ride the trend.
+Entry Zone
+Enter LONG when the Judas Swing drops below accumulation low AND price
+shows first bullish FVG or OB on the 1-minute chart during a macro window.
+Market Maker Sell Model — Step by Step
+1 — Accumulation
+Price consolidates. Smart money quietly building SHORT positions while retail
+sees ranging market.
+2 — Manipulation
+(Judas Swing Up)
+Price spikes ABOVE the accumulation high, trapping retail breakout buyers and
+clearing stops above. Smart money is SELLING this rally.
+3 — Distribution
+(Drop)
+Price aggressively falls, sweeping sell side liquidity pools below. Breakout buyers
+get stopped out. This is the sustained move.
+Entry Zone
+Enter SHORT when Judas Swing runs above accumulation high AND price shows
+first bearish FVG or OB on 1-minute chart during macro window.
+SECTION 7 — RISK MANAGEMENT & POSITION SIZING
+ICT's Core Risk Rules
+• Never risk more than 1-2% of account per trade
+• Start with ONE MICRO CONTRACT per trade while learning
+• Micro S&P; (MES) = $5 per handle | Micro NASDAQ (MNQ) = $2 per point
+• Goal for beginners: $50/day with 1 micro = $1,000/month over 20 trading days
+• After 3 consecutive losses, STOP trading for the day — no exceptions
+• Never add to a losing position without a clear algorithmic re-entry signal
+• Never use more than 3 micros until you have 3 profitable months consistently
+• Target 6% per month on your account — compounding builds wealth
+• Always use limit orders for entries — NEVER market orders into a position
+• If your internet drops or something unexpected happens — MARKET ORDER OUT immediately
+Stop Loss Placement Rules
+• For longs: Stop BELOW the wick low of the liquidity sweep (the Judas Swing low)
+• For shorts: Stop ABOVE the wick high of the liquidity sweep
+• NEVER place stop inside a wick — wicks are designed to sweep stops
+• After first partial taken: move stop to breakeven
+• After second partial taken: move stop to first target level
+• Do NOT widen your stop after entry — if it's wrong it's wrong
+• ICT's rule: if your stop would be hit on a 'normal' candle, your stop is too tight
+Partial Profit Taking Rules
+• First partial (1/3): at first liquidity pool target
+• Second partial (1/3): at Opening Range Gap high/low
+• Final (1/3): at major daily draw (NWOG, daily FVG, prev high/low)
+• "You never go wrong taking profits" — ICT's rule
+• If trade is uncomfortable and approaching target: MARKET ORDER — take the profit
+• Never let a winning trade turn into a loss — trail stop aggressively after 2nd partial
+SECTION 8 — COMPLETE TRADE ENTRY CHECKLIST
+STEP 1 — DAILY CHART BIAS (Do This Night Before)
+• Open daily chart — identify nearest Suspension Block or FVG
+• Mark the Consequent Encroachment (CE = midpoint) of that level
+• Price below CE = BEARISH bias | Price above CE = BULLISH bias
+• Mark nearest Buy Side Liquidity (equal highs above)
+• Mark nearest Sell Side Liquidity (equal lows below)
+• Determine: which pool is the PRIMARY draw for tomorrow?
+• Mark the New Week Opening Gap high and low (if applicable)
+• Check: is there a NY Lunch FVG from yesterday to carry forward?
+STEP 2 — MORNING PREPARATION (Before 9:00 AM)
+• Mark yesterday's settlement price (RTH close at 4:00 PM)
+• After 9:30 open: mark today's Opening Range Gap (ORG)
+• Check Midnight Opening Gap levels
+• Mark New Day Opening Gap (NDOG) if using pre-market
+• Identify the premium half vs discount half of day's range so far
+• Set price alerts at key levels — do not watch chart continuously
+• Review macro windows: know EXACTLY when 9:50, 10:10, 1:50, 2:50 PM are
+STEP 3 — OPENING RANGE OBSERVATION (9:30–9:50 AM)
+• Do NOT trade the first 20 minutes — observe only
+• Watch for the Judas Swing direction
+• Note where the first FVG formed on 1-minute chart
+• Is price in PREMIUM (upper half ORG) or DISCOUNT (lower half)?
+• Premium = look for SHORTS only | Discount = look for LONGS only
+• What is the 1st Presented FVG after 9:30? Mark it.
+STEP 4 — ENTRY EXECUTION (9:50 AM onwards)
+• Wait for macro window to begin (9:50 AM earliest)
+• Price must reach a valid PD Array (FVG / OB / IFVG / Rejection Block)
+• Liquidity MUST be taken BEFORE your entry zone
+• Check SMT divergence with correlated market for confirmation
+• Candle BODIES must respect your CE level — wicks don't count
+• Enter with LIMIT ORDER at CE of FVG or at OB open price
+• Stop loss: BEYOND the wick of the liquidity sweep
+• Target identified: minimum 2:1 risk/reward, ideally 3:1 or more
+STEP 5 — TRADE MANAGEMENT
+• Watch the candlestick behavior — it tells you if the trade is working
+• Fast, long-bodied candles away from entry = GOOD
+• Too many small candles inside FVG = WARNING — consider taking partial
+• At first target: take 1/3 off, move stop to breakeven
+• At second target: take 1/3 off, move stop to first target level
+• NEVER trade during NY Lunch (12:00–1:30 PM)
+• If trade reaches 3rd target or EOD: close remaining position
+• Log the trade in journal IMMEDIATELY after closing
+SECTION 9 — NY LUNCH REVERSAL SETUP
+ICT's advanced PD Array specifically taught for 2026. Uses the previous day's NY Lunch session to predict the next
+day's high or low.
+1 On the PREVIOUS day, mark the NY Lunch window: 12:00 PM to 1:30 PM
+2 Find WHERE liquidity was taken near the END of that lunch window
+3 Find the FVG that formed RIGHT BEFORE that liquidity was swept
+4 Extend those EXACT price levels forward to the NEXT day as a rectangle
+5 If price trades UP into those levels the next day = HIGH PROBABILITY SHORT
+6 If price trades DOWN into those levels = HIGH PROBABILITY LONG
+7 Candle bodies must stay on correct side of the zone's CE level
+8 Target: the opposite major liquidity pool for the day
+KEY This is a NEW PD Array ICT released in 2026 — not taught by any other educator
+SECTION 10 — TRADING PSYCHOLOGY & JOURNALING
+ICT's Core Psychology Rules
+• This is not gambling. Treat it as a business — with a plan and rules.
+• Losses are tuition fees. Every losing trade teaches something. Journal it.
+• Scared money never makes money. Undercapitalization causes over-trading.
+• The best trades feel uncomfortable — they look wrong to everyone else.
+• If you are revenge trading after a loss — STOP. Close everything. Walk away.
+• Your results are a reflection of your PROCESS, not luck.
+• Compare yourself only to who you were last month, not to other traders.
+• Demo for 90 days minimum before touching real money.
+• Journaling is NOT optional. Without a journal you cannot improve.
+• ICT's rule: if you would Tweet about your trade before entering — it's ego, not edge.
+Journaling Requirements (ICT Standard)
+• Record: Date, Time, Market, Direction (Long/Short), Entry Price, Stop Price, Target Price
+• Record: Which session, which macro window, which PD Array was used
+• Record: Was liquidity taken before entry? Yes/No
+• Record: What was the daily bias? Did the trade align?
+• Screenshot: Mark the entry, stop, and target on the chart
+• Record: Did I follow my rules? Yes/No
+• Record: What did I do wrong? (even on winning trades)
+• Weekly review: What patterns appear in my winning trades vs losing trades?
+• ICT advice: 'Algorithmic Timing and Journaling' — March 2025 lecture is essential viewing
+SECTION 11 — GOLDEN RULES (DO's & DON'Ts)
+n DO THIS
++ Always establish Daily bias BEFORE looking at lower
+timeframes
++ Only trade in direction of higher timeframe bias
++ Wait for liquidity to be taken BEFORE entering
++ Trade during macro windows only (specific 20-min
+windows listed in Section 2)
++ Use limit orders — never chase with market orders
++ Take partials — nobody ever went broke taking profits
++ Start with ONE micro contract and master it before
+scaling
++ Journal every single trade — wins AND losses
++ Mark your levels the night before trading begins
++ Wait for CPI/NFP/FOMC to pass before entering (min
+10 minutes after)
++ During rangebound markets — trade INSIDE the range
+to inefficiencies only
++ Aim for quality (1-2 trades/day) not quantity
++ Study the 2022 Core Content Mentorship videos — they
+are the foundation
++ Treat every loss as data, not failure
+n AVOID THIS
+- NEVER trade during NY Lunch (12:00–1:30 PM) without
+clear setup
+- NEVER enter before major news releases
+- NEVER place stop loss INSIDE a wick
+- NEVER add to a losing position without new algorithmic
+signal
+- NEVER chase price that has already moved far from
+your entry zone
+- NEVER use heavy leverage during volatile/rangebound
+conditions
+- NEVER skip the daily bias step — it is the foundation of
+everything
+- NEVER trade a setup just because it 'looks good' — all
+conditions must align
+- NEVER ignore when bodies close past your CE level —
+exit immediately
+- NEVER revenge trade — the market will always give
+another opportunity
+- NEVER trade on NFP week if you're under 6 months of
+experience
+- NEVER trust a setup where price spends 5+ candles
+inside a FVG without moving
+- NEVER try to pick exact highs and lows on news — wait
+for confirmation
+- NEVER over-analyze — simple is better: liquidity taken +
+FVG + macro window
+SECTION 12 — COMPLETE ICT GLOSSARY
+TERM MEANING
+AMD Accumulation, Manipulation, Distribution — the 3 phases of every market cycle
+ATH / ATL All Time High / All Time Low — major liquidity pools
+BISI Buy Side Imbalance Sell Side Inefficiency — bullish FVG
+BOS Break of Structure — price breaks a key swing high or low
+BPR Balanced Price Range — overlapping bullish and bearish FVGs
+BSL Buy Side Liquidity — equal highs where stops cluster above
+CBDR Central Bank Dealers Range — 2:00 PM to 8:00 PM EST range
+CE Consequent Encroachment — exact 50% midpoint of any range
+CISD Change In State of Delivery — 3 consecutive candles shifting direction
+FVG Fair Value Gap — 3-candle price inefficiency (also called BISI/SIBI)
+IFVG Inversion Fair Value Gap — FVG that has been broken and flipped
+IPDA Interbank Price Delivery Algorithm — ICT's name for the market algorithm
+Judas Swing False move at open designed to trap retail traders in wrong direction
+Macro Specific 20-minute algorithmic delivery windows throughout the day
+MMBM Market Maker Buy Model — bullish delivery pattern
+MMSM Market Maker Sell Model — bearish delivery pattern
+MSS Market Structure Shift — change in swing high/low sequence
+NDOG New Day Opening Gap — midnight open vs previous day's close
+NWOG New Week Opening Gap — Monday open vs Friday close
+OB Order Block — last opposing candle before a strong impulse
+ORG Opening Range Gap — 9:30 AM open vs previous day settlement
+OSOK One Shot One Kill — single high-conviction trade per session
+OTE Optimal Trade Entry — 62-79% Fibonacci retracement zone
+PD Array Price Delivery Array — any key level ICT uses for entry
+Phil ICT's nickname for the algorithm / smart money manipulator
+RTH Regular Trading Hours — 9:30 AM to 4:00 PM EST
+SIBI Sell Side Imbalance Buy Side Inefficiency — bearish FVG
+SMC Smart Money Concepts — ICT's broader methodology name
+SMT Smart Money Technique — divergence between correlated markets
+SSL Sell Side Liquidity — equal lows where stops cluster below
+VI Volume Imbalance — 2-candle gap between close and next open
+Turtle Soup Price fakes out above old high then reverses — entry on the reversal
+Breaker Failed Order Block that flips to opposite direction
+Silver Bullet Time-based setup using FVGs within specific 20-min macro windows
+TGIF ICT concept — Thursday/Friday often sees reversal of weekly trend
+Venom Model ICT's 2025 intraday model using CISD and first-hour range
+SECTION 13 — DAILY TRADING CHECKLIST (Print & Use Every Day)
+NIGHT BEFORE (Sunday or after 4 PM)
+[ ] Checked daily chart — identified key PD array and CE level
+[ ] Determined daily bias: Bullish / Bearish / Neutral
+[ ] Marked nearest BSL (buy side) and SSL (sell side) liquidity pools
+[ ] Marked yesterday's NY Lunch FVG and extended forward
+[ ] Checked New Week Opening Gap (if Monday)
+[ ] Written down: today's primary draw on liquidity
+[ ] Set price alerts at key levels
+BEFORE MARKET OPEN (7:00-9:30 AM)
+[ ] Noted previous settlement price
+[ ] Checked NDOG (midnight open gap) levels
+[ ] Reviewed pre-session price action for CISD signal
+[ ] Checked news schedule — any CPI/NFP/FOMC today?
+[ ] Wrote down macro window times for today
+[ ] Mental state check: calm and focused? (if not — don't trade)
+MARKET OPEN (9:30-9:50 AM — OBSERVE ONLY)
+[ ] Watched Judas Swing direction WITHOUT entering
+[ ] Marked 1st Presented FVG after 9:30
+[ ] Identified premium vs discount based on ORG
+[ ] Confirmed daily bias matches current price action
+[ ] Set up limit order at key level (but NOT placed yet)
+ENTRY WINDOW (9:50 AM onwards)
+[ ] Macro window has started (9:50 AM or later)
+[ ] Liquidity was taken BEFORE my entry zone 3
+[ ] Price is at a valid PD Array (FVG/OB/IFVG) 3
+[ ] Candle bodies are respecting the CE level 3
+[ ] SMT divergence confirms (if available) 3
+[ ] Risk calculated: stop size × contract size = acceptable $ risk 3
+[ ] Target identified and minimum 2:1 R:R confirmed 3
+[ ] LIMIT ORDER placed (not market order) 3
+AFTER TRADE IS ON
+[ ] Not staring at chart every second
+[ ] First partial taken at first target — stop moved to BE
+[ ] NOT trading during lunch (12:00-1:30 PM)
+[ ] Second partial taken at second target
+[ ] Final position managed until EOD or third target
+[ ] JOURNAL ENTRY written immediately after trade closes
+[ ] Screenshot saved with annotations
+DISCLAIMER: Educational purposes only. ICT himself states all examples are hypothetical/demo. Trading futures, forex, and options involves
+substantial risk. You may lose more than your investment. Do not trade with money you cannot afford to lose. Not financial advice. Practice on
+demo first.
