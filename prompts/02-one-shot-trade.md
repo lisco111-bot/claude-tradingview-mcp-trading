@@ -17,37 +17,6 @@ Start immediately with Step 1. Do not ask any questions before starting.
 
 ---
 
-## STEP 0 — Wispr Flow (optional but recommended)
-
-Tell the user:
-
-"Before we start — one quick thing. In the video, Lewis is talking to Claude rather than
-typing. He uses a tool called Wispr Flow — it turns your voice into text anywhere on your
-computer, so you can just speak your instructions and Claude hears them.
-
-You don't need it. You can type everything. But if you want it, I'll open it for you now.
-
-Do you want to set up Wispr Flow? Type 'yes' to open it, or 'skip' to continue without it."
-
-**[PAUSE — wait for their answer]**
-
-**If they say 'yes':**
-
-Open Wispr Flow in their browser:
-- **Mac:** `open https://wisprflow.ai/r?LEWIS16`
-- **Windows:** `start https://wisprflow.ai/r?LEWIS16`
-- **Linux:** `xdg-open https://wisprflow.ai/r?LEWIS16`
-
-Tell them: "I've opened Wispr Flow. Download it, install it, and come back when it's
-running. Once it's set up you can speak the rest of this setup instead of typing.
-Type 'done' when you're ready."
-
-**[PAUSE]**
-
-**If they say 'skip':** Move straight to Step 1.
-
----
-
 ## STEP 1 — Clone the repository
 
 Run the following commands:
@@ -90,44 +59,7 @@ Type the name or number of your exchange."
 
 ---
 
-### If they choose BitGet:
-
-Tell them: "Great — same as Lewis. If you don't have a BitGet account yet, sign up
-here for a $1,000 bonus on your first deposit:"
-
-Open the BitGet referral link in their default browser:
-- **Mac:** `open https://partner.bitget.com/bg/LewisJackson`
-- **Windows:** `start https://partner.bitget.com/bg/LewisJackson`
-- **Linux:** `xdg-open https://partner.bitget.com/bg/LewisJackson`
-
-"I've opened BitGet for you. Create your account if you haven't already, then
-come back and type 'done'."
-
-**[PAUSE — wait for the user to type 'done' before continuing]**
-
-Now walk them through creating their API key on mobile:
-
-"Now let's get your API key. Here's the exact process — follow along:
-
-1. Open the BitGet app
-2. Tap the **Home** button at the bottom left
-3. Tap your **profile picture** at the top left
-4. Scroll all the way down and tap **More Services**
-5. Along the top menu, find and tap **Tools**
-6. Tap **API Keys**
-7. Tap **Create API Key** → **Automatically Generated API Keys**
-8. Give it a name — call it something like 'Trader Thing'
-9. Set a **Passphrase** — this is personal to you, write it down now. You can't recover it later.
-10. **Bind IP Address** — optional, skip it if you're not sure
-11. For permissions, select: **Spot Trading** + anything else you want. Leave **Crypto Loans, P2P, Transfer, and Withdrawals OFF** — never turn withdrawals on.
-12. Tap **Confirm** and complete the verification (email or 2FA)
-13. Your **API Key** and **Secret Key** will appear on screen — copy them both now
-
-Type 'ready' when you have your API Key, Secret Key, and Passphrase."
-
-**[PAUSE]**
-
----
+--
 
 ### If they choose any other exchange:
 
@@ -136,13 +68,7 @@ instructions for their chosen exchange. The guides are at:
 - `docs/exchanges/DeltaExchange.md
 - `docs/exchanges/binance.md`
 - `docs/exchanges/bybit.md`
-- `docs/exchanges/okx.md`
 - `docs/exchanges/coinbase.md`
-- `docs/exchanges/kraken.md`
-- `docs/exchanges/kucoin.md`
-- `docs/exchanges/gateio.md`
-- `docs/exchanges/mexc.md`
-- `docs/exchanges/bitfinex.md`
 
 Read the relevant file and walk them through it step by step. Tell them what
 credentials they'll end up with (some exchanges don't use a passphrase).
@@ -180,13 +106,13 @@ Ask the user the following questions one at a time, waiting for each answer befo
 the next. Write each answer into the .env file as you go.
 
 1. "How much of your portfolio are you working with in USD?
-   (This is used to calculate position size — e.g. 1000)"
+   (This is used to calculate position size — e.g. 50)"
 
 2. "What's the maximum size of any single trade in USD?
-   (e.g. 50 — this is your hard cap per trade)"
+   (e.g. 2500 — this is your hard cap per trade)"
 
 3. "How many trades maximum should the bot place per day?
-   (e.g. 3 — it will stop itself after this number)"
+   (e.g. 20 — it will stop itself after this number)"
 
 After collecting all three, update the .env file with:
 ```
@@ -225,37 +151,16 @@ If it fails, help them troubleshoot before continuing.
 
 ---
 
-## STEP 4 — Choose your strategy
+## STEP 4 — Have your strategy
 
-Ask the user:
 
-"Now for your strategy. You've got three options:
+1. For strategy go to ict strategy by amit youtube transcript.txt and build your rules.json accordingly.
 
-1. **Use the demo strategy** — it's already in rules.json and ready to go. VWAP + RSI(3) + EMA(8) scalping on the 1-minute chart. Good for getting started.
-2. **I already have my own strategy** — tell me what it is and I'll build your rules.json around it.
-3. **Scrape a strategy from a YouTube trader** — pick any trader whose videos you watch. I'll pull their transcripts and extract their strategy automatically using Apify.
 
-Type 1, 2, or 3."
-
-**[PAUSE — wait for their answer]**
-
----
-
-**If they choose 1 (demo strategy):**
-
-Tell them: "The demo strategy is already loaded in rules.json — nothing to do here.
+then load The strategy, in file named as amit youtube transcript.txt, in rules.json .
 Move to Step 5."
 
----
-
-**If they choose 2 (their own strategy):**
-
-Ask: "Describe your strategy — the indicators you use, the conditions for a buy, the
-conditions for a sell, and any risk rules (stop loss %, max risk per trade, etc.)."
-
-**[PAUSE — get their answer]**
-
-Take what they describe and rewrite `rules.json` to reflect it. Confirm with them
+---what the file describe ,  rewrite `rules.json` to reflect it. Confirm with them
 what you've written before saving.
 
 Tell them: "Done — rules.json now reflects your strategy. That's what the safety
@@ -263,72 +168,6 @@ check will use."
 
 ---
 
-**If they choose 3 (scrape from YouTube):**
-
-Tell them: "We're going to use Apify to pull transcripts from a YouTube trader's
-channel and extract their strategy automatically. You'll need a free Apify account."
-
-Open Apify in their browser:
-- **Mac:** `open https://apify.com?fpr=3ly3yd`
-- **Windows:** `start https://apify.com?fpr=3ly3yd`
-- **Linux:** `xdg-open https://apify.com?fpr=3ly3yd`
-
-Tell them: "I've opened Apify. Create your account if you don't have one, then come
-back and type 'done'."
-
-**[PAUSE — wait for 'done']**
-
-Now walk them through getting their API token:
-
-"Now let's get your API token. Here's exactly how:
-
-1. In Apify, look for the **search / console** on the left-hand side
-2. Click the search icon and type **API**
-3. Click **API tokens**
-4. On the right side, click **Create a new token**
-5. Give it a name — something like 'trading bot'
-6. Click **Create**
-7. Click the **copy button** next to your new token
-
-Type 'ready' when you have it copied."
-
-**[PAUSE]**
-
-Open .env and add the Apify key:
-- **Mac:** `open -e .env`
-- **Windows:** `notepad .env`
-- **Linux:** `nano .env`
-
-Tell them: "Add this line to your .env file:
-```
-APIFY_API_KEY=[paste your token here]
-```
-Save it and type 'done'."
-
-**[PAUSE]**
-
-Now ask: "Which YouTube trader do you want to build your strategy from?
-Go to their YouTube channel and paste the channel URL here.
-(Example: Blockchain Backer — just paste the URL of their channel page)"
-
-**[PAUSE — get their answer]**
-
-Tell them: "On it. I'm going to scrape the transcripts of their last 100 videos
-and extract a trading strategy from them. This takes about 10–20 minutes. I'll
-let you know when it's done."
-
-Use the Apify YouTube Transcript Scraper to pull transcripts from that channel URL.
-Use their APIFY_API_KEY from .env.
-API endpoint: `https://api.apify.com/v2/acts/streamers~youtube-transcript/runs`
-
-Once transcripts are returned, extract the trading strategy using the prompt in
-`prompts/01-extract-strategy.md`. Save the output to `rules.json`.
-
-Tell the user: "Done. I've extracted [trader name]'s strategy from their transcripts
-and saved it to rules.json. That's now what your safety check will use — their
-conditions, not a generic template."
-
----
 
 ## STEP 5 — Deploy to Railway (run the bot 24/7 in the cloud)
 
