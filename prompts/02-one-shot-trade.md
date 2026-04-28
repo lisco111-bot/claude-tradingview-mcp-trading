@@ -364,7 +364,7 @@ Once logged in, ask the user before touching anything:
 
 "How often do you want the bot to check for trades?
 
-1. Every 4 hours *(recommended for 4H charts)*
+1. Every 1 hours *(recommended for 4H charts)*
 2. Once a day at 9am UTC
 3. Every hour
 4. Custom — describe what you want
