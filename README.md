@@ -96,13 +96,39 @@ Copy-Item .env.example .env
 Open `.env` and fill in:
 
 ```
-BITGET_API_KEY=your_api_key_here
-BITGET_SECRET_KEY=your_secret_key_here
-BITGET_PASSPHRASE=your_passphrase_here
-PORTFOLIO_VALUE_USD=1000
-MAX_TRADE_SIZE_USD=100
-MAX_TRADES_PER_DAY=3
-```
+# Binance API credentials
+# Get these from: Binance account → API Management → Create API
+# Withdrawals: OFF. IP whitelist: ON.
+
+BINANCE_API_KEY=cSxz62TxgcnowUjf5S6bXFYMKW1cjhZjKWtfkEzLx1Os4j4WtAOKp6GAYYJTjh7J
+BINANCE_SECRET_KEY=W2JDo3J188zPza9E2cQZHmk6F4AgLbiEHENZi4x0bHtFAKcgRiWAgvI2P3oY2VrF
+BINANCE_PASSPHRASE= Luxmi1234
+BINANCE_BASE_URL=https://api.binance.com
+
+
+
+DELTAEXCHANGE_API_KEY=UBezdDSgVmnmsltlEpcF5hhqCCmYjx
+DELTAEXCHANGE_SECRET_KEY=QCjAkfSH568PSFuWcAWkpzwQ1NTPZrgS7IyyHod8I1Kxfy0JrGI3VNAV9EXD
+DELTAEXCHANGE_PASSPHRASE= Luxmi1234$
+
+
+
+# Trading mode: "spot" or "futures"
+TRADE_MODE=futures  
+
+# Portfolio value — used to calculate position size
+PORTFOLIO_VALUE_USD=500
+
+# Trade limits — these are your guardrails
+MAX_TRADE_SIZE_USD=2500        # No single trade can exceed this value
+MAX_TRADES_PER_DAY=20         # Bot stops executing after this many trades in a calendar day
+
+# Symbol and timeframe
+SYMBOL=BTCUSDT
+TIMEFRAME=1M
+
+# Set to "true" to run in paper trading mode (logs decisions but never places real orders)
+PAPER_TRADING=true
 
 **Getting your API key:**
 
@@ -171,12 +197,12 @@ Go to your Railway project → Variables and add everything from `.env.example`:
 
 | Variable | Example |
 |----------|---------|
-| `BITGET_API_KEY` | your key |
-| `BITGET_SECRET_KEY` | your secret |
-| `BITGET_PASSPHRASE` | your passphrase |
-| `PORTFOLIO_VALUE_USD` | 1000 |
-| `MAX_TRADE_SIZE_USD` | 100 |
-| `MAX_TRADES_PER_DAY` | 3 |
+| `BINANCE_API_KEY` | your key |
+| `BINANCE_SECRET_KEY` | your secret |
+| `BINANCE_PASSPHRASE` | your passphrase |
+| `PORTFOLIO_VALUE_USD` | 50 |
+| `MAX_TRADE_SIZE_USD` | 2500 |
+| `MAX_TRADES_PER_DAY` | 20 |
 | `PAPER_TRADING` | true (set to false when ready) |
 | `SYMBOL` | USD |
 | `TIMEFRAME` | 1M |
