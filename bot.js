@@ -27,25 +27,25 @@ function checkOnboarding() {
     writeFileSync(
       ".env",
       [
-        "# BitGet credentials",
-        "BITGET_API_KEY=",
-        "BITGET_SECRET_KEY=",
-        "BITGET_PASSPHRASE=",
+        "# Binance credentials",
+        "BINANCE_API_KEY=",
+        "BINANCE_SECRET_KEY=",
+        "BINANCE_PASSPHRASE=",
         "",
         "# Trading config",
-        "PORTFOLIO_VALUE_USD=1000",
-        "MAX_TRADE_SIZE_USD=100",
-        "MAX_TRADES_PER_DAY=3",
+        "PORTFOLIO_VALUE_USD500",
+        "MAX_TRADE_SIZE_USD=2500",
+        "MAX_TRADES_PER_DAY=20",
         "PAPER_TRADING=true",
         "SYMBOL=BTCUSDT",
-        "TIMEFRAME=4H",
+        "TIMEFRAME=1H",
       ].join("\n") + "\n",
     );
     try {
       execSync("open .env");
     } catch {}
     console.log(
-      "Fill in your BitGet credentials in .env then re-run: node bot.js\n",
+      "Fill in your Binance credentials in .env then re-run: node bot.js\n",
     );
     process.exit(0);
   }
@@ -73,17 +73,17 @@ function checkOnboarding() {
 
 const CONFIG = {
   symbol: process.env.SYMBOL || "BTCUSDT",
-  timeframe: process.env.TIMEFRAME || "4H",
-  portfolioValue: parseFloat(process.env.PORTFOLIO_VALUE_USD || "1000"),
-  maxTradeSizeUSD: parseFloat(process.env.MAX_TRADE_SIZE_USD || "100"),
-  maxTradesPerDay: parseInt(process.env.MAX_TRADES_PER_DAY || "3"),
+  timeframe: process.env.TIMEFRAME || "1H",
+  portfolioValue: parseFloat(process.env.PORTFOLIO_VALUE_USD || "500"),
+  maxTradeSizeUSD: parseFloat(process.env.MAX_TRADE_SIZE_USD || "2500"),
+  maxTradesPerDay: parseInt(process.env.MAX_TRADES_PER_DAY || "20"),
   paperTrading: process.env.PAPER_TRADING !== "false",
-  tradeMode: process.env.TRADE_MODE || "spot",
+  tradeMode: process.env.TRADE_MODE || "future",
   bitget: {
-    apiKey: process.env.BITGET_API_KEY,
-    secretKey: process.env.BITGET_SECRET_KEY,
-    passphrase: process.env.BITGET_PASSPHRASE,
-    baseUrl: process.env.BITGET_BASE_URL || "https://api.bitget.com",
+    apiKey: process.env.BINANCE_API_KEY,
+    secretKey: process.env.BINANCE_SECRET_KEY,
+    passphrase: process.env.BINANCE_PASSPHRASE,
+    baseUrl: process.env.BINANCE_BASE_URL || "https://api.binance.com",
   },
 };
 
@@ -137,145 +137,6 @@ async function fetchCandles(symbol, interval, limit = 100) {
     close: parseFloat(k[4]),
     volume: parseFloat(k[5]),
   }));
-}
-
-// ─── Indicator Calculations ──────────────────────────────────────────────────
-
-function calcEMA(closes, period) {
-  const multiplier = 2 / (period + 1);
-  let ema = closes.slice(0, period).reduce((a, b) => a + b, 0) / period;
-  for (let i = period; i < closes.length; i++) {
-    ema = closes[i] * multiplier + ema * (1 - multiplier);
-  }
-  return ema;
-}
-
-function calcRSI(closes, period = 14) {
-  if (closes.length < period + 1) return null;
-  let gains = 0,
-    losses = 0;
-  for (let i = closes.length - period; i < closes.length; i++) {
-    const diff = closes[i] - closes[i - 1];
-    if (diff > 0) gains += diff;
-    else losses -= diff;
-  }
-  const avgGain = gains / period;
-  const avgLoss = losses / period;
-  if (avgLoss === 0) return 100;
-  const rs = avgGain / avgLoss;
-  return 100 - 100 / (1 + rs);
-}
-
-// VWAP — session-based, resets at midnight UTC
-function calcVWAP(candles) {
-  const midnightUTC = new Date();
-  midnightUTC.setUTCHours(0, 0, 0, 0);
-  const sessionCandles = candles.filter((c) => c.time >= midnightUTC.getTime());
-  if (sessionCandles.length === 0) return null;
-  const cumTPV = sessionCandles.reduce(
-    (sum, c) => sum + ((c.high + c.low + c.close) / 3) * c.volume,
-    0,
-  );
-  const cumVol = sessionCandles.reduce((sum, c) => sum + c.volume, 0);
-  return cumVol === 0 ? null : cumTPV / cumVol;
-}
-
-// ─── Safety Check ───────────────────────────────────────────────────────────
-
-function runSafetyCheck(price, ema8, vwap, rsi3, rules) {
-  const results = [];
-
-  const check = (label, required, actual, pass) => {
-    results.push({ label, required, actual, pass });
-    const icon = pass ? "✅" : "🚫";
-    console.log(`  ${icon} ${label}`);
-    console.log(`     Required: ${required} | Actual: ${actual}`);
-  };
-
-  console.log("\n── Safety Check ─────────────────────────────────────────\n");
-
-  // Determine bias first
-  const bullishBias = price > vwap && price > ema8;
-  const bearishBias = price < vwap && price < ema8;
-
-  if (bullishBias) {
-    console.log("  Bias: BULLISH — checking long entry conditions\n");
-
-    // 1. Price above VWAP
-    check(
-      "Price above VWAP (buyers in control)",
-      `> ${vwap.toFixed(2)}`,
-      price.toFixed(2),
-      price > vwap,
-    );
-
-    // 2. Price above EMA(8)
-    check(
-      "Price above EMA(8) (uptrend confirmed)",
-      `> ${ema8.toFixed(2)}`,
-      price.toFixed(2),
-      price > ema8,
-    );
-
-    // 3. RSI(3) pullback
-    check(
-      "RSI(3) below 30 (snap-back setup in uptrend)",
-      "< 30",
-      rsi3.toFixed(2),
-      rsi3 < 30,
-    );
-
-    // 4. Not overextended from VWAP
-    const distFromVWAP = Math.abs((price - vwap) / vwap) * 100;
-    check(
-      "Price within 1.5% of VWAP (not overextended)",
-      "< 1.5%",
-      `${distFromVWAP.toFixed(2)}%`,
-      distFromVWAP < 1.5,
-    );
-  } else if (bearishBias) {
-    console.log("  Bias: BEARISH — checking short entry conditions\n");
-
-    check(
-      "Price below VWAP (sellers in control)",
-      `< ${vwap.toFixed(2)}`,
-      price.toFixed(2),
-      price < vwap,
-    );
-
-    check(
-      "Price below EMA(8) (downtrend confirmed)",
-      `< ${ema8.toFixed(2)}`,
-      price.toFixed(2),
-      price < ema8,
-    );
-
-    check(
-      "RSI(3) above 70 (reversal setup in downtrend)",
-      "> 70",
-      rsi3.toFixed(2),
-      rsi3 > 70,
-    );
-
-    const distFromVWAP = Math.abs((price - vwap) / vwap) * 100;
-    check(
-      "Price within 1.5% of VWAP (not overextended)",
-      "< 1.5%",
-      `${distFromVWAP.toFixed(2)}%`,
-      distFromVWAP < 1.5,
-    );
-  } else {
-    console.log("  Bias: NEUTRAL — no clear direction. No trade.\n");
-    results.push({
-      label: "Market bias",
-      required: "Bullish or bearish",
-      actual: "Neutral",
-      pass: false,
-    });
-  }
-
-  const allPass = results.every((r) => r.pass);
-  return { results, allPass };
 }
 
 // ─── Trade Limits ────────────────────────────────────────────────────────────
@@ -347,21 +208,21 @@ async function placeBitGetOrder(symbol, side, sizeUSD, price) {
 
   const signature = signBitGet(timestamp, "POST", path, body);
 
-  const res = await fetch(`${CONFIG.bitget.baseUrl}${path}`, {
+  const res = await fetch(`${CONFIG.binance.baseUrl}${path}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "ACCESS-KEY": CONFIG.bitget.apiKey,
+      "ACCESS-KEY": CONFIG.binance.apiKey,
       "ACCESS-SIGN": signature,
       "ACCESS-TIMESTAMP": timestamp,
-      "ACCESS-PASSPHRASE": CONFIG.bitget.passphrase,
+      "ACCESS-PASSPHRASE": CONFIG.binance.passphrase,
     },
     body,
   });
 
   const data = await res.json();
   if (data.code !== "00000") {
-    throw new Error(`BitGet order failed: ${data.msg}`);
+    throw new Error(`Binance order failed: ${data.msg}`);
   }
 
   return data.data;
@@ -394,6 +255,8 @@ const CSV_HEADERS = [
   "Net Amount",
   "Order ID",
   "Mode",
+  "profit",
+  "loss"
   "Notes",
 ].join(",");
 
