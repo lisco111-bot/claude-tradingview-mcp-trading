@@ -653,6 +653,9 @@ DISCLAIMER: Educational purposes only. ICT himself states all examples are hypot
 substantial risk. You may lose more than your investment. Do not trade with money you cannot afford to lose. Not financial advice. Practice on
 demo first.
 
+ as soon you take trade, you have to apply stoploss for 50 pips and take profit would be for 150 pips. this is applicable for all symbols. Also you have to maintain profit and loss record IN trades.csv ,
+ with two more columns. one for recording profit and second for recording loss for each and every trade.
+
 and build your rules.json accordingly.
 you should update your rules.json as per above given strategy.
 
@@ -760,6 +763,8 @@ Here's what it records for each trade:
 - Quantity, price, total value, profit or loss
 - Estimated fee (0.1%) and net amount
 - Order ID, paper vs live mode
+- profit
+- loss
 - Notes (including which safety check conditions failed if a trade was blocked)
 
 At tax time, open the file and hand it to your accountant. Or import it directly into
