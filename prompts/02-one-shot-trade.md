@@ -155,10 +155,125 @@ If it fails, help them troubleshoot before continuing.
 
  
  my strategy is as follow :- 
- 
 
- as soon you take trade, you have to apply stoploss for 50 pips and take profit would be for 150 pips. this is applicable for all symbols. Also you have to maintain profit and loss record IN trades.csv ,
- with two more columns. one for recording profit and second for recording loss for each and every trade.
+ Trading Strategy: Multi-Time Frame Swing Low/Liquidity Sweep
+
+STRATEGY OVERVIEW:
+This is a multi-time frame trading strategy that combines higher time frame trend analysis with lower time frame entry signals, focusing on liquidity sweeps and swing points.
+
+TIME FRAMES USED:
+1. Higher Time Frame (HTF): Daily or 4H (to determine overall trend)
+2. 15 Minute Time Frame (15TF): For swing point identification and entry preparation
+3. 1 Minute Time Frame (1TF): For precise entry execution
+
+BUY TRADE SETUP:
+
+STEP 1: HIGHER TIME FRAME TREND ANALYSIS
+- Identify the higher time frame (Daily/4H) trend
+- Look for bullish confirmation (higher highs, higher lows, price above moving average)
+- Only proceed if HTF trend is bullish
+
+STEP 2: 15 MINUTE TIME FRAME SWING LOW IDENTIFICATION
+- Switch to 15-minute chart
+- Identify the nearest significant swing low
+- Note the price level and candle pattern of the swing low
+
+STEP 3: LIQUIDITY SWEEP CONDITION
+- Wait for price to sweep (move through and beyond) the nearest swing low
+- This indicates that stop-loss orders below the swing low have been triggered
+- Price should move clearly below the swing low before reversing
+- ALSO YOU CAN TAKE HELP OF VOLUME INDICATOR TO CONFIRM LIQUIDITY SWEEPS.
+
+STEP 4: RETEST AND CLOSE INSIDE RANGE
+- After sweeping the swing low, price should reverse back up
+- Wait for the 15-minute candle to close INSIDE the range of the swing low candle
+- This confirms that bullish momentum is returning
+
+STEP 5: 1 MINUTE TIME FRAME ENTRY
+- Switch to 1-minute chart
+- Wait for a 1-minute candle to CLOSE above the closing price of the prior 15-minute candle (the one that swept the swing low)
+- This is the precise entry signal
+
+ENTRY RULES:
+- Enter buy trade when 1-minute candle closes above prior 15-minute closing price
+- Position size should be based on risk management rules
+
+STOP LOSS:
+- Place stop loss below the low of the entry 1-minute candle
+- This provides a clear exit point if the trade moves against you
+
+TARGETS (Take Profit):
+Option 1: 1:3 Risk-Reward Ratio
+- Measure the distance from entry to stop loss
+- Multiply by 3 to determine target price
+- Exit when target is reached
+
+Option 2: Nearest Swing High on 15-minute TF
+- Identify the nearest significant swing high on 15-minute chart
+- Use this level as the first target
+- Exit when price reaches swing high
+
+EXIT RULE:
+- Exit when either target is achieved first
+- No partial scaling out - full position close at target
+
+SELL TRADE SETUP (VICE VERSA):
+Follow the exact same process but in reverse:
+
+STEP 1: HIGHER TIME FRAME TREND ANALYSIS
+- Identify bearish trend on HTF (lower lows, lower highs, price below moving average)
+
+STEP 2: 15 MINUTE TIME FRAME SWING HIGH IDENTIFICATION
+- Identify nearest significant swing high on 15-minute chart
+
+STEP 3: LIQUIDITY SWEEP CONDITION
+- Wait for price to sweep above the swing high
+- This triggers stop-loss orders above the swing high
+- ALSO YOU CAN TAKE HELP OF VOLUME INDICATOR TO CONFIRM LIQUIDITY SWEEPS.
+
+STEP 4: RETEST AND CLOSE INSIDE RANGE
+- Price should reverse back down
+- 15-minute candle closes inside the range of the swing high candle
+
+STEP 5: 1 MINUTE TIME FRAME ENTRY
+- Wait for 1-minute candle to close below the closing price of the prior 15-minute candle
+
+ENTRY RULES:
+- Enter sell trade when 1-minute candle closes below prior 15-minute closing price
+
+STOP LOSS:
+- Place stop loss above the high of the entry 1-minute candle
+
+TARGETS:
+- Option 1: 1:3 Risk-Reward Ratio
+- Option 2: Nearest Swing Low on 15-minute TF
+
+KEY CONCEPTS:
+1. LIQUIDITY SWEEP: When price moves through and beyond a significant swing point, triggering stop-loss orders of traders who had positions at that level.
+
+2. RETEST AND CLOSE INSIDE RANGE: After sweeping liquidity, price returns to test the level and closes within the previous candle's range, showing rejection of that level.
+
+3. MULTI-TIME FRAME ALIGNMENT: Strategy requires confirmation across three timeframes for higher probability trades.
+
+4. SWING POINTS: Significant highs/lows that act as support/resistance levels and where liquidity clusters often form.
+
+RISK MANAGEMENT:
+- Always use proper position sizing (1-2% risk per trade)
+- Set stop loss immediately upon entry
+- Have a maximum daily loss limit
+- Consider market conditions and volatility when trading
+
+DISCLAIMER:
+This is a trading strategy for educational purposes only. Trading involves significant risk. Backtest this strategy thoroughly before using real money. Past performance does not guarantee future results.
+
+RECOMMENDATIONS :-
+
+- Charting platform with multi-time frame analysis
+- Volume indicators to confirm liquidity sweeps
+- Risk management calculator
+- Trading journal for record keeping
+ This is applicable for all symbols. Also you have to maintain profit and loss record IN trades.csv ,
+ with date , time as per utc -4 , buy , sell , entry price , exit price , net profit in points and net profit in usd , net loss in points and net loss in usd . one for recording profit and second for recording loss for each and every trade.
 
 and build your rules.json accordingly.
 you should update your rules.json as per above given strategy.
