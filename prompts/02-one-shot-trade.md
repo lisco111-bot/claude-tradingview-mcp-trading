@@ -22,8 +22,13 @@ Start immediately with Step 1. Do not ask any questions before starting.
 Run the following commands:
 
 ```bash
-git clone https://github.com/lisco111-bot/claude-tradingview-mcp-trading/blob/LIQUIDITY-SWEEP
+git clone https://github.com/lisco111-bot/claude-tradingview-mcp-trading/blob/9dedbd542022650de8e3740ababa1c587e1277e5
 cd claude-tradingview-mcp-trading
+
+
+
+
+
 ```
 
 Confirm the clone succeeded and list the files so the user can see what's there.
