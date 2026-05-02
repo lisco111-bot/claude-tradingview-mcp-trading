@@ -1,0 +1,42 @@
+{
+  "trades": [
+    {
+      "timestamp": "2026-05-01T14:09:03.771Z",
+      "symbol": "BTCUSDT",
+      "timeframe": "15M",
+      "price": 78700.98,
+      "indicators": {
+        "ema8": 78687.3561379774,
+        "vwap": 77837.60041566355,
+        "rsi3": 100
+      },
+      "conditions": [
+        {
+          "label": "Price above EMA(8)",
+          "pass": true,
+          "value": "Price: $78700.98, EMA: $78687.36"
+        },
+        {
+          "label": "HTF Bullish Trend",
+          "pass": true,
+          "value": "Price above EMA(8): true"
+        },
+        {
+          "label": "RSI overbought",
+          "pass": false,
+          "value": "RSI(3): 100.00"
+        }
+      ],
+      "allPass": false,
+      "tradeSize": 0.5,
+      "orderPlaced": false,
+      "orderId": null,
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 2500,
+        "maxTradesPerDay": 20,
+        "tradesToday": 0
+      }
+    }
+  ]
+}

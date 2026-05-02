@@ -14,135 +14,11 @@ import { readFileSync, writeFileSync, existsSync, appendFileSync } from "fs";
 import crypto from "crypto";
 import { execSync } from "child_process";
 
-// ─── Technical Analysis Functions ─────────────────────────────────────────────
-
-function calcEMA(prices, period) {
-  if (prices.length < period) return null;
-
-  const multiplier = 2 / (period + 1);
-  let ema = prices[0];
-
-  for (let i = 1; i < prices.length; i++) {
-    ema = (prices[i] * multiplier) + (ema * (1 - multiplier));
-  }
-
-  return ema;
-}
-
-function calcSMA(prices, period) {
-  if (prices.length < period) return null;
-
-  const sum = prices.slice(-period).reduce((a, b) => a + b, 0);
-  return sum / period;
-}
-
-function calcRSI(prices, period = 14) {
-  if (prices.length < period + 1) return null;
-
-  let gains = 0;
-  let losses = 0;
-
-  for (let i = 1; i <= period; i++) {
-    const change = prices[prices.length - i] - prices[prices.length - i - 1];
-    if (change > 0) gains += change;
-    else losses += Math.abs(change);
-  }
-
-  const avgGain = gains / period;
-  const avgLoss = losses / period;
-  const rs = avgGain / avgLoss;
-
-  return 100 - (100 / (1 + rs));
-}
-
-function calcVWAP(candles) {
-  if (candles.length === 0) return null;
-
-  let totalVolume = 0;
-  let totalValue = 0;
-
-  for (const candle of candles) {
-    totalVolume += candle.volume;
-    totalValue += (candle.high + candle.low + candle.close) / 3 * candle.volume;
-  }
-
-  return totalValue / totalVolume;
-}
-
-function findSwingHigh(candles, lookback = 5) {
-  if (candles.length < lookback * 2 + 1) return null;
-
-  for (let i = lookback; i < candles.length - lookback; i++) {
-    const current = candles[i];
-    let isSwingHigh = true;
-
-    for (let j = i - lookback; j <= i + lookback; j++) {
-      if (j !== i && candles[j].high > current.high) {
-        isSwingHigh = false;
-        break;
-      }
-    }
-
-    if (isSwingHigh) {
-      return {
-        index: i,
-        price: current.high,
-        candle: current
-      };
-    }
-  }
-
-  return null;
-}
-
-function findSwingLow(candles, lookback = 5) {
-  if (candles.length < lookback * 2 + 1) return null;
-
-  for (let i = lookback; i < candles.length - lookback; i++) {
-    const current = candles[i];
-    let isSwingLow = true;
-
-    for (let j = i - lookback; j <= i + lookback; j++) {
-      if (j !== i && candles[j].low < current.low) {
-        isSwingLow = false;
-        break;
-      }
-    }
-
-    if (isSwingLow) {
-      return {
-        index: i,
-        price: current.low,
-        candle: current
-      };
-    }
-  }
-
-  return null;
-}
-
 // ─── Onboarding ───────────────────────────────────────────────────────────────
 
 function checkOnboarding() {
-  // Check for Delta Exchange credentials first
-  const deltaRequired = ["DELTAEXCHANGE_API_KEY", "DELTAEXCHANGE_SECRET_KEY"];
-  const deltaMissing = deltaRequired.filter((k) => !process.env[k]);
-
-  // Check for BitGet credentials as fallback
-  const bitgetRequired = ["BITGET_API_KEY", "BITGET_SECRET_KEY", "BITGET_PASSPHRASE"];
-  const bitgetMissing = bitgetRequired.filter((k) => !process.env[k]);
-
-  // If using Delta, check Delta credentials
-  if (!deltaMissing.length) {
-    // Delta config looks good
-    return;
-  }
-
-  // If using BitGet, check BitGet credentials
-  if (!bitgetMissing.length) {
-    // BitGet config looks good
-    return;
-  }
+  const required = ["BITGET_API_KEY", "BITGET_SECRET_KEY", "BITGET_PASSPHRASE"];
+  const missing = required.filter((k) => !process.env[k]);
 
   if (!existsSync(".env")) {
     console.log(
@@ -151,17 +27,17 @@ function checkOnboarding() {
     writeFileSync(
       ".env",
       [
-        "# Delta Exchange API credentials",
-        "DELTAEXCHANGE_API_KEY=",
-        "DELTAEXCHANGE_SECRET_KEY=",
-        "DELTAEXCHANGE_PASSPHRASE=",
+        "# Binance credentials",
+        "BINANCE_API_KEY=",
+        "BINANCE_SECRET_KEY=",
+        "BINANCE_PASSPHRASE=",
         "",
         "# Trading config",
-        "PORTFOLIO_VALUE_USD=50",
+        "PORTFOLIO_VALUE_USD500",
         "MAX_TRADE_SIZE_USD=2500",
         "MAX_TRADES_PER_DAY=20",
         "PAPER_TRADING=true",
-        "SYMBOL=PAXGUSD",
+        "SYMBOL=BTCUSDT",
         "TIMEFRAME=1H",
       ].join("\n") + "\n",
     );
@@ -169,20 +45,14 @@ function checkOnboarding() {
       execSync("open .env");
     } catch {}
     console.log(
-      "Fill in your Delta Exchange credentials in .env then re-run: node bot.js\n",
+      "Fill in your Binance credentials in .env then re-run: node bot.js\n",
     );
     process.exit(0);
   }
 
-  if (deltaMissing.length > 0 && bitgetMissing.length > 0) {
-    console.log(`\n⚠️  Missing credentials in .env:`);
-    if (deltaMissing.length > 0) {
-      console.log(`- Delta Exchange: ${deltaMissing.join(", ")}`);
-    }
-    if (bitgetMissing.length > 0) {
-      console.log(`- BitGet: ${bitgetMissing.join(", ")}`);
-    }
-    console.log("\nOpening .env for you now...\n");
+  if (missing.length > 0) {
+    console.log(`\n⚠️  Missing credentials in .env: ${missing.join(", ")}`);
+    console.log("Opening .env for you now...\n");
     try {
       execSync("open .env");
     } catch {}
@@ -209,20 +79,11 @@ const CONFIG = {
   maxTradesPerDay: parseInt(process.env.MAX_TRADES_PER_DAY || "20"),
   paperTrading: process.env.PAPER_TRADING !== "false",
   tradeMode: process.env.TRADE_MODE || "future",
-  exchange: {
-    type: process.env.EXCHANGE_TYPE || "delta",
-    delta: {
-      apiKey: process.env.DELTAEXCHANGE_API_KEY,
-      secretKey: process.env.DELTAEXCHANGE_SECRET_KEY,
-      passphrase: process.env.DELTAEXCHANGE_PASSPHRASE || "",
-      baseUrl: process.env.DELTAEXCHANGE_BASE_URL || "https://api.delta.exchange",
-    },
-    bitget: {
-      apiKey: process.env.BITGET_API_KEY,
-      secretKey: process.env.BITGET_SECRET_KEY,
-      passphrase: process.env.BITGET_PASSPHRASE,
-      baseUrl: process.env.BITGET_BASE_URL || "https://api.bitget.com",
-    },
+  bitget: {
+    apiKey: process.env.BINANCE_API_KEY,
+    secretKey: process.env.BINANCE_SECRET_KEY,
+    passphrase: process.env.BINANCE_PASSPHRASE,
+    baseUrl: process.env.BINANCE_BASE_URL || "https://api.binance.com",
   },
 };
 
@@ -315,66 +176,12 @@ function checkTradeLimits(log) {
   return true;
 }
 
-// ─── Exchange Execution ───────────────────────────────────────────────────────
-
-function signDeltaExchange(timestamp, method, path, body = "") {
-  const message = `${timestamp}${method}${path}${body}`;
-  return crypto
-    .createHmac("sha256", CONFIG.exchange.delta.secretKey)
-    .update(message)
-    .digest("base64");
-}
-
-async function placeOrder(symbol, side, sizeUSD, price) {
-  if (CONFIG.exchange.delta.apiKey) {
-    // Delta Exchange
-    return placeDeltaExchangeOrder(symbol, side, sizeUSD, price);
-  } else {
-    // BitGet (fallback)
-    return placeBitGetOrder(symbol, side, sizeUSD, price);
-  }
-}
-
-async function placeDeltaExchangeOrder(symbol, side, sizeUSD, price) {
-  const quantity = (sizeUSD / price).toFixed(6);
-  const timestamp = Date.now().toString();
-  const path = "/api/v1/orders";
-
-  const body = JSON.stringify({
-    symbol,
-    side,
-    orderType: "MARKET",
-    size: quantity,
-    postOnly: false,
-    reduceOnly: false,
-  });
-
-  const signature = signDeltaExchange(timestamp, "POST", path, body);
-
-  const res = await fetch(`${CONFIG.exchange.delta.baseUrl}${path}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "X-API-KEY": CONFIG.exchange.delta.apiKey,
-      "X-API-TIMESTAMP": timestamp,
-      "X-API-SIGN": signature,
-      "X-PASSPHRASE": CONFIG.exchange.delta.passphrase,
-    },
-    body,
-  });
-
-  const data = await res.json();
-  if (!res.ok) {
-    throw new Error(`Delta Exchange order failed: ${data.message || data.error || res.statusText}`);
-  }
-
-  return data;
-}
+// ─── BitGet Execution ────────────────────────────────────────────────────────
 
 function signBitGet(timestamp, method, path, body = "") {
   const message = `${timestamp}${method}${path}${body}`;
   return crypto
-    .createHmac("sha256", CONFIG.exchange.bitget.secretKey)
+    .createHmac("sha256", CONFIG.bitget.secretKey)
     .update(message)
     .digest("base64");
 }
@@ -401,21 +208,21 @@ async function placeBitGetOrder(symbol, side, sizeUSD, price) {
 
   const signature = signBitGet(timestamp, "POST", path, body);
 
-  const res = await fetch(`${CONFIG.exchange.bitget.baseUrl}${path}`, {
+  const res = await fetch(`${CONFIG.binance.baseUrl}${path}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "ACCESS-KEY": CONFIG.exchange.bitget.apiKey,
+      "ACCESS-KEY": CONFIG.binance.apiKey,
       "ACCESS-SIGN": signature,
       "ACCESS-TIMESTAMP": timestamp,
-      "ACCESS-PASSPHRASE": CONFIG.exchange.bitget.passphrase,
+      "ACCESS-PASSPHRASE": CONFIG.binance.passphrase,
     },
     body,
   });
 
   const data = await res.json();
   if (data.code !== "00000") {
-    throw new Error(`BitGet order failed: ${data.msg}`);
+    throw new Error(`Binance order failed: ${data.msg}`);
   }
 
   return data.data;
@@ -547,56 +354,6 @@ function generateTaxSummary() {
   console.log("─────────────────────────────────────────────────────────\n");
 }
 
-// ─── Safety Check and Tax Summary ─────────────────────────────────────────────
-
-function runSafetyCheck(price, ema8, vwap, rsi3, rules) {
-  const results = [];
-
-  // Check if price is above EMA for bullish trend
-  const aboveEMA = price > ema8;
-  results.push({
-    label: "Price above EMA(8)",
-    pass: aboveEMA,
-    value: `Price: $${price.toFixed(2)}, EMA: $${ema8.toFixed(2)}`
-  });
-
-  // Additional checks based on the strategy rules
-  if (rules.entry_rules.buy.htf_trend_bullish.condition === "higher_highs_higher_lows") {
-    // For this strategy, we'll use price above EMA as trend confirmation
-    results.push({
-      label: "HTF Bullish Trend",
-      pass: aboveEMA,
-      value: `Price above EMA(8): ${aboveEMA}`
-    });
-  }
-
-  // Check RSI conditions (optional for strategy confirmation)
-  if (rsi3 < 30) {
-    results.push({
-      label: "RSI oversold",
-      pass: true,
-      value: `RSI(3): ${rsi3.toFixed(2)}`
-    });
-  } else if (rsi3 > 70) {
-    results.push({
-      label: "RSI overbought",
-      pass: false,
-      value: `RSI(3): ${rsi3.toFixed(2)}`
-    });
-  } else {
-    results.push({
-      label: "RSI neutral",
-      pass: true,
-      value: `RSI(3): ${rsi3.toFixed(2)}`
-    });
-  }
-
-  const allPass = results.every(r => r.pass);
-
-  return { results, allPass };
-}
-
-
 // ─── Main ────────────────────────────────────────────────────────────────────
 
 async function run() {
@@ -695,7 +452,7 @@ async function run() {
         `\n🔴 PLACING LIVE ORDER — $${tradeSize.toFixed(2)} BUY ${CONFIG.symbol}`,
       );
       try {
-        const order = await placeOrder(
+        const order = await placeBitGetOrder(
           CONFIG.symbol,
           "buy",
           tradeSize,

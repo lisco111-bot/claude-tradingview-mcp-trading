@@ -1,5 +1,112 @@
 {
-  "watchlist": ["BTCUSDT"],
+  "watchlist": ["PAXGUSD", "BTCUSD", "ETHUSD", "SOLUSD"],
   "default_timeframe": "1m",
+  "stop_loss_pips": 50,
+  "take_profit_pips": 150,
+  "strategy": {
+    "name": "Multi-Time Frame Swing Low/Liquidity Sweep",
+    "description": "A multi-time frame strategy that combines higher time frame trend analysis with lower time frame entry signals, focusing on liquidity sweeps and swing points."
+  },
+  "entry_rules": {
+    "buy": {
+      "htf_trend_bullish": {
+        "condition": "higher_highs_higher_lows",
+        "timeframe": "1d",
+        "description": "HTF (Daily/4H) must show bullish trend (higher highs, higher lows, price above moving average)"
+      },
+      "swing_low_identified": {
+        "condition": "swing_low_found",
+        "timeframe": "15m",
+        "description": "Identify nearest significant swing low on 15m chart and note price level"
+      },
+      "liquidity_sweep_confirmed": {
+        "condition": "price_below_swing_low",
+        "timeframe": "15m",
+        "description": "Price sweeps below the swing low (triggering stop losses), with optional volume confirmation"
+      },
+      "retest_and_close_inside": {
+        "condition": "close_inside_range",
+        "timeframe": "15m",
+        "description": "After sweep, price reverses and 15m candle closes INSIDE the range of the swing low candle"
+      },
+      "entry_signal": {
+        "condition": "1m_closes_above_15m",
+        "timeframe": "1m",
+        "description": "1m candle CLOSES above the closing price of the prior 15m candle that swept the swing low"
+      }
+    },
+    "sell": {
+      "htf_trend_bearish": {
+        "condition": "lower_lows_lower_highs",
+        "timeframe": "1d",
+        "description": "HTF (Daily/4H) must show bearish trend (lower lows, lower highs, price below moving average)"
+      },
+      "swing_high_identified": {
+        "condition": "swing_high_found",
+        "timeframe": "15m",
+        "description": "Identify nearest significant swing high on 15m chart and note price level"
+      },
+      "liquidity_sweep_confirmed": {
+        "condition": "price_above_swing_high",
+        "timeframe": "15m",
+        "description": "Price sweeps above the swing high (triggering stop losses), with optional volume confirmation"
+      },
+      "retest_and_close_inside": {
+        "condition": "close_inside_range",
+        "timeframe": "15m",
+        "description": "After sweep, price reverses and 15m candle closes INSIDE the range of the swing high candle"
+      },
+      "entry_signal": {
+        "condition": "1m_closes_below_15m",
+        "timeframe": "1m",
+        "description": "1m candle CLOSES below the closing price of the prior 15m candle that swept the swing high"
+      }
+    }
+  },
+  "risk_management": {
+    "max_risk_per_trade": "1-2%",
+    "stop_loss_placement": "below_low_of_entry_1m_candle_for_buys, above_high_of_entry_1m_candle_for_sells",
+    "take_profit_options": [
+      {
+        "type": "fixed_pips",
+        "pips": 150
+      },
+      {
+        "type": "nearest_swing_level",
+        "description": "Nearest swing high (for sells) or swing low (for buys) on 15m timeframe"
+      }
+    ],
+    "no_partial_scaling": true,
+    "full_position_close_at_target": true
+  },
+  "volume_confirmation": {
+    "use_volume": true,
+    "liquidity_sweep_confirmation": "volume_spike_on_sweep",
+    "description": "Volume indicator can be used to confirm liquidity sweeps"
+  },
+  "timeframes": {
+    "htf": "1d",
+    "mtf": "15m",
+    "ltf": "1m"
+  },
+  "trade_logging": {
+    "record_in_csv": true,
+    "csv_path": "trades.csv",
+    "include_utc_minus_4": true,
+    "fields": {
+      "date": "UTC-4 Date",
+      "time": "UTC-4 Time",
+      "symbol": "Trading Symbol",
+      "side": "Buy/Sell",
+      "entry_price": "Entry Price",
+      "exit_price": "Exit Price",
+      "net_profit_points": "Net Profit in Points",
+      "net_profit_usd": "Net Profit in USD",
+      "net_loss_points": "Net Loss in Points",
+      "net_loss_usd": "Net Loss in USD",
+      "order_id": "Exchange Order ID"
+    }
+  }
+}
 
 
