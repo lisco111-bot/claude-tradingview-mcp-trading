@@ -1,0 +1,265 @@
+ICT TRADING TEMPLATES
+Created for: YouTube Channel Notes Enhancement
+Generated: April 29, 2026
+
+===============================================================================
+TEMPLATE 1: SILVER BULLET SETUP
+===============================================================================
+
+Template Purpose: Time-based FVG entries during specific macro windows
+
+Pre-Setup Checklist:
+[ ] Confirm daily chart bias (above/below CE)
+[ ] Identify session time window (London 3-4 AM, NY AM 10-11 AM, NY PM 2-3 PM)
+[ ] Mark liquidity pools (BSL/SSL) near current price
+[ ] Check SMT divergence with correlated markets
+
+Entry Conditions:
+1. Time Window: Must be within 20-minute macro window
+2. Liquidity Sweep: Price must have swept a liquidity pool first
+3. FVG Formation: Bullish/Bearish FVG must form in opposite direction of sweep
+4. CE Respect: Candle bodies must stay on correct side of CE
+5. Confirmation: RSI divergence or volume spike at entry
+
+Position Sizing:
+- Account: $10,000
+- Risk: 1% = $100
+- Stop: 10 ticks below FVG = $50 (MES)
+- Contracts: 2 contracts ($100 risk total)
+
+Exit Strategy:
+- Partial 1 (33%): At opposite liquidity pool
+- Partial 2 (33%): At ORG high/low
+- Partial 3 (34%): At 2:1 R:R target
+- Max hold time: Until next macro window
+
+Template Example:
+-----------------------------------------------
+SILVER BULLET TEMPLATE - NY AM SESSION (10:00-11:00 AM EST)
+-----------------------------------------------
+Daily Bias: Bullish (price above daily CE)
+Liquidity Swept: Equal highs at 4500.00
+FVG Formed: Bullish FVG at 4480-4490
+Entry: CE at 4485
+Stop: 4475 (10 ticks below)
+Target 1: 4505 (20 ticks = 1:2 R:R)
+Target 2: 4520 (35 ticks = 1:3.5 R:R)
+Target 3: 4540 (55 ticks = 1:5.5 R:R)
+
+===============================================================================
+TEMPLATE 2: TURTLE SOUP SETUP
+===============================================================================
+
+Template Purpose: Counter-trend entries after fake breakouts
+
+Pre-Setup Checklist:
+[ ] Identify swing high/low with equal highs/lows
+[ ] Confirm price is at key support/resistance level
+[ ] Check no major news in next 30 minutes
+[ ] Verify volume at breakout is not extreme
+
+Entry Conditions:
+1. Breakout: Price runs 1-5 ticks beyond swing point
+2. Immediate Rejection: Candle closes opposite direction
+3. FVG Formation: First FVG forms after rejection
+4. CE Respect: Bodies respect CE of rejection zone
+
+Position Sizing:
+- Account: $10,000
+- Risk: 1.5% = $150
+- Stop: 5 ticks beyond breakout = $25 (MNQ)
+- Contracts: 6 contracts ($150 risk total)
+
+Exit Strategy:
+- Partial 1 (40%): At swing point (breakout level)
+- Partial 2 (30%): At 1:2 R:R
+- Partial 3 (30%): At major liquidity pool
+
+Template Example:
+-----------------------------------------------
+TURTLE SOUP SHORT TEMPLATE
+-----------------------------------------------
+Swing High: 4525.00 (equal highs cluster)
+Breakout: 4528.00 (+3 ticks)
+Rejection: Down-close candle at 4526.00
+Entry: CE of FVG at 4521.00
+Stop: 4530 (5 ticks above breakout)
+Target 1: 4515 (6 ticks = 1:1.2 R:R - partial exit)
+Target 2: 4500 (21 ticks = 1:4.2 R:R - full exit)
+
+===============================================================================
+TEMPLATE 3: MARKET MAKER BUY MODEL (MMBM)
+===============================================================================
+
+Template Purpose: Bullish delivery pattern after sell side liquidity sweep
+
+Pre-Setup Checklist:
+[ ] Identify accumulation phase (tight range)
+[ ] Mark sell side liquidity below
+[ ] Confirm daily bias is bullish
+[ ] Check macro window timing
+
+Entry Conditions:
+1. Manipulation: Price drops below accumulation low (Judas Swing)
+2. Liquidity Sweep: Sweeps sell side liquidity
+3. First OB: Bullish Order Block forms after sweep
+4. Confirmation: Volume increases on bullish candles
+
+Position Sizing:
+- Account: $10,000+
+- Risk: 1% = $100
+- Stop: Below Judas Swing low = $40 risk
+- Contracts: 2-3 contracts depending on volatility
+
+Exit Strategy:
+- Partial 1 (33%): At buy side liquidity
+- Partial 2 (33%): At ORG high
+- Partial 3 (34%): At daily target
+
+Template Example:
+-----------------------------------------------
+MARKET MAKER BUY MODEL TEMPLATE
+-----------------------------------------------
+Accumulation Range: 4480-4500
+Sell Side Liquidity: 4475 (equal lows)
+Judas Swing Low: 4472 (-3 ticks below)
+Entry: Bullish OB at 4485
+Stop: 4470 (15 ticks below Judas Swing)
+Target 1: 4510 (25 ticks = 1:1.7 R:R)
+Target 2: 4530 (45 ticks = 1:3 R:R)
+Target 3: 4550 (65 ticks = 1:4.3 R:R)
+
+===============================================================================
+TEMPLATE 4: OPENING RANGE GAP (ORG) STRATEGY
+===============================================================================
+
+Template Purpose: Trading within the first hour range
+
+Pre-Setup Checklist:
+[ ] Mark ORG high and low (9:30-10:30 AM)
+[ ] Calculate 8ths/gradient levels
+[ ] Identify premium (upper half) or discount (lower half)
+[ ] Confirm daily bias aligns with ORG position
+
+Entry Conditions:
+1. Premium Half: Look for shorts below ORG high
+2. Discount Half: Look for longs above ORG low
+3. FVG/OB: Valid PD array at gradient level
+4. CE Respect: Bodies respect CE
+
+Position Sizing:
+- Account: $10,000
+- Risk: 1% = $100
+- Stop: 8 ticks beyond FVG = $40
+- Contracts: 2-3 contracts
+
+Exit Strategy:
+- Partial 1 (50%): At opposite ORG level
+- Partial 2 (50%): At 1:2 R:R
+
+Template Example:
+-----------------------------------------------
+OPENING RANGE GAP TEMPLATE - PREMIUM HALF
+-----------------------------------------------
+ORG High: 4520 | ORG Low: 4480
+Premium Zone: 4500-4520 (upper half)
+Entry: Bearish FVG at 4505
+Stop: 4513 (8 ticks above)
+Target 1: 4490 (15 ticks = 1:1.9 R:R)
+Target 2: 4475 (30 ticks = 1:3.8 R:R)
+
+===============================================================================
+TEMPLATE 5: NY LUNCH REVERSAL SETUP
+===============================================================================
+
+Template Purpose: Advanced setup using previous day's lunch session
+
+Pre-Setup Checklist:
+[ ] Review previous day's NY Lunch session (12:00-1:30 PM)
+[ ] Mark liquidity taken and FVG formed
+[ ] Extend levels forward to current day
+[ ] Confirm daily bias matches setup
+
+Entry Conditions:
+1. Zone Trade: Price trades into extended levels
+2. CE Respect: Bodies on correct side of zone CE
+3. Confirmation: Volume at entry zone
+4. Time: Best during PM macro window (1:50-2:10 PM)
+
+Position Sizing:
+- Account: $10,000+
+- Risk: 1.5% = $150
+- Stop: Beyond zone = $50 risk
+- Contracts: 3 contracts
+
+Exit Strategy:
+- Partial 1 (40%): At zone boundary
+- Partial 2 (30%): At 1:2 R:R
+- Partial 3 (30%): At major liquidity
+
+Template Example:
+-----------------------------------------------
+NY LUNCH REVERSAL TEMPLATE
+-----------------------------------------------
+Previous Day Lunch FVG: 4490-4500
+Extended Zone: 4490-4500 rectangle
+Entry: Short at zone CE 4495
+Stop: 4505 (10 ticks above zone)
+Target 1: 4480 (15 ticks = 1:1.5 R:R)
+Target 2: 4460 (35 ticks = 1:3.5 R:R)
+
+===============================================================================
+QUICK REFERENCE TEMPLATE CARDS
+===============================================================================
+
+Template 1: Silver Bullet
+-----------------------------------------------
+Time: 20-min windows only
+Entry: After liquidity sweep + FVG
+Stop: Beyond sweep wick
+Target: Opposite liquidity
+
+Template 2: Turtle Soup
+-----------------------------------------------
+Entry: Fake breakout + immediate rejection
+Stop: Beyond breakout point
+Target: Swing point + major liquidity
+
+Template 3: MMBM
+-----------------------------------------------
+Entry: Judas Swing down + bullish OB
+Stop: Below Judas low
+Target: Buy side liquidity
+
+Template 4: ORG
+-----------------------------------------------
+Entry: Premium/discount half + FVG
+Stop: Beyond ORG
+Target: Opposite ORG level
+
+Template 5: NY Lunch
+-----------------------------------------------
+Entry: Previous day's lunch zone
+Stop: Beyond zone
+Target: Daily liquidity
+
+===============================================================================
+POSITION SIZING QUICK REFERENCE
+===============================================================================
+
+| Account Size | Risk per Trade | Stop Distance | Contract Size |
+|-------------|----------------|---------------|---------------|
+| $5,000      | $50 (1%)       | 10 ticks      | 1 contract    |
+| $10,000     | $100 (1%)      | 20 ticks      | 2 contracts   |
+| $25,000     | $250 (1%)      | 25 ticks      | 2 contracts   |
+| $50,000+    | $500 (1%)      | 50 ticks      | 2-3 contracts |
+
+CONTRACT VALUES:
+- MES (Micro S&P): $5 per tick
+- MNQ (Micro NASDAQ): $2 per point
+- M2K (Micro Russell): $0.10 per cent
+- NQ (Micro Nasdaq): $20 per point
+
+===============================================================================
+END OF TEMPLATES
+===============================================================================

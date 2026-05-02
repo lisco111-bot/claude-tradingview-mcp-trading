@@ -1,0 +1,160 @@
+//@version=5
+indicator("ICT Smart Money Strategy", shorttitle="ICT SMC", overlay=true)
+
+// Inputs
+showFVG = input.bool(true, "Show FVGs")
+showOB = input.bool(true, "Show Order Blocks")
+showLiquidity = input.bool(true, "Show Liquidity Pools")
+showCE = input.bool(true, "Show CE Levels")
+showMacroWindows = input.bool(true, "Show Macro Windows")
+
+// Timeframe detection
+tf = timeframe.period
+is1min = tf == "1"
+is5min = tf == "5"
+is15min = tf == "15"
+is30min = tf == "30"
+is1h = tf == "1H"
+is4h = tf == "4H"
+
+// Fair Value Gap (FVG) Detection
+fvg() =>
+    bullish = low[2] > high[0]
+    bearish = high[2] < low[0]
+    fvgBullish = bullish ? na : na
+    fvgBearish = bearish ? na : na
+
+    if bullish
+        fvgBullish := low[2]
+        fvgBearish := na
+    else if bearish
+        fvgBullish := na
+        fvgBearish := high[2]
+    [fvgBullish, fvgBearish]
+
+[fvgBullish, fvgBearish] = fvg()
+
+// Draw FVGs
+plotshape(showFVG and fvgBullish, title="Bullish FVG", location=location.belowbar, color=color.green, style=shape.labelup, text="BISI")
+plotshape(showFVG and fvgBearish, title="Bearish FVG", location=location.abovebar, color=color.red, style=shape.labeldown, text="SIBI")
+
+// FVG Zones
+fvgZoneBullish = showFVG and fvgBullish ? line.new(bar_index[2], low[2], bar_index[0], low[0], color=color.new(color.green, 80), width=2) : na
+fvgZoneBearish = showFVG and fvgBearish ? line.new(bar_index[2], high[2], bar_index[0], high[0], color=color.new(color.red, 80), width=2) : na
+
+// CE Level Calculation
+ceLevel(src) => src + (src - src[1]) * 0.5
+
+// Order Block Detection
+ob() =>
+    bullish = close[1] < open[1] and close > open
+    bearish = close[1] > open[1] and close < open
+    obBullish = bullish ? close[1] : na
+    obBearish = bearish ? close[1] : na
+    [obBullish, obBearish]
+
+[obBullish, obBearish] = ob()
+
+// Draw Order Blocks
+plotshape(showOB and obBullish, title="Bullish OB", location=location.belowbar, color=color.blue, style=shape.circle, size=size.small)
+plotshape(showOB and obBearish, title="Bearish OB", location=location.abovebar, color=color.orange, style=shape.circle, size=size.small)
+
+// Liquidity Pools (Equal Highs/Lows)
+bsl = ta.highest(5)[1]  // Buy Side Liquidity
+ssl = ta.lowest(5)[1]   // Sell Side Liquidity
+
+// Draw Liquidity Pools
+plot(showLiquidity and bsl, title="BSL", color=color.new(color.green, 50), style=plot.style_circlesbr, linewidth=2)
+plot(showLiquidity and ssl, title="SSL", color=color.new(color.red, 50), style=plot.style_circlesbr, linewidth=2)
+
+// VWAP Calculation
+vwap = ta.sma((high + low + close) / 3, 20)
+plot(vwap, title="VWAP", color=color.gray, linewidth=1)
+
+// CE Levels
+ceBullish = ceLevel(vwap)
+ceBearish = ceLevel(vwap)
+
+plot(showCE and ceBullish, title="CE Bullish", color=color.new(color.green, 70), style=plot.style_linebr, linewidth=1, linestyle=hline.style_dashed)
+plot(showCE and ceBearish, title="CE Bearish", color=color.new(color.red, 70), style=plot.style_linebr, linewidth=1, linestyle=hline.style_dashed)
+
+// ICT Macro Windows
+var line openMacro = na
+var line closeMacro = na
+
+// Define macro windows based on current time
+getMacroWindows() =>
+    time = timenow
+    hour = time.hour
+    minute = time.minute
+    timeStr = str.tostring(hour) + ":" + str.tostring(minute)
+
+    // London Open: 02:33 - 03:00
+    londonOpen = timeStr >= "02:33" and timeStr <= "03:00"
+    // AM Macro 1: 09:50 - 10:10
+    am1 = timeStr >= "09:50" and timeStr <= "10:10"
+    // AM Macro 2: 10:10 - 10:40
+    am2 = timeStr >= "10:10" and timeStr <= "10:40"
+    // PM Macro 1: 13:50 - 14:10
+    pm1 = timeStr >= "13:50" and timeStr <= "14:10"
+    // PM Macro 2: 14:50 - 15:10
+    pm2 = timeStr >= "14:50" and timeStr <= "15:10"
+
+    inMacro = londonOpen or am1 or am2 or pm1 or pm2
+    inAvoid = timeStr >= "12:00" and timeStr <= "13:30"  // NY Lunch
+
+    [inMacro, inAvoid]
+
+[inMacro, inAvoid] = getMacroWindows()
+
+// Background coloring for macro windows
+bgcolor(inMacro ? color.new(color.blue, 90) : na, title="Macro Window")
+bgcolor(inAvoid ? color.new(color.red, 90) : na, title="Avoid Period")
+
+// Entry Signals
+// Bullish Entry: Price retraces to CE of Bullish FVG during macro window
+bullishEntry = inMacro and showFVG and fvgBullish and close >= ceBullish[2]
+bearishEntry = inMacro and showFVG and fvgBearish and close <= ceBearish[2]
+
+// Plot entry signals
+plotshape(bullishEntry, title="Bullish Entry", location=location.belowbar, color=color.green, style=shape.triangleup, size=size.normal)
+plotshape(bearishEntry, title="Bearish Entry", location=location.abovebar, color=color.red, style=shape.triangledown, size=size.normal)
+
+// Labels for current conditions
+var label currentBias = na
+var label macroStatus = na
+
+// Update labels
+if barstate.islast
+    // Determine bias
+    if close > vwap
+        currentBias := label.new(bar_index, high, "BULLISH", color=color.green, style=label.style_label_up, yloc=yloc.price)
+    else
+        currentBias := label.new(bar_index, high, "BEARISH", color=color.red, style=label.style_label_down, yloc=yloc.price)
+
+    // Macro status
+    if inMacro
+        macroStatus := label.new(bar_index, low, "MACRO", color=color.blue, style=label.style_label_center, yloc=yloc.price)
+    else if inAvoid
+        macroStatus := label.new(bar_index, low, "AVOID", color=color.red, style=label.style_label_center, yloc=yloc.price)
+    else
+        macroStatus := label.new(bar_index, low, "WAIT", color=color.gray, style=label.style_label_center, yloc=yloc.price)
+
+// Clean up old labels
+if barstate.islast
+    for i = 0 to 100
+        label.delete(currentBias)
+        label.delete(macroStatus)
+
+// Alert Conditions
+alertcondition(bullishEntry, title="Bullish Entry Signal", message="ICT Bullish Entry Signal")
+alertcondition(bearishEntry, title="Bearish Entry Signal", message="ICT Bearish Entry Signal")
+
+// Strategy Notes
+bgcolor(close > vwap ? color.new(color.green, 95) : color.new(color.red, 95), title="Bias Background")
+hline(0, "Zero Line", color=color.gray, linestyle=hline.style_dashed)
+
+// Volume Confirmation
+volumeMA = ta.sma(volume, 20)
+aboveAvgVolume = volume > volumeMA * 1.2
+plot(aboveAvgVolume ? volume : na, title="High Volume", color=color.yellow, style=plot.style_columns, transp=80)

@@ -1,0 +1,60 @@
+[2026-04-28T13:49:42.539Z] Starting bot run
+[2026-04-28T13:49:43.134Z] Bot run completed successfully
+[2026-04-28T14:49:42.565Z] Starting bot run
+[2026-04-28T14:49:43.145Z] Bot run completed successfully
+[2026-04-28T14:49:43.145Z] DECISION: ── Decision ─────────────────────────────────────────────
+[2026-04-28T15:49:42.579Z] Starting bot run
+[2026-04-28T15:49:43.108Z] Bot run completed successfully
+[2026-04-28T16:49:42.594Z] Starting bot run
+[2026-04-28T16:49:43.080Z] Bot run completed successfully
+[2026-04-28T16:49:43.080Z] DECISION: ── Decision ─────────────────────────────────────────────
+[2026-04-29T05:48:02.456Z] Starting bot run
+[2026-04-29T05:48:05.425Z] ERROR: Command failed: node bot.js
+Bot error: [TypeError: fetch failed] {
+  [cause]: Error: getaddrinfo ENOTFOUND api.binance.com
+      at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:122:26) {
+    errno: -3008,
+    code: 'ENOTFOUND',
+    syscall: 'getaddrinfo',
+    hostname: 'api.binance.com'
+  }
+}
+
+[2026-04-29T06:48:02.011Z] Starting bot run
+[2026-04-29T06:48:02.539Z] Bot run completed successfully
+[2026-04-29T06:48:02.540Z] DECISION: ── Decision ─────────────────────────────────────────────
+[2026-04-29T07:48:01.766Z] Starting bot run
+[2026-04-29T07:48:02.252Z] Bot run completed successfully
+[2026-04-29T08:48:01.693Z] Starting bot run
+[2026-04-29T08:48:02.309Z] ERROR: Command failed: node bot.js
+Bot error: Error: EBUSY: resource busy or locked, open 'C:\Users\DELL\Desktop\DEMO CLAUDE\claude-tradingview-mcp-trading\trades.csv'
+    at Object.writeFileSync (node:fs:2414:20)
+    at appendFileSync (node:fs:2496:6)
+    at writeTradeCsv (file:///C:/Users/DELL/Desktop/DEMO%20CLAUDE/claude-tradingview-mcp-trading/bot.js:462:3)
+    at run (file:///C:/Users/DELL/Desktop/DEMO%20CLAUDE/claude-tradingview-mcp-trading/bot.js:614:3)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  errno: -4082,
+  code: 'EBUSY',
+  syscall: 'open',
+  path: 'C:\\Users\\DELL\\Desktop\\DEMO CLAUDE\\claude-tradingview-mcp-trading\\trades.csv'
+}
+Assertion failed: !(handle->flags & UV_HANDLE_CLOSING), file src\win\async.c, line 76
+
+[2026-04-29T09:48:01.672Z] Starting bot run
+[2026-04-29T09:48:02.135Z] Bot run completed successfully
+[2026-04-29T09:48:02.135Z] DECISION: ── Decision ─────────────────────────────────────────────
+[2026-04-29T11:16:49.524Z] Starting bot run
+[2026-04-29T11:16:51.697Z] ERROR: Command failed: node bot.js
+Bot error: [TypeError: fetch failed] {
+  [cause]: Error: getaddrinfo ENOTFOUND api.binance.com
+      at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:122:26) {
+    errno: -3008,
+    code: 'ENOTFOUND',
+    syscall: 'getaddrinfo',
+    hostname: 'api.binance.com'
+  }
+}
+
+[2026-04-29T12:16:49.534Z] Starting bot run
+[2026-04-29T12:16:50.113Z] Bot run completed successfully
+[2026-04-29T12:16:50.114Z] DECISION: ── Decision ─────────────────────────────────────────────

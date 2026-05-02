@@ -1,5 +1,223 @@
 {
-  "watchlist": ["BTCUSDT"],
-  "default_timeframe": "1m",
-
-
+  "strategy": {
+    "name": "ICT Smart Money Strategy",
+    "description": "Based on Inner Circle Trader's Smart Money Concepts - Time-based trading with PD Arrays",
+    "timeframe": "1m",
+    "symbol": "BTCUSDT"
+  },
+  "entry_rules": {
+    "buy": [
+      {
+        "condition": "daily_bias_bullish",
+        "description": "Daily chart bias must be bullish (price above CE of key PD array)",
+        "value": true
+      },
+      {
+        "condition": "macro_window_active",
+        "description": "Must be within an ICT macro window (9:50-10:10 AM, 1:50-2:10 PM, etc.)",
+        "value": true
+      },
+      {
+        "condition": "liquidity_taken",
+        "description": "Sell side liquidity (SSL) must be swept before entry",
+        "value": true
+      },
+      {
+        "condition": "fvg_bullish_present",
+        "description": "Bullish FVG (BISI) must be present with price retracing to CE",
+        "value": true
+      },
+      {
+        "condition": "bodies_respect_ce",
+        "description": "Candle bodies must stay above CE of FVG",
+        "value": true
+      },
+      {
+        "condition": "rsi_not_overbought",
+        "description": "RSI below 70 to avoid overbought conditions",
+        "value": true,
+        "operator": "<",
+        "threshold": 70
+      }
+    ],
+    "sell": [
+      {
+        "condition": "daily_bias_bearish",
+        "description": "Daily chart bias must be bearish (price below CE of key PD array)",
+        "value": true
+      },
+      {
+        "condition": "macro_window_active",
+        "description": "Must be within an ICT macro window (9:50-10:10 AM, 1:50-2:10 PM, etc.)",
+        "value": true
+      },
+      {
+        "condition": "liquidity_taken",
+        "description": "Buy side liquidity (BSL) must be swept before entry",
+        "value": true
+      },
+      {
+        "condition": "fvg_bearish_present",
+        "description": "Bearish FVG (SIBI) must be present with price retracing to CE",
+        "value": true
+      },
+      {
+        "condition": "bodies_respect_ce",
+        "description": "Candle bodies must stay below CE of FVG",
+        "value": true
+      },
+      {
+        "condition": "rsi_not_oversold",
+        "description": "RSI above 30 to avoid oversold conditions",
+        "value": true,
+        "operator": ">",
+        "threshold": 30
+      }
+    ]
+  },
+  "risk_management": {
+    "stop_loss": {
+      "enabled": true,
+      "placement": "beyond_liquidity_sweep",
+      "description": "Stop beyond the wick of the liquidity sweep"
+    },
+    "take_profit": {
+      "enabled": true,
+      "partials": {
+        "first": {
+          "percentage": 33.3,
+          "at": "first_liquidity_pool"
+        },
+        "second": {
+          "percentage": 33.3,
+          "at": "opening_range_gap"
+        },
+        "final": {
+          "percentage": 33.4,
+          "at": "major_liquidity_target"
+        }
+      }
+    },
+    "max_risk_per_trade": "1% of portfolio",
+    "max_trades_per_day": 1,
+    "max_consecutive_losses": 3,
+    "lunch_avoidance": {
+      "enabled": true,
+      "start": "12:00 PM",
+      "end": "1:30 PM",
+      "description": "No trading during NY Lunch period"
+    }
+  },
+  "time_windows": {
+    "macro_windows": [
+      {
+        "name": "London Open",
+        "start": "02:33",
+        "end": "03:00",
+        "description": "Forex entries at London open"
+      },
+      {
+        "name": "AM Macro 1",
+        "start": "09:50",
+        "end": "10:10",
+        "description": "First high-probability entry window"
+      },
+      {
+        "name": "AM Macro 2",
+        "start": "10:10",
+        "end": "10:40",
+        "description": "Second morning entry window"
+      },
+      {
+        "name": "PM Macro 1",
+        "start": "13:50",
+        "end": "14:10",
+        "description": "First PM session entry"
+      },
+      {
+        "name": "PM Macro 2",
+        "start": "14:50",
+        "end": "15:10",
+        "description": "Final hour - strong moves"
+      }
+    ],
+    "avoid_periods": [
+      {
+        "name": "NY Lunch",
+        "start": "12:00",
+        "end": "13:30",
+        "description": "Manipulation zone - avoid trading"
+      },
+      {
+        "name": "First 20 Min",
+        "start": "09:30",
+        "end": "09:50",
+        "description": "Observation only - no entries"
+      }
+    ]
+  },
+  "pd_arrays": {
+    "fvg": {
+      "description": "Fair Value Gap - 3-candle inefficiency",
+      "bullish": {
+        "name": "BISI",
+        "condition": "candle1_high < candle3_low",
+        "entry": "at CE (50% midpoint)",
+        "invalidation": "body closes below"
+      },
+      "bearish": {
+        "name": "SIBI",
+        "condition": "candle1_low > candle3_high",
+        "entry": "at CE (50% midpoint)",
+        "invalidation": "body closes above"
+      }
+    },
+    "order_block": {
+      "description": "Last opposing candle before impulsive move",
+      "bullish": "last down-close before rally",
+      "bearish": "last up-close before drop",
+      "entry": "at opening price of OB candle"
+    },
+    "liquidity_pools": {
+      "bsl": {
+        "name": "Buy Side Liquidity",
+        "description": "Equal highs where retail stop losses cluster",
+        "sweep_direction": "above"
+      },
+      "ssl": {
+        "name": "Sell Side Liquidity",
+        "description": "Equal lows where retail stop losses cluster",
+        "sweep_direction": "below"
+      }
+    },
+    "ce": {
+      "name": "Consequent Encroachment",
+      "description": "Exact 50% midpoint of any range",
+      "rule": "Bodies must respect CE, wicks can violate"
+    }
+  },
+  "indicators": {
+    "rsi": {
+      "period": 14,
+      "description": "RSI filter to avoid extreme conditions"
+    },
+    "volume": {
+      "description": "Volume confirmation for liquidity sweeps"
+    },
+    "daily_bias": {
+      "description": "Based on daily chart CE level respect",
+      "calculation": "price_above_ce = bullish, price_below_ce = bearish"
+    }
+  },
+  "execution_rules": {
+    "order_type": "limit_only",
+    "entry_timing": "limit_order_at_ce",
+    "validation_checks": [
+      "liquidity_must_be_swept_first",
+      "bodies_must_respect_ce",
+      "macro_window_must_be_active",
+      "daily_bias_must_match",
+      "minimum_2_1_risk_reward"
+    ]
+  }
+}

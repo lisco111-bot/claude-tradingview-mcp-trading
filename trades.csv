@@ -1,2 +1,14 @@
-Date,Time (UTC),Exchange,Symbol,Side,Quantity,Price,Total USD,Fee (est.),Net Amount,Order ID,Mode,Notes, profit , loss
+Date,Time (UTC),Time EST,Exchange,Symbol,Side,Quantity,Entry Price,Total USD,Fee (est.),Net Amount,Order ID,Status,Strategy,Exit Price,P&L USD,P&L %,Notes
 ,,,,,,,,,,,"NOTE","Hey, if you're at this stage of the video, you must be enjoying it... perhaps you could hit subscribe now? :)"
+2026-04-28,04:19:41,00:19:41,BitGet,BTCUSDT,,,76844.34,,,,BLOCKED,ema_vwap_rsi,,,,,"Failed: RSI(3) above 70 (reversal setup in downtrend)"
+2026-04-28,04:25:59,00:25:59,BitGet,BTCUSDT,,,76746.40,,,,BLOCKED,ema_vwap_rsi,,,,,"Failed: RSI(3) above 70 (reversal setup in downtrend)"
+2026-04-28,04:29:03,00:29:03,BitGet,BTCUSDT,BUY,0.000007,76801.71,0.50,0.0005,0.50,PAPER-1777350543889,PAPER,ema_vwap_rsi,,,,,"All conditions met"
+2026-04-28,04:47:33,00:47:33,BitGet,BTCUSDT,BUY,0.000007,76902.85,0.50,0.0005,0.50,PAPER-1777351653796,PAPER,ema_vwap_rsi,,,,,"All conditions met"
+2026-04-28,04:57:14,00:57:14,BitGet,BTCUSDT,BUY,0.000007,76908.09,0.50,0.0005,0.50,PAPER-1777352234942,PAPER,ema_vwap_rsi,,,,,"All conditions met"
+2026-04-28,13:07:14,09:07:14,BitGet,BTCUSDT,,,76250.00,,,,BLOCKED,ema_vwap_rsi,,,,,"Failed: RSI(3) above 70 (reversal setup in downtrend)"
+2026-04-28,14:49:43,10:49:43,BitGet,BTCUSDT,,,75759.05,,,,BLOCKED,ema_vwap_rsi,,,,,"Failed: RSI(3) above 70 (reversal setup in downtrend)"
+2026-04-28,16:49:43,12:49:43,BitGet,BTCUSDT,,,75903.03,,,,BLOCKED,ema_vwap_rsi,,,,,"Failed: RSI(3) above 70 (reversal setup in downtrend)"
+2026-04-29,06:48:02,02:48:02,BitGet,BTCUSDT,,,77051.39,,,,BLOCKED,ema_vwap_rsi,,,,,"Failed: RSI(3) below 30 (snap-back setup in uptrend)"
+2026-04-29,09:48:02,05:48:02,BitGet,BTCUSDT,,,77355.55,,,,BLOCKED,ema_vwap_rsi,,,,,"Failed: RSI(3) below 30 (snap-back setup in uptrend)"
+2026-04-29,12:16:50,08:16:50,BitGet,BTCUSDT,,,77364.01,,,,BLOCKED,ema_vwap_rsi,,,,,"Failed: Market bias"
+2026-04-30,07:53:20,03:53:20,BitGet,BTCUSDT,,,76072.85,,,,BLOCKED,pure_ict,,,,,"Failed: Macro window active; Price respects CE; Daily bias"

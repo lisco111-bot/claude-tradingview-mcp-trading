@@ -1,0 +1,615 @@
+{
+  "trades": [
+    {
+      "timestamp": "2026-04-28T04:19:41.691Z",
+      "symbol": "BTCUSDT",
+      "timeframe": "4H",
+      "price": 76844.34,
+      "indicators": {
+        "ema8": 77261.83823259939,
+        "vwap": 76982.41347492042,
+        "rsi3": 48.43632654953363
+      },
+      "conditions": [
+        {
+          "label": "Price below VWAP (sellers in control)",
+          "required": "< 76982.41",
+          "actual": "76844.34",
+          "pass": true
+        },
+        {
+          "label": "Price below EMA(8) (downtrend confirmed)",
+          "required": "< 77261.84",
+          "actual": "76844.34",
+          "pass": true
+        },
+        {
+          "label": "RSI(3) above 70 (reversal setup in downtrend)",
+          "required": "> 70",
+          "actual": "48.44",
+          "pass": false
+        },
+        {
+          "label": "Price within 1.5% of VWAP (not overextended)",
+          "required": "< 1.5%",
+          "actual": "0.18%",
+          "pass": true
+        }
+      ],
+      "allPass": false,
+      "tradeSize": 0.5,
+      "orderPlaced": false,
+      "orderId": null,
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 2900,
+        "maxTradesPerDay": 20,
+        "tradesToday": 0
+      }
+    },
+    {
+      "timestamp": "2026-04-28T04:25:59.902Z",
+      "symbol": "BTCUSDT",
+      "timeframe": "4H",
+      "price": 76746.4,
+      "indicators": {
+        "ema8": 77240.07378815494,
+        "vwap": 76973.94493714986,
+        "rsi3": 44.11225484496939
+      },
+      "conditions": [
+        {
+          "label": "Price below VWAP (sellers in control)",
+          "required": "< 76973.94",
+          "actual": "76746.40",
+          "pass": true
+        },
+        {
+          "label": "Price below EMA(8) (downtrend confirmed)",
+          "required": "< 77240.07",
+          "actual": "76746.40",
+          "pass": true
+        },
+        {
+          "label": "RSI(3) above 70 (reversal setup in downtrend)",
+          "required": "> 70",
+          "actual": "44.11",
+          "pass": false
+        },
+        {
+          "label": "Price within 1.5% of VWAP (not overextended)",
+          "required": "< 1.5%",
+          "actual": "0.30%",
+          "pass": true
+        }
+      ],
+      "allPass": false,
+      "tradeSize": 0.5,
+      "orderPlaced": false,
+      "orderId": null,
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 2900,
+        "maxTradesPerDay": 20,
+        "tradesToday": 0
+      }
+    },
+    {
+      "timestamp": "2026-04-28T04:29:03.889Z",
+      "symbol": "BTCUSDT",
+      "timeframe": "4H",
+      "price": 76801.71,
+      "indicators": {
+        "ema8": 77252.36489926606,
+        "vwap": 76971.9828521786,
+        "rsi3": 46.407805355361916
+      },
+      "conditions": [
+        {
+          "label": "Daily bias bearish (price below VWAP)",
+          "required": "< 76971.98",
+          "actual": "76801.71",
+          "pass": true
+        },
+        {
+          "label": "Macro window active",
+          "required": "Active window",
+          "actual": "Yes",
+          "pass": true
+        },
+        {
+          "label": "RSI not oversold",
+          "required": "> 30",
+          "actual": "46.41",
+          "pass": true
+        },
+        {
+          "label": "Price approaching FVG zone",
+          "required": "Near VWAP",
+          "actual": "0.22%",
+          "pass": true
+        }
+      ],
+      "allPass": true,
+      "tradeSize": 0.5,
+      "orderPlaced": true,
+      "orderId": "PAPER-1777350543889",
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 2900,
+        "maxTradesPerDay": 20,
+        "tradesToday": 0
+      }
+    },
+    {
+      "timestamp": "2026-04-28T04:47:33.795Z",
+      "symbol": "BTCUSDT",
+      "timeframe": "1m",
+      "price": 76902.85,
+      "indicators": {
+        "ema8": 76853.53304915802,
+        "vwap": 77039.92352169323,
+        "rsi3": 100
+      },
+      "conditions": [
+        {
+          "label": "Daily bias bearish (price below VWAP)",
+          "required": "< 77039.92",
+          "actual": "76902.85",
+          "pass": true
+        },
+        {
+          "label": "Macro window active",
+          "required": "Active window",
+          "actual": "Yes",
+          "pass": true
+        },
+        {
+          "label": "RSI not oversold",
+          "required": "> 30",
+          "actual": "100.00",
+          "pass": true
+        },
+        {
+          "label": "Price approaching FVG zone",
+          "required": "Near VWAP",
+          "actual": "0.18%",
+          "pass": true
+        }
+      ],
+      "allPass": true,
+      "tradeSize": 0.5,
+      "orderPlaced": true,
+      "orderId": "PAPER-1777351653796",
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 2900,
+        "maxTradesPerDay": 20,
+        "tradesToday": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-28T04:57:14.942Z",
+      "symbol": "BTCUSDT",
+      "timeframe": "1m",
+      "price": 76908.09,
+      "indicators": {
+        "ema8": 76907.88361714696,
+        "vwap": 77037.84042560357,
+        "rsi14": 69.74312881403937
+      },
+      "conditions": [
+        {
+          "label": "Daily bias bearish (price below VWAP)",
+          "required": "< 77037.84",
+          "actual": "76908.09",
+          "pass": true
+        },
+        {
+          "label": "Macro window active",
+          "required": "Active window",
+          "actual": "Yes",
+          "pass": true
+        },
+        {
+          "label": "RSI not oversold",
+          "required": "> 30",
+          "actual": "69.74",
+          "pass": true
+        },
+        {
+          "label": "Price approaching FVG zone",
+          "required": "Near VWAP",
+          "actual": "0.17%",
+          "pass": true
+        }
+      ],
+      "allPass": true,
+      "tradeSize": 0.5,
+      "orderPlaced": true,
+      "orderId": "PAPER-1777352234942",
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 2900,
+        "maxTradesPerDay": 20,
+        "tradesToday": 2
+      }
+    },
+    {
+      "timestamp": "2026-04-28T13:07:14.224Z",
+      "symbol": "BTCUSDT",
+      "timeframe": "1m",
+      "price": 76250,
+      "indicators": {
+        "ema8": 76290.4239381033,
+        "vwap": 76666.41718172199,
+        "rsi3": 0.02177226212664607
+      },
+      "conditions": [
+        {
+          "label": "Price below VWAP (sellers in control)",
+          "required": "< 76666.42",
+          "actual": "76250.00",
+          "pass": true
+        },
+        {
+          "label": "Price below EMA(8) (downtrend confirmed)",
+          "required": "< 76290.42",
+          "actual": "76250.00",
+          "pass": true
+        },
+        {
+          "label": "RSI(3) above 70 (reversal setup in downtrend)",
+          "required": "> 70",
+          "actual": "0.02",
+          "pass": false
+        },
+        {
+          "label": "Price within 1.5% of VWAP (not overextended)",
+          "required": "< 1.5%",
+          "actual": "0.54%",
+          "pass": true
+        }
+      ],
+      "allPass": false,
+      "tradeSize": 0.5,
+      "orderPlaced": false,
+      "orderId": null,
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 2900,
+        "maxTradesPerDay": 20,
+        "tradesToday": 3
+      }
+    },
+    {
+      "timestamp": "2026-04-28T14:49:43.094Z",
+      "symbol": "BTCUSDT",
+      "timeframe": "1m",
+      "price": 75759.05,
+      "indicators": {
+        "ema8": 75787.34828390721,
+        "vwap": 76447.69987573606,
+        "rsi3": 41.22116121837244
+      },
+      "conditions": [
+        {
+          "label": "Price below VWAP (sellers in control)",
+          "required": "< 76447.70",
+          "actual": "75759.05",
+          "pass": true
+        },
+        {
+          "label": "Price below EMA(8) (downtrend confirmed)",
+          "required": "< 75787.35",
+          "actual": "75759.05",
+          "pass": true
+        },
+        {
+          "label": "RSI(3) above 70 (reversal setup in downtrend)",
+          "required": "> 70",
+          "actual": "41.22",
+          "pass": false
+        },
+        {
+          "label": "Price within 1.5% of VWAP (not overextended)",
+          "required": "< 1.5%",
+          "actual": "0.90%",
+          "pass": true
+        }
+      ],
+      "allPass": false,
+      "tradeSize": 0.5,
+      "orderPlaced": false,
+      "orderId": null,
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 2900,
+        "maxTradesPerDay": 20,
+        "tradesToday": 3
+      }
+    },
+    {
+      "timestamp": "2026-04-28T16:49:43.030Z",
+      "symbol": "BTCUSDT",
+      "timeframe": "1m",
+      "price": 75903.03,
+      "indicators": {
+        "ema8": 75919.47397375472,
+        "vwap": 76257.6686594733,
+        "rsi3": 40.773205388448446
+      },
+      "conditions": [
+        {
+          "label": "Price below VWAP (sellers in control)",
+          "required": "< 76257.67",
+          "actual": "75903.03",
+          "pass": true
+        },
+        {
+          "label": "Price below EMA(8) (downtrend confirmed)",
+          "required": "< 75919.47",
+          "actual": "75903.03",
+          "pass": true
+        },
+        {
+          "label": "RSI(3) above 70 (reversal setup in downtrend)",
+          "required": "> 70",
+          "actual": "40.77",
+          "pass": false
+        },
+        {
+          "label": "Price within 1.5% of VWAP (not overextended)",
+          "required": "< 1.5%",
+          "actual": "0.47%",
+          "pass": true
+        }
+      ],
+      "allPass": false,
+      "tradeSize": 0.5,
+      "orderPlaced": false,
+      "orderId": null,
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 2900,
+        "maxTradesPerDay": 20,
+        "tradesToday": 3
+      }
+    },
+    {
+      "timestamp": "2026-04-29T06:48:02.481Z",
+      "symbol": "BTCUSDT",
+      "timeframe": "1m",
+      "price": 77051.39,
+      "indicators": {
+        "ema8": 77051.33077966957,
+        "vwap": 76851.43719726652,
+        "rsi3": 100
+      },
+      "conditions": [
+        {
+          "label": "Price above VWAP (buyers in control)",
+          "required": "> 76851.44",
+          "actual": "77051.39",
+          "pass": true
+        },
+        {
+          "label": "Price above EMA(8) (uptrend confirmed)",
+          "required": "> 77051.33",
+          "actual": "77051.39",
+          "pass": true
+        },
+        {
+          "label": "RSI(3) below 30 (snap-back setup in uptrend)",
+          "required": "< 30",
+          "actual": "100.00",
+          "pass": false
+        },
+        {
+          "label": "Price within 1.5% of VWAP (not overextended)",
+          "required": "< 1.5%",
+          "actual": "0.26%",
+          "pass": true
+        }
+      ],
+      "allPass": false,
+      "tradeSize": 0.5,
+      "orderPlaced": false,
+      "orderId": null,
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 2900,
+        "maxTradesPerDay": 20,
+        "tradesToday": 0
+      }
+    },
+    {
+      "timestamp": "2026-04-29T08:48:02.119Z",
+      "symbol": "BTCUSDT",
+      "timeframe": "1m",
+      "price": 77050,
+      "indicators": {
+        "ema8": 77048.91558230868,
+        "vwap": 76955.46478883346,
+        "rsi3": 35.310977357414885
+      },
+      "conditions": [
+        {
+          "label": "Price above VWAP (buyers in control)",
+          "required": "> 76955.46",
+          "actual": "77050.00",
+          "pass": true
+        },
+        {
+          "label": "Price above EMA(8) (uptrend confirmed)",
+          "required": "> 77048.92",
+          "actual": "77050.00",
+          "pass": true
+        },
+        {
+          "label": "RSI(3) below 30 (snap-back setup in uptrend)",
+          "required": "< 30",
+          "actual": "35.31",
+          "pass": false
+        },
+        {
+          "label": "Price within 1.5% of VWAP (not overextended)",
+          "required": "< 1.5%",
+          "actual": "0.12%",
+          "pass": true
+        }
+      ],
+      "allPass": false,
+      "tradeSize": 0.5,
+      "orderPlaced": false,
+      "orderId": null,
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 2900,
+        "maxTradesPerDay": 20,
+        "tradesToday": 0
+      }
+    },
+    {
+      "timestamp": "2026-04-29T09:48:02.082Z",
+      "symbol": "BTCUSDT",
+      "timeframe": "1m",
+      "price": 77355.55,
+      "indicators": {
+        "ema8": 77308.07740770082,
+        "vwap": 77026.2984517359,
+        "rsi3": 98.98257839721822
+      },
+      "conditions": [
+        {
+          "label": "Price above VWAP (buyers in control)",
+          "required": "> 77026.30",
+          "actual": "77355.55",
+          "pass": true
+        },
+        {
+          "label": "Price above EMA(8) (uptrend confirmed)",
+          "required": "> 77308.08",
+          "actual": "77355.55",
+          "pass": true
+        },
+        {
+          "label": "RSI(3) below 30 (snap-back setup in uptrend)",
+          "required": "< 30",
+          "actual": "98.98",
+          "pass": false
+        },
+        {
+          "label": "Price within 1.5% of VWAP (not overextended)",
+          "required": "< 1.5%",
+          "actual": "0.43%",
+          "pass": true
+        }
+      ],
+      "allPass": false,
+      "tradeSize": 0.5,
+      "orderPlaced": false,
+      "orderId": null,
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 2900,
+        "maxTradesPerDay": 20,
+        "tradesToday": 0
+      }
+    },
+    {
+      "timestamp": "2026-04-29T12:16:50.054Z",
+      "symbol": "BTCUSDT",
+      "timeframe": "1m",
+      "price": 77364.01,
+      "indicators": {
+        "ema8": 77423.69360051228,
+        "vwap": 77292.13310195769,
+        "rsi3": 30.992643546383732
+      },
+      "conditions": [
+        {
+          "label": "Market bias",
+          "required": "Bullish or bearish",
+          "actual": "Neutral",
+          "pass": false
+        }
+      ],
+      "allPass": false,
+      "tradeSize": 0.5,
+      "orderPlaced": false,
+      "orderId": null,
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 2900,
+        "maxTradesPerDay": 20,
+        "tradesToday": 0
+      }
+    },
+    {
+      "timestamp": "2026-04-30T07:53:20.915Z",
+      "symbol": "BTCUSDT",
+      "timeframe": "1m",
+      "price": 76072.85,
+      "indicators": {
+        "fvg": {
+          "type": "bearish",
+          "ce": 76091.77
+        },
+        "liquiditySweep": {
+          "type": "bsl_swept",
+          "fvg": {
+            "type": "bearish",
+            "start": 76110.69,
+            "end": 76072.85,
+            "ce": 76091.77,
+            "candleIndex": 97
+          }
+        }
+      },
+      "conditions": [
+        {
+          "label": "Macro window active",
+          "required": "true",
+          "actual": "false",
+          "pass": false
+        },
+        {
+          "label": "FVG present",
+          "required": "true",
+          "actual": "true",
+          "pass": true
+        },
+        {
+          "label": "Liquidity swept",
+          "required": "true",
+          "actual": "true",
+          "pass": true
+        },
+        {
+          "label": "Price respects CE",
+          "required": "true",
+          "actual": "false",
+          "pass": false
+        },
+        {
+          "label": "Daily bias",
+          "required": "bearish",
+          "actual": "bullish",
+          "pass": false
+        }
+      ],
+      "allPass": false,
+      "tradeSize": 0.5,
+      "orderPlaced": false,
+      "orderId": null,
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 2900,
+        "maxTradesPerDay": 20,
+        "tradesToday": 0
+      },
+      "strategy": "pure_ict"
+    }
+  ]
+}
