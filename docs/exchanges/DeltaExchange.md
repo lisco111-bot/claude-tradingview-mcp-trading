@@ -9,7 +9,7 @@
 
 ## Steps
 
-1. Log into your Delta Exchange account at https://https://www.delta.exchange/app/login
+1. Log into your Delta Exchange account at https://www.delta.exchange/app/login
 2. Click your profile icon (top right) → **API Management**
 3. Click **Create API**
 4. Choose **System generated** → click **Next**
