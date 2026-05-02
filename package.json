@@ -1,17 +1,25 @@
 {
-  "name": "claude-tradingview-mcp-trading",
+  "name": "ali-khan-drt-bot",
   "version": "1.0.0",
-  "description": "Automated trading bot — Claude + TradingView strategy ",
+  "description": "Ali Khan DRT Trading Bot - Automated trading based on Dealing Range Theory",
   "main": "bot.js",
+  "type": "module",
   "scripts": {
     "start": "node bot.js",
-    "dev": "node bot.js"
+    "test": "node bot.js --tax-summary"
   },
   "dependencies": {
-    "dotenv": "^16.4.5",
+    "dotenv": "^16.3.1",
     "node-fetch": "^3.3.2"
   },
-  "engines": {
-    "node": ">=18.0.0"
-  }
+  "keywords": [
+    "trading",
+    "forex",
+    "crypto",
+    "ict",
+    "drt",
+    "algorithmic"
+  ],
+  "author": "Ali Khan Trading Strategy",
+  "license": "MIT"
 }

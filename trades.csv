@@ -1,2 +1,2 @@
-Date,Time (UTC),Exchange,Symbol,Side,Quantity,Price,Total USD,Fee (est.),Net Amount,Order ID,Mode,Notes, profit , loss
-,,,,,,,,,,,"NOTE","Hey, if you're at this stage of the video, you must be enjoying it... perhaps you could hit subscribe now? :)"
+Date,Time (UTC),Exchange,Symbol,Side,Quantity,Entry_Price,Exit_Price,Total_USD,Fee,Net_Profit,Order_ID,Mode,Duration,Notes2026-04-29,21:52:04,BitGet,EURUSDT,BUY,85.470085,1.17,,100.00,0.1000,0.00,PAPER-TEST-001,PAPER,,"All conditions met - Open trade"
+2026-04-29,21:52:09,BitGet,EURUSDT,BUY,85.470085,1.17,1.18,100.00,0.1000,0.33,PAPER-TEST-001,PAPER,0m,"Closed: P&L $0.33"

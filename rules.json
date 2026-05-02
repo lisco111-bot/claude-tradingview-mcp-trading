@@ -1,5 +1,215 @@
 {
-  "watchlist": ["BTCUSDT"],
-  "default_timeframe": "1m",
+  "strategy": {
+    "name": "Ali Khan DRT (Dealing Range Theory)",
+    "description": "Based on Ali Khan's ICT and Dealing Range Theory trading methodology",
+    "timeframe": "15m",
+    "instruments": ["EURUSD", "GBPUSD", "USDJPY", "XAUUSD"],
+    "risk_management": {
+      "max_position_size": 0.02,
+      "stop_loss_atr_multiplier": 2.5,
+      "take_profit_atr_multiplier": 3,
+      "max_daily_loss": 0.05,
+      "risk_per_trade": 0.01
+    }
+  },
 
+  "indicators": {
+    "ict_indicators": {
+      "enabled": true,
+      "fvg": {
+        "enabled": true,
+        "min_body_ratio": 0.5,
+        "max_wick_ratio": 0.3
+      },
+      "imbalance": {
+        "enabled": true,
+        "min_gap_size": 0.0003
+      },
+      "order_block": {
+        "enabled": true,
+        "lookback": 5,
+        "body_ratio": 0.6
+      },
+      "swing_high_low": {
+        "enabled": true,
+        "period": 10
+      }
+    },
+    "ema": {
+      "enabled": false
+    },
+    "vwap": {
+      "enabled": false
+    },
+    "rsi": {
+      "enabled": false
+    },
 
+    "drt_indicators": {
+      "enabled": true,
+      "dealing_range": {
+        "enabled": true,
+        "range_type": "consolidation",
+        "min_range_points": 8,
+        "max_range_points": 20,
+        "range_body_threshold": 0.7
+      },
+      "daily_bias": {
+        "enabled": true,
+        "lookback": 3,
+        "threshold": 0.6
+      },
+      "liquidity_zones": {
+        "enabled": true,
+        "search_radius": 50,
+        "liquidity_threshold": 0.0005
+      }
+    },
+
+    "power_of_3": {
+      "enabled": true,
+      "entry_points": [
+        "order_block_rejection",
+        "fvg_fill",
+        "liquidity_sweep"
+      ],
+      "confirmation": {
+        "required": true,
+        "confirmation_candles": 2
+      }
+    },
+
+    "volume_profile": {
+      "enabled": true,
+      "period": 20,
+      "value_area": 70
+    },
+
+    "market_structure": {
+      "hh_ll": {
+        "enabled": true,
+        "period": 5
+      },
+      "higher_timeframe": {
+        "enabled": true,
+        "timeframe": "1h"
+      }
+    }
+  },
+
+  "entry_rules": {
+    "long_entry": {
+      "conditions": [
+        {
+          "type": "drt_range",
+          "operator": "above",
+          "value": 0.7
+        },
+        {
+          "type": "daily_bias",
+          "operator": "bullish",
+          "value": 0.6
+        },
+        {
+          "type": "liquidity",
+          "operator": "present",
+          "value": "below"
+        },
+        {
+          "type": "fvg",
+          "operator": "present",
+          "value": "above"
+        }
+      ],
+      "po3_conditions": {
+        "entry_1": "order_block_rejection",
+        "entry_2": "fvg_fill",
+        "entry_3": "liquidity_sweep"
+      }
+    },
+
+    "short_entry": {
+      "conditions": [
+        {
+          "type": "drt_range",
+          "operator": "above",
+          "value": 0.7
+        },
+        {
+          "type": "daily_bias",
+          "operator": "bearish",
+          "value": 0.6
+        },
+        {
+          "type": "liquidity",
+          "operator": "present",
+          "value": "above"
+        },
+        {
+          "type": "fvg",
+          "operator": "present",
+          "value": "below"
+        }
+      ],
+      "po3_conditions": {
+        "entry_1": "order_block_rejection",
+        "entry_2": "fvg_fill",
+        "entry_3": "liquidity_sweep"
+      }
+    }
+  },
+
+  "exit_rules": {
+    "take_profit": {
+      "type": "multiple",
+      "levels": [
+        {"ratio": 0.5, "size": 0.5},
+        {"ratio": 1, "size": 0.3},
+        {"ratio": 2, "size": 0.2}
+      ]
+    },
+
+    "stop_loss": {
+      "type": "atr",
+      "multiplier": 2.5
+    },
+
+    "trailing_stop": {
+      "enabled": true,
+      "activation": 1.5,
+      "step": 0.5
+    },
+
+    "partial_close": {
+      "enabled": true,
+      "ratio": 0.5,
+      "at_profit": 1
+    }
+  },
+
+  "time_filters": {
+    "session_hours": {
+      "enabled": true,
+      "start": "08:00",
+      "end": "17:00"
+    },
+
+    "day_filter": {
+      "enabled": true,
+      "exclude_weekend": true
+    }
+  },
+
+  "execution": {
+    "order_type": "limit",
+    "execution_speed": "fast",
+    "retry_attempts": 3,
+    "retry_delay": 1000
+  },
+
+  "logging": {
+    "level": "verbose",
+    "save_to_file": true,
+    "file_path": "trades.log"
+  }
+}

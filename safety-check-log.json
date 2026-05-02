@@ -1,0 +1,365 @@
+{
+  "trades": [
+    {
+      "timestamp": "2026-04-30T05:32:28.717Z",
+      "symbol": "EURUSDT",
+      "timeframe": "15m",
+      "price": 1.1665,
+      "indicators": {
+        "ema8": 1.1665334605726558,
+        "vwap": 1.1707416302915763,
+        "rsi3": 54.773924597539285
+      },
+      "conditions": [
+        {
+          "label": "Dealing Range Found",
+          "pass": false,
+          "value": "No",
+          "threshold": true
+        },
+        {
+          "label": "Daily Bias Alignment",
+          "pass": true,
+          "value": "Bullish",
+          "threshold": 0.6
+        },
+        {
+          "label": "Liquidity Presence",
+          "pass": false,
+          "value": "Below",
+          "threshold": true
+        },
+        {
+          "label": "FVG Present",
+          "pass": false,
+          "value": "No",
+          "threshold": true
+        },
+        {
+          "label": "PO3 Confluence",
+          "pass": false,
+          "value": "0/3",
+          "threshold": true
+        },
+        {
+          "label": "Session Hours",
+          "pass": false,
+          "value": "5:00",
+          "threshold": "08:00-17:00"
+        },
+        {
+          "label": "Risk Management",
+          "pass": false,
+          "value": "0.10%",
+          "threshold": "1.00%"
+        }
+      ],
+      "allPass": false,
+      "tradeSize": 100,
+      "orderPlaced": false,
+      "orderId": null,
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 250,
+        "maxTradesPerDay": 5,
+        "tradesToday": 0
+      }
+    },
+    {
+      "timestamp": "2026-04-30T05:40:19.705Z",
+      "symbol": "EURUSDT",
+      "timeframe": "15m",
+      "price": 1.1666,
+      "indicators": {
+        "ema8": 1.166555682794878,
+        "vwap": 1.1707275272500342,
+        "rsi3": 60.39035329575441
+      },
+      "conditions": [
+        {
+          "label": "Dealing Range Found",
+          "pass": false,
+          "value": "No",
+          "threshold": true
+        },
+        {
+          "label": "Daily Bias Alignment",
+          "pass": true,
+          "value": "Bullish",
+          "threshold": 0.6
+        },
+        {
+          "label": "Liquidity Presence",
+          "pass": false,
+          "value": "Below",
+          "threshold": true
+        },
+        {
+          "label": "FVG Present",
+          "pass": false,
+          "value": "No",
+          "threshold": true
+        },
+        {
+          "label": "PO3 Confluence",
+          "pass": false,
+          "value": "0/3",
+          "threshold": true
+        },
+        {
+          "label": "Session Hours",
+          "pass": false,
+          "value": "20:00",
+          "threshold": "08:00-17:00"
+        },
+        {
+          "label": "Risk Management",
+          "pass": false,
+          "value": "0.10%",
+          "threshold": "1.00%"
+        }
+      ],
+      "allPass": false,
+      "tradeSize": 100,
+      "orderPlaced": false,
+      "orderId": null,
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 250,
+        "maxTradesPerDay": 5,
+        "tradesToday": 0
+      }
+    },
+    {
+      "timestamp": "2026-04-30T06:42:32.977Z",
+      "symbol": "EURUSDT",
+      "timeframe": "15m",
+      "price": 1.1668,
+      "indicators": {
+        "ema8": null,
+        "vwap": null,
+        "rsi3": null
+      },
+      "conditions": [
+        {
+          "label": "Dealing Range Found",
+          "pass": false,
+          "value": "No",
+          "threshold": true
+        },
+        {
+          "label": "Daily Bias Alignment",
+          "pass": true,
+          "value": "Bullish",
+          "threshold": 0.6
+        },
+        {
+          "label": "Market Structure",
+          "pass": true,
+          "value": "Active",
+          "threshold": "Enabled"
+        },
+        {
+          "label": "FVG Present",
+          "pass": false,
+          "value": "No",
+          "threshold": true
+        },
+        {
+          "label": "Order Block Present",
+          "pass": false,
+          "value": "No",
+          "threshold": true
+        },
+        {
+          "label": "Imbalance Present",
+          "pass": false,
+          "value": "No",
+          "threshold": true
+        },
+        {
+          "label": "Liquidity Presence",
+          "pass": false,
+          "value": "Below",
+          "threshold": true
+        },
+        {
+          "label": "Session Hours",
+          "pass": false,
+          "value": "21:00",
+          "threshold": "08:00-17:00"
+        },
+        {
+          "label": "Risk Management",
+          "pass": false,
+          "value": "0.11%",
+          "threshold": "1.00%"
+        }
+      ],
+      "allPass": false,
+      "tradeSize": 100,
+      "orderPlaced": false,
+      "orderId": null,
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 250,
+        "maxTradesPerDay": 5,
+        "tradesToday": 0
+      }
+    },
+    {
+      "timestamp": "2026-04-30T07:12:53.179Z",
+      "symbol": "EURUSDT",
+      "timeframe": "15m",
+      "price": 1.168,
+      "indicators": {
+        "ema8": null,
+        "vwap": null,
+        "rsi3": null
+      },
+      "conditions": [
+        {
+          "label": "Dealing Range Found",
+          "pass": false,
+          "value": "No",
+          "threshold": true
+        },
+        {
+          "label": "Daily Bias Alignment",
+          "pass": true,
+          "value": "Bullish",
+          "threshold": 0.6
+        },
+        {
+          "label": "Market Structure",
+          "pass": true,
+          "value": "Active",
+          "threshold": "Enabled"
+        },
+        {
+          "label": "FVG Present",
+          "pass": false,
+          "value": "No",
+          "threshold": true
+        },
+        {
+          "label": "Order Block Present",
+          "pass": false,
+          "value": "No",
+          "threshold": true
+        },
+        {
+          "label": "Imbalance Present",
+          "pass": false,
+          "value": "No",
+          "threshold": true
+        },
+        {
+          "label": "Liquidity Presence",
+          "pass": true,
+          "value": "Below",
+          "threshold": true
+        },
+        {
+          "label": "Session Hours",
+          "pass": false,
+          "value": "21:00",
+          "threshold": "08:00-17:00"
+        },
+        {
+          "label": "Risk Management",
+          "pass": false,
+          "value": "0.11%",
+          "threshold": "1.00%"
+        }
+      ],
+      "allPass": false,
+      "tradeSize": 100,
+      "orderPlaced": false,
+      "orderId": null,
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 250,
+        "maxTradesPerDay": 5,
+        "tradesToday": 0
+      }
+    },
+    {
+      "timestamp": "2026-04-30T07:15:26.900Z",
+      "symbol": "EURUSDT",
+      "timeframe": "15m",
+      "price": 1.1681,
+      "indicators": {
+        "ema8": null,
+        "vwap": null,
+        "rsi3": null
+      },
+      "conditions": [
+        {
+          "label": "Dealing Range Found",
+          "pass": false,
+          "value": "No",
+          "threshold": true
+        },
+        {
+          "label": "Daily Bias Alignment",
+          "pass": true,
+          "value": "Bullish",
+          "threshold": 0.6
+        },
+        {
+          "label": "Market Structure",
+          "pass": true,
+          "value": "Active",
+          "threshold": "Enabled"
+        },
+        {
+          "label": "FVG Present",
+          "pass": false,
+          "value": "No",
+          "threshold": true
+        },
+        {
+          "label": "Order Block Present",
+          "pass": false,
+          "value": "No",
+          "threshold": true
+        },
+        {
+          "label": "Imbalance Present",
+          "pass": false,
+          "value": "No",
+          "threshold": true
+        },
+        {
+          "label": "Liquidity Presence",
+          "pass": true,
+          "value": "Below",
+          "threshold": true
+        },
+        {
+          "label": "Session Hours",
+          "pass": false,
+          "value": "21:00",
+          "threshold": "08:00-17:00"
+        },
+        {
+          "label": "Risk Management",
+          "pass": false,
+          "value": "0.11%",
+          "threshold": "1.00%"
+        }
+      ],
+      "allPass": false,
+      "tradeSize": 100,
+      "orderPlaced": false,
+      "orderId": null,
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 250,
+        "maxTradesPerDay": 5,
+        "tradesToday": 0
+      }
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+ICT-Only Mode Started: 2026-04-30
+Mode: Pure ICT (no EMA, VWAP, RSI)
+Duration: 1 week
+Notes: Testing pure ICT concepts for entry/exit decisions

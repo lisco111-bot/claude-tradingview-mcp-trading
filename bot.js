@@ -14,6 +14,486 @@ import { readFileSync, writeFileSync, existsSync, appendFileSync } from "fs";
 import crypto from "crypto";
 import { execSync } from "child_process";
 
+// ─── Indicator Functions ───────────────────────────────────────────────────────
+
+function calcEMA(closes, period) {
+  let multiplier = 2 / (period + 1);
+  let ema = closes[0];
+
+  for (let i = 1; i < closes.length; i++) {
+    ema = (closes[i] - ema) * multiplier + ema;
+  }
+
+  return ema;
+}
+
+function calcVWAP(candles) {
+  let totalVolume = 0;
+  let cumulativeVolume = 0;
+  let cumulativePriceVolume = 0;
+
+  for (let candle of candles) {
+    totalVolume += candle.volume;
+    cumulativeVolume += candle.volume;
+    cumulativePriceVolume += ((candle.high + candle.low + candle.close) / 3) * candle.volume;
+  }
+
+  return cumulativePriceVolume / cumulativeVolume;
+}
+
+function calcRSI(closes, period) {
+  let gains = [];
+  let losses = [];
+
+  for (let i = 1; i < closes.length; i++) {
+    let change = closes[i] - closes[i - 1];
+    gains.push(change > 0 ? change : 0);
+    losses.push(change < 0 ? Math.abs(change) : 0);
+  }
+
+  let avgGain = gains.slice(0, period).reduce((a, b) => a + b) / period;
+  let avgLoss = losses.slice(0, period).reduce((a, b) => a + b) / period;
+
+  for (let i = period; i < gains.length; i++) {
+    avgGain = (avgGain * (period - 1) + gains[i]) / period;
+    avgLoss = (avgLoss * (period - 1) + losses[i]) / period;
+  }
+
+  let rs = avgGain / avgLoss;
+  return 100 - (100 / (1 + rs));
+}
+
+// DRT Indicator Functions
+function calcDealingRange(candles, minPoints = 8, maxPoints = 20) {
+  // Look for consolidation zones
+  for (let i = candles.length - 1; i >= minPoints; i--) {
+    let range = candles.slice(i - minPoints, i);
+    let highs = range.map(c => c.high);
+    let lows = range.map(c => c.low);
+    let avgBodySize = range.reduce((sum, c) => sum + Math.abs(c.close - c.open), 0) / range.length;
+    let rangeSize = Math.max(...highs) - Math.min(...lows);
+
+    // Check if range is consolidation (body > 70% of range)
+    if (avgBodySize / rangeSize > 0.7 && rangeSize > 0) {
+      return {
+        start: i - minPoints,
+        end: i,
+        high: Math.max(...highs),
+        low: Math.min(...lows),
+        bodyRatio: avgBodySize / rangeSize,
+        isConsolidation: true
+      };
+    }
+  }
+
+  return null;
+}
+
+function calcDailyBias(candles, timeframe = '1H', lookback = 3) {
+  // Simple bias calculation based on recent price action
+  let recent = candles.slice(-lookback);
+  let closes = recent.map(c => c.close);
+  let opens = recent.map(c => c.open);
+
+  let bullishCount = 0;
+  let bearishCount = 0;
+
+  for (let i = 0; i < closes.length; i++) {
+    if (closes[i] > opens[i]) bullishCount++;
+    else bearishCount++;
+  }
+
+  let bias = bullishCount / lookback;
+
+  return {
+    bullish: bias > 0.6,
+    bearish: (1 - bias) > 0.6,
+    neutral: bias >= 0.4 && bias <= 0.6,
+    strength: bias
+  };
+}
+
+function calcFVG(candles) {
+  let fvgs = [];
+
+  for (let i = 1; i < candles.length - 1; i++) {
+    let prev = candles[i - 1];
+    let current = candles[i];
+    let next = candles[i + 1];
+
+    // Bullish FVG: previous low > current high
+    if (prev.low > current.high && next.close > current.high) {
+      fvgs.push({
+        type: 'bullish',
+        start: i,
+        end: i + 1,
+        high: current.high,
+        low: prev.low,
+        bodyRatio: Math.abs(current.close - current.open) / (prev.low - current.high)
+      });
+    }
+
+    // Bearish FVG: previous high < current low
+    if (prev.high < current.low && next.close < current.low) {
+      fvgs.push({
+        type: 'bearish',
+        start: i,
+        end: i + 1,
+        high: prev.high,
+        low: current.low,
+        bodyRatio: Math.abs(current.close - current.open) / (current.low - prev.high)
+      });
+    }
+  }
+
+  return fvgs;
+}
+
+function calcOrderBlocks(candles, lookback = 5) {
+  let orderBlocks = [];
+
+  for (let i = candles.length - lookback; i < candles.length - 1; i++) {
+    let current = candles[i];
+    let next = candles[i + 1];
+
+    // Look for strong moves followed by reversal
+    let moveStrength = Math.abs(current.close - current.open) / current.open;
+
+    if (moveStrength > 0.002) { // 0.2% move
+      // Bullish order block: bearish rejection after bullish move
+      if (current.close > current.open && next.close < next.open &&
+          next.low < current.close && next.close < current.open) {
+        orderBlocks.push({
+          type: 'bullish',
+          index: i,
+          price: (current.open + current.close) / 2,
+          strength: moveStrength
+        });
+      }
+
+      // Bearish order block: bullish rejection after bearish move
+      if (current.close < current.open && next.close > next.open &&
+          next.high > current.close && next.close > current.open) {
+        orderBlocks.push({
+          type: 'bearish',
+          index: i,
+          price: (current.open + current.close) / 2,
+          strength: moveStrength
+        });
+      }
+    }
+  }
+
+  return orderBlocks;
+}
+
+function calcLiquidityZones(candles, searchRadius = 50, threshold = 0.0005) {
+  let zones = [];
+
+  // Find swing highs and lows as potential liquidity points
+  for (let i = searchRadius; i < candles.length - searchRadius; i++) {
+    let isSwingHigh = true;
+    let isSwingLow = true;
+
+    for (let j = i - searchRadius; j <= i + searchRadius; j++) {
+      if (j !== i) {
+        if (candles[j].high >= candles[i].high) isSwingHigh = false;
+        if (candles[j].low <= candles[i].low) isSwingLow = false;
+      }
+    }
+
+    if (isSwingHigh) {
+      zones.push({
+        type: 'high',
+        index: i,
+        price: candles[i].high,
+        strength: 'strong'
+      });
+    }
+
+    if (isSwingLow) {
+      zones.push({
+        type: 'low',
+        index: i,
+        price: candles[i].low,
+        strength: 'strong'
+      });
+    }
+  }
+
+  return zones;
+}
+
+function calcATR(candles, period = 14) {
+  let tr = [];
+
+  for (let i = 1; i < candles.length; i++) {
+    let highLow = candles[i].high - candles[i].low;
+    let highClose = Math.abs(candles[i].high - candles[i - 1].close);
+    let lowClose = Math.abs(candles[i].low - candles[i - 1].close);
+
+    tr.push(Math.max(highLow, highClose, lowClose));
+  }
+
+  let atr = tr.slice(0, period).reduce((a, b) => a + b) / period;
+
+  for (let i = period; i < tr.length; i++) {
+    atr = (atr * (period - 1) + tr[i]) / period;
+  }
+
+  return atr;
+}
+
+// DRT Safety Check Function
+function runDRTRules(price, dealingRange, dailyBias, fvgs, orderBlocks, liquidityZones, atr, rules) {
+  const results = [];
+  let allPass = true;
+
+  // Check 1: Dealing Range Presence
+  const drCondition = {
+    label: "Dealing Range Found",
+    pass: dealingRange !== null,
+    value: dealingRange ? "Yes" : "No",
+    threshold: rules.indicators.drt_indicators.dealing_range.enabled
+  };
+  results.push(drCondition);
+  if (!drCondition.pass) allPass = false;
+
+  // Check 2: Daily Bias Alignment
+  const biasCondition = {
+    label: "Daily Bias Alignment",
+    pass: dailyBias.bullish || dailyBias.bearish,
+    value: dailyBias.bullish ? "Bullish" : dailyBias.bearish ? "Bearish" : "Neutral",
+    threshold: rules.indicators.drt_indicators.daily_bias.threshold
+  };
+  results.push(biasCondition);
+  if (!biasCondition.pass) allPass = false;
+
+  // Check 3: Liquidity Presence
+  let hasLiquidityBelow = false;
+  let hasLiquidityAbove = false;
+
+  liquidityZones.forEach(zone => {
+    if (zone.type === 'low' && zone.price < price) hasLiquidityBelow = true;
+    if (zone.type === 'high' && zone.price > price) hasLiquidityAbove = true;
+  });
+
+  const liquidityCondition = {
+    label: "Liquidity Presence",
+    pass: (dailyBias.bullish && hasLiquidityBelow) || (dailyBias.bearish && hasLiquidityAbove),
+    value: dailyBias.bullish ? "Below" : "Above",
+    threshold: rules.indicators.drt_indicators.liquidity_zones.enabled
+  };
+  results.push(liquidityCondition);
+  if (!liquidityCondition.pass) allPass = false;
+
+  // Check 4: FVG Presence
+  const hasRelevantFVG = fvgs.some(fvg =>
+    (dailyBias.bullish && fvg.type === 'bullish') ||
+    (dailyBias.bearish && fvg.type === 'bearish')
+  );
+
+  const fvgCondition = {
+    label: "FVG Present",
+    pass: hasRelevantFVG,
+    value: hasRelevantFVG ? "Yes" : "No",
+    threshold: rules.indicators.ict_indicators.fvg.enabled
+  };
+  results.push(fvgCondition);
+  if (!fvgCondition.pass) allPass = false;
+
+  // Check 5: PO3 Confluence
+  let po3Score = 0;
+  let po3Max = 3;
+
+  // Order Block Rejection
+  const relevantOB = orderBlocks.filter(ob =>
+    (dailyBias.bullish && ob.type === 'bullish') ||
+    (dailyBias.bearish && ob.type === 'bearish')
+  );
+  if (relevantOB.length > 0) po3Score++;
+
+  // FVG Fill
+  if (fvgs.length > 0) po3Score++;
+
+  // Liquidity Sweep
+  if ((dailyBias.bullish && hasLiquidityBelow) || (dailyBias.bearish && hasLiquidityAbove)) po3Score++;
+
+  const po3Condition = {
+    label: "PO3 Confluence",
+    pass: po3Score >= rules.indicators.power_of_3.confirmation.required,
+    value: `${po3Score}/${po3Max}`,
+    threshold: rules.indicators.power_of_3.confirmation.required
+  };
+  results.push(po3Condition);
+  if (!po3Condition.pass) allPass = false;
+
+  // Check 6: Time Filter (using UTC-4)
+  const now = new Date();
+  const utcTime = now.getTime() + (now.getTimezoneOffset() * 60000);
+  const utc4Time = new Date(utcTime - (4 * 3600000));
+  const currentHour = utc4Time.getUTCHours();
+  const timeCondition = {
+    label: "Session Hours",
+    pass: currentHour >= 8 && currentHour <= 17,
+    value: `${currentHour}:00`,
+    threshold: "08:00-17:00"
+  };
+  results.push(timeCondition);
+  if (!timeCondition.pass) allPass = false;
+
+  // Check 7: Risk Management
+  const maxPositionSize = rules.strategy.risk_management.max_position_size;
+  const riskPerTrade = rules.strategy.risk_management.risk_per_trade;
+  const stopLossMultiplier = rules.strategy.risk_management.stop_loss_atr_multiplier;
+
+  const stopLossPrice = dailyBias.bullish ?
+    price - (atr * stopLossMultiplier) :
+    price + (atr * stopLossMultiplier);
+
+  const priceDistanceToStop = Math.abs(price - stopLossPrice) / price;
+  const riskCondition = {
+    label: "Risk Management",
+    pass: priceDistanceToStop >= riskPerTrade,
+    value: `${(priceDistanceToStop * 100).toFixed(2)}%`,
+    threshold: `${(riskPerTrade * 100).toFixed(2)}%`
+  };
+  results.push(riskCondition);
+  if (!riskCondition.pass) allPass = false;
+
+  return { results, allPass };
+}
+
+// ICT-Only Safety Check Function
+function runICTRules(price, dealingRange, dailyBias, fvgs, orderBlocks, liquidityZones, atr, rules) {
+  const results = [];
+  let allPass = true;
+
+  // Check 1: Dealing Range Presence
+  const drCondition = {
+    label: "Dealing Range Found",
+    pass: dealingRange !== null,
+    value: dealingRange ? "Yes" : "No",
+    threshold: rules.indicators.drt_indicators.dealing_range.enabled
+  };
+  results.push(drCondition);
+  if (!drCondition.pass) allPass = false;
+
+  // Check 2: Daily Bias Alignment
+  const biasCondition = {
+    label: "Daily Bias Alignment",
+    pass: dailyBias.bullish || dailyBias.bearish,
+    value: dailyBias.bullish ? "Bullish" : dailyBias.bearish ? "Bearish" : "Neutral",
+    threshold: rules.indicators.drt_indicators.daily_bias.threshold
+  };
+  results.push(biasCondition);
+  if (!biasCondition.pass) allPass = false;
+
+  // Check 3: Market Structure (Swing High/Low)
+  const swingCondition = {
+    label: "Market Structure",
+    pass: true, // Always pass for ICT-only mode
+    value: "Active",
+    threshold: "Enabled"
+  };
+  results.push(swingCondition);
+
+  // Check 4: FVG Presence
+  const hasRelevantFVG = fvgs.some(fvg =>
+    (dailyBias.bullish && fvg.type === 'bullish') ||
+    (dailyBias.bearish && fvg.type === 'bearish')
+  );
+
+  const fvgCondition = {
+    label: "FVG Present",
+    pass: hasRelevantFVG,
+    value: hasRelevantFVG ? "Yes" : "No",
+    threshold: rules.indicators.ict_indicators.fvg.enabled
+  };
+  results.push(fvgCondition);
+  if (!fvgCondition.pass) allPass = false;
+
+  // Check 5: Order Block Presence
+  const relevantOB = orderBlocks.filter(ob =>
+    (dailyBias.bullish && ob.type === 'bullish') ||
+    (dailyBias.bearish && ob.type === 'bearish')
+  );
+
+  const obCondition = {
+    label: "Order Block Present",
+    pass: relevantOB.length > 0,
+    value: relevantOB.length > 0 ? "Yes" : "No",
+    threshold: rules.indicators.ict_indicators.order_block.enabled
+  };
+  results.push(obCondition);
+  if (!obCondition.pass) allPass = false;
+
+  // Check 6: Imbalance Area
+  const hasImbalance = fvgs.length > 0; // FVGs indicate imbalance
+
+  const imbalanceCondition = {
+    label: "Imbalance Present",
+    pass: hasImbalance,
+    value: hasImbalance ? "Yes" : "No",
+    threshold: rules.indicators.ict_indicators.imbalance.enabled
+  };
+  results.push(imbalanceCondition);
+  if (!imbalanceCondition.pass) allPass = false;
+
+  // Check 7: Liquidity Presence
+  let hasLiquidityBelow = false;
+  let hasLiquidityAbove = false;
+
+  liquidityZones.forEach(zone => {
+    if (zone.type === 'low' && zone.price < price) hasLiquidityBelow = true;
+    if (zone.type === 'high' && zone.price > price) hasLiquidityAbove = true;
+  });
+
+  const liquidityCondition = {
+    label: "Liquidity Presence",
+    pass: (dailyBias.bullish && hasLiquidityBelow) || (dailyBias.bearish && hasLiquidityAbove),
+    value: dailyBias.bullish ? "Below" : "Above",
+    threshold: rules.indicators.drt_indicators.liquidity_zones.enabled
+  };
+  results.push(liquidityCondition);
+  if (!liquidityCondition.pass) allPass = false;
+
+  // Check 8: Time Filter
+  const now = new Date();
+  const utcTime = now.getTime() + (now.getTimezoneOffset() * 60000);
+  const utc4Time = new Date(utcTime - (4 * 3600000));
+  const currentHour = utc4Time.getUTCHours();
+  const timeCondition = {
+    label: "Session Hours",
+    pass: currentHour >= 8 && currentHour <= 17,
+    value: `${currentHour}:00`,
+    threshold: "08:00-17:00"
+  };
+  results.push(timeCondition);
+  if (!timeCondition.pass) allPass = false;
+
+  // Check 9: Risk Management
+  const maxPositionSize = rules.strategy.risk_management.max_position_size;
+  const riskPerTrade = rules.strategy.risk_management.risk_per_trade;
+  const stopLossMultiplier = rules.strategy.risk_management.stop_loss_atr_multiplier;
+
+  const stopLossPrice = dailyBias.bullish ?
+    price - (atr * stopLossMultiplier) :
+    price + (atr * stopLossMultiplier);
+
+  const priceDistanceToStop = Math.abs(price - stopLossPrice) / price;
+  const riskCondition = {
+    label: "Risk Management",
+    pass: priceDistanceToStop >= riskPerTrade,
+    value: `${(priceDistanceToStop * 100).toFixed(2)}%`,
+    threshold: `${(riskPerTrade * 100).toFixed(2)}%`
+  };
+  results.push(riskCondition);
+  if (!riskCondition.pass) allPass = false;
+
+  return { results, allPass };
+}
+
 // ─── Onboarding ───────────────────────────────────────────────────────────────
 
 function checkOnboarding() {
@@ -88,12 +568,129 @@ const CONFIG = {
 };
 
 const LOG_FILE = "safety-check-log.json";
+const OPEN_TRADES_FILE = "open-trades.json";
 
 // ─── Logging ────────────────────────────────────────────────────────────────
 
 function loadLog() {
   if (!existsSync(LOG_FILE)) return { trades: [] };
   return JSON.parse(readFileSync(LOG_FILE, "utf8"));
+}
+
+function loadOpenTrades() {
+  if (!existsSync(OPEN_TRADES_FILE)) return {};
+  return JSON.parse(readFileSync(OPEN_TRADES_FILE, "utf8"));
+}
+
+function saveOpenTrades(openTrades) {
+  writeFileSync(OPEN_TRADES_FILE, JSON.stringify(openTrades, null, 2));
+}
+
+function trackOpenTrade(logEntry) {
+  const openTrades = loadOpenTrades();
+  const tradeId = logEntry.orderId || `PAPER-${Date.now()}`;
+
+  openTrades[tradeId] = {
+    id: tradeId,
+    symbol: logEntry.symbol,
+    side: logEntry.paperTrading ? "PAPER" : "LIVE",
+    entryPrice: logEntry.price,
+    entryTime: logEntry.timestamp,
+    quantity: logEntry.tradeSize / logEntry.price,
+    sizeUSD: logEntry.tradeSize,
+    status: "OPEN",
+    profit: 0,
+    fees: logEntry.tradeSize * 0.001
+  };
+
+  saveOpenTrades(openTrades);
+  console.log(`📊 Open trade tracked: ${tradeId}`);
+}
+
+function checkTradeClosures() {
+  const openTrades = loadOpenTrades();
+
+  // For demo purposes, let's simulate some trade closures
+  // In a real implementation, you'd have exit logic based on:
+  // - Stop loss hit
+  // - Take profit hit
+  // - Manual close
+  // - Time-based exit
+
+  Object.keys(openTrades).forEach(tradeId => {
+    const trade = openTrades[tradeId];
+
+    // Simulate trade closure after 24 hours for demo
+    const entryTime = new Date(trade.entryTime);
+    const now = new Date();
+    const hoursElapsed = (now - entryTime) / (1000 * 60 * 60);
+
+    if (hoursElapsed > 24 && trade.status === "OPEN") {
+      // Simulate random exit price
+      const priceChange = (Math.random() - 0.5) * 0.02; // ±1% movement
+      const exitPrice = trade.entryPrice * (1 + priceChange);
+
+      // Calculate P&L
+      const grossProfit = (exitPrice - trade.entryPrice) * trade.quantity;
+      const netProfit = grossProfit - trade.fees;
+
+      trade.exitPrice = exitPrice;
+      trade.exitTime = now.toISOString();
+      trade.status = "CLOSED";
+      trade.profit = netProfit;
+
+      // Update CSV with closed trade
+      updateClosedTrade(trade);
+
+      console.log(`📈 Trade closed: ${tradeId} | P&L: $${netProfit.toFixed(2)}`);
+    }
+  });
+
+  // Remove closed trades from open trades file
+  const updatedOpenTrades = {};
+  Object.keys(openTrades).forEach(tradeId => {
+    if (openTrades[tradeId].status === "OPEN") {
+      updatedOpenTrades[tradeId] = openTrades[tradeId];
+    }
+  });
+  saveOpenTrades(updatedOpenTrades);
+}
+
+function updateClosedTrade(trade) {
+  const now = new Date(trade.exitTime);
+
+  // Convert to UTC-4 timezone
+  const utcTime = now.getTime() + (now.getTimezoneOffset() * 60000);
+  const utc4Time = new Date(utcTime - (4 * 3600000));
+
+  const date = utc4Time.toISOString().slice(0, 10);
+  const time = utc4Time.toISOString().slice(11, 19);
+
+  const entryDate = new Date(trade.entryTime);
+  const utcEntryTime = entryDate.getTime() + (entryDate.getTimezoneOffset() * 60000);
+  const utc4EntryTime = new Date(utcEntryTime - (4 * 3600000));
+
+  const duration = Math.round((now - entryDate) / (1000 * 60)); // Duration in minutes
+
+  const row = [
+    date,
+    time,
+    "BitGet",
+    trade.symbol,
+    "BUY", // Assuming long positions for demo
+    trade.quantity.toFixed(6),
+    trade.entryPrice.toFixed(2),
+    trade.exitPrice.toFixed(2),
+    trade.sizeUSD.toFixed(2),
+    trade.fees.toFixed(4),
+    trade.profit.toFixed(2),
+    trade.id,
+    trade.side,
+    `${duration}m`,
+    `Closed: P&L $${trade.profit.toFixed(2)}`
+  ].join(",");
+
+  appendFileSync(CSV_FILE, row + "\n");
 }
 
 function saveLog(log) {
@@ -249,29 +846,37 @@ const CSV_HEADERS = [
   "Symbol",
   "Side",
   "Quantity",
-  "Price",
-  "Total USD",
-  "Fee (est.)",
-  "Net Amount",
-  "Order ID",
+  "Entry_Price",
+  "Exit_Price",
+  "Total_USD",
+  "Fee",
+  "Net_Profit",
+  "Order_ID",
   "Mode",
-  "profit",
-  "loss"
-  "Notes",
+  "Duration",
+  "Notes"
 ].join(",");
 
 function writeTradeCsv(logEntry) {
   const now = new Date(logEntry.timestamp);
-  const date = now.toISOString().slice(0, 10);
-  const time = now.toISOString().slice(11, 19);
+
+  // Convert to UTC-4 timezone
+  const utcTime = now.getTime() + (now.getTimezoneOffset() * 60000);
+  const utc4Time = new Date(utcTime - (4 * 3600000)); // Subtract 4 hours for UTC-4
+
+  const date = utc4Time.toISOString().slice(0, 10);
+  const time = utc4Time.toISOString().slice(11, 19);
 
   let side = "";
   let quantity = "";
+  let entryPrice = "";
+  let exitPrice = "";
   let totalUSD = "";
   let fee = "";
-  let netAmount = "";
+  let netProfit = "";
   let orderId = "";
   let mode = "";
+  let duration = "";
   let notes = "";
 
   if (!logEntry.allPass) {
@@ -282,24 +887,37 @@ function writeTradeCsv(logEntry) {
     mode = "BLOCKED";
     orderId = "BLOCKED";
     notes = `Failed: ${failed}`;
+    // For blocked trades, fill with placeholder values
+    entryPrice = "";
+    exitPrice = "";
+    totalUSD = "";
+    fee = "";
+    netProfit = "";
+    duration = "";
   } else if (logEntry.paperTrading) {
     side = "BUY";
     quantity = (logEntry.tradeSize / logEntry.price).toFixed(6);
+    entryPrice = logEntry.price.toFixed(2);
+    exitPrice = ""; // Not closed yet
     totalUSD = logEntry.tradeSize.toFixed(2);
     fee = (logEntry.tradeSize * 0.001).toFixed(4);
-    netAmount = (logEntry.tradeSize - parseFloat(fee)).toFixed(2);
+    netProfit = "0.00"; // Not closed yet
     orderId = logEntry.orderId || "";
     mode = "PAPER";
-    notes = "All conditions met";
+    notes = "All conditions met - Open trade";
+    duration = "";
   } else {
     side = "BUY";
     quantity = (logEntry.tradeSize / logEntry.price).toFixed(6);
+    entryPrice = logEntry.price.toFixed(2);
+    exitPrice = ""; // Not closed yet
     totalUSD = logEntry.tradeSize.toFixed(2);
     fee = (logEntry.tradeSize * 0.001).toFixed(4);
-    netAmount = (logEntry.tradeSize - parseFloat(fee)).toFixed(2);
+    netProfit = "0.00"; // Not closed yet
     orderId = logEntry.orderId || "";
     mode = "LIVE";
-    notes = logEntry.error ? `Error: ${logEntry.error}` : "All conditions met";
+    notes = logEntry.error ? `Error: ${logEntry.error}` : "All conditions met - Open trade";
+    duration = "";
   }
 
   const row = [
@@ -309,13 +927,15 @@ function writeTradeCsv(logEntry) {
     logEntry.symbol,
     side,
     quantity,
-    logEntry.price.toFixed(2),
+    entryPrice,
+    exitPrice,
     totalUSD,
     fee,
-    netAmount,
+    netProfit,
     orderId,
     mode,
-    `"${notes}"`,
+    duration,
+    `"${notes}"`
   ].join(",");
 
   if (!existsSync(CSV_FILE)) {
@@ -387,22 +1007,47 @@ async function run() {
   const price = closes[closes.length - 1];
   console.log(`  Current price: $${price.toFixed(2)}`);
 
-  // Calculate indicators
-  const ema8 = calcEMA(closes, 8);
-  const vwap = calcVWAP(candles);
-  const rsi3 = calcRSI(closes, 3);
+  // Calculate indicators based on configuration
+  const ema8 = rules.indicators.ema.enabled ? calcEMA(closes, 8) : null;
+  const vwap = rules.indicators.vwap.enabled ? calcVWAP(candles) : null;
+  const rsi3 = rules.indicators.rsi.enabled ? calcRSI(closes, 3) : null;
 
-  console.log(`  EMA(8):  $${ema8.toFixed(2)}`);
-  console.log(`  VWAP:    $${vwap ? vwap.toFixed(2) : "N/A"}`);
-  console.log(`  RSI(3):  ${rsi3 ? rsi3.toFixed(2) : "N/A"}`);
+  if (rules.indicators.ema.enabled) {
+    console.log(`  EMA(8):  $${ema8.toFixed(2)}`);
+  }
+  if (rules.indicators.vwap.enabled) {
+    console.log(`  VWAP:    $${vwap ? vwap.toFixed(2) : "N/A"}`);
+  }
+  if (rules.indicators.rsi.enabled) {
+    console.log(`  RSI(3):  ${rsi3 ? rsi3.toFixed(2) : "N/A"}`);
+  }
 
-  if (!vwap || !rsi3) {
-    console.log("\n⚠️  Not enough data to calculate indicators. Exiting.");
+  // Check if required indicators are available
+  if (rules.indicators.vwap.enabled && !vwap) {
+    console.log("\n⚠️  VWAP calculation failed. Exiting.");
+    return;
+  }
+  if (rules.indicators.rsi.enabled && !rsi3) {
+    console.log("\n⚠️  RSI calculation failed. Exiting.");
     return;
   }
 
-  // Run safety check
-  const { results, allPass } = runSafetyCheck(price, ema8, vwap, rsi3, rules);
+  // Calculate DRT indicators
+  const dealingRange = calcDealingRange(candles);
+  const dailyBias = calcDailyBias(candles);
+  const fvgs = calcFVG(candles);
+  const orderBlocks = calcOrderBlocks(candles);
+  const liquidityZones = calcLiquidityZones(candles);
+  const atr = calcATR(candles);
+
+  console.log(`  Dealing Range: ${dealingRange ? 'Found' : 'None'}`);
+  console.log(`  Daily Bias: ${dailyBias.bullish ? 'Bullish' : dailyBias.bearish ? 'Bearish' : 'Neutral'} (${dailyBias.strength.toFixed(2)})`);
+  console.log(`  FVGs: ${fvgs.length} found`);
+  console.log(`  Order Blocks: ${orderBlocks.length} found`);
+  console.log(`  ATR: ${atr.toFixed(4)}`);
+
+  // Run ICT-only safety check
+  const { results, allPass } = runICTRules(price, dealingRange, dailyBias, fvgs, orderBlocks, liquidityZones, atr, rules);
 
   // Calculate position size
   const tradeSize = Math.min(
@@ -473,8 +1118,16 @@ async function run() {
   saveLog(log);
   console.log(`\nDecision log saved → ${LOG_FILE}`);
 
+  // Track open trades for P&L calculation
+  if (logEntry.allPass && (logEntry.paperTrading || logEntry.orderPlaced)) {
+    trackOpenTrade(logEntry);
+  }
+
   // Write tax CSV row for every run (executed, paper, or blocked)
   writeTradeCsv(logEntry);
+
+  // Check for trade closures
+  checkTradeClosures();
 
   console.log("═══════════════════════════════════════════════════════════\n");
 }
