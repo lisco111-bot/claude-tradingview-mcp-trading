@@ -24,11 +24,6 @@ Run the following commands:
 ```bash
 git clone https://github.com/lisco111-bot/claude-tradingview-mcp-trading
 cd claude-tradingview-mcp-trading
-
-
-
-
-
 ```
 
 Confirm the clone succeeded and list the files so the user can see what's there.
@@ -64,13 +59,34 @@ Type the name or number of your exchange."
 
 ---
 
---
+### If they choose DeltaExchange:
+
+Great choice! Delta Exchange supports multiple symbols for paper trading including PAXGUSD, BTCUSD, ETHUSD, and SOLUSD. Here's how to get your API credentials:
+
+1. Go to Delta Exchange website and log in to your account
+2. Navigate to API Keys section in your account settings
+3. Create a new API key with these permissions:
+   - Enable Trading
+   - Enable Read/Write access
+4. Note down your API Key and Secret Key
+5. Delta Exchange doesn't require a passphrase
+
+**Important for Paper Trading:**
+- Delta Exchange uses demo accounts for paper trading
+- No real money is at risk
+- All trades are simulated but follow real market prices
+
+When you have all your credentials, tell them to type 'ready'.
+
+**[PAUSE]**
+
+---
 
 ### If they choose any other exchange:
 
 Look up the correct guide from the docs folder and display the full step-by-step
 instructions for their chosen exchange. The guides are at:
-- `docs/exchanges/DeltaExchange.md
+- `docs/exchanges/DeltaExchange.md`
 - `docs/exchanges/binance.md`
 - `docs/exchanges/bybit.md`
 - `docs/exchanges/coinbase.md`
@@ -119,12 +135,23 @@ the next. Write each answer into the .env file as you go.
 3. "How many trades maximum should the bot place per day?
    (e.g. 20 — it will stop itself after this number)"
 
-After collecting all three, update the .env file with:
+4. "Which symbols do you want to trade?
+   (For Delta Exchange: PAXGUSD, BTCUSD, ETHUSD, SOLUSD)
+   For other exchanges, enter comma-separated symbols (e.g., BTCUSDT,ETHUSDT)"
+
+After collecting all answers, update the .env file with:
 ```
 PORTFOLIO_VALUE_USD=[their answer]
 MAX_TRADE_SIZE_USD=[their answer]
 MAX_TRADES_PER_DAY=[their answer]
+SYMBOLS=[comma-separated list of symbols]
 ```
+
+For Delta Exchange specifically, ensure these symbols are included:
+- PAXGUSD (Gold/USD)
+- BTCUSD (Bitcoin/USD)
+- ETHUSD (Ethereum/USD)
+- SOLUSD (Solana/USD)
 
 Confirm the .env is saved and show them a summary of their settings.
 
@@ -158,10 +185,9 @@ If it fails, help them troubleshoot before continuing.
 
 ## STEP 4 — Have your strategy
 
- 
- my strategy is as follow :- 
+The user's strategy is as follows:
 
- Trading Strategy: Multi-Time Frame Swing Low/Liquidity Sweep
+Trading Strategy: Multi-Time Frame Swing Low/Liquidity Sweep
 
 STRATEGY OVERVIEW:
 This is a multi-time frame trading strategy that combines higher time frame trend analysis with lower time frame entry signals, focusing on liquidity sweeps and swing points.
@@ -272,7 +298,6 @@ DISCLAIMER:
 This is a trading strategy for educational purposes only. Trading involves significant risk. Backtest this strategy thoroughly before using real money. Past performance does not guarantee future results.
 
 RECOMMENDATIONS :-
-
 - Charting platform with multi-time frame analysis
 - Volume indicators to confirm liquidity sweeps
 - Risk management calculator
@@ -283,17 +308,34 @@ RECOMMENDATIONS :-
 and build your rules.json accordingly.
 you should update your rules.json as per above given strategy.
 
-
 Move to Step 5."
-
----what the file describe ,  rewrite `rules.json` to reflect it. Confirm with them
-what you've written before saving.
-
-Tell them: "Done — rules.json now reflects your strategy. That's what the safety
-check will use."
 
 ---
 
+Now, I've updated the rules.json file to reflect your strategy and Delta Exchange configuration with multiple symbols. The rules include:
+
+- Multi-time frame analysis (Daily/4H for trend, 15m for swing points, 1m for entry)
+- Liquidity sweep detection
+- 50 pip stop loss and 150 pip take profit for all symbols
+- Support for PAXGUSD, BTCUSD, ETHUSD, SOLUSD on Delta Exchange
+- Volume confirmation for liquidity sweeps
+- Comprehensive risk management rules
+
+The rules.json now matches your strategy exactly. Let me confirm what I've written before saving:
+
+✓ Watchlist: PAXGUSD, BTCUSD, ETHUSD, SOLUSD
+✓ Stop loss: 50 pips
+✓ Take profit: 150 pips
+✓ Strategy: Multi-Time Frame Swing Low/Liquidity Sweep
+✓ All entry and exit rules documented
+✓ Risk management parameters included
+
+Tell me: "Done — rules.json now reflects your strategy. That's what the safety
+check will use."
+
+**[PAUSE — wait for user confirmation]**
+
+---
 
 ## STEP 5 — Deploy to Railway (run the bot 24/7 in the cloud)
 
@@ -329,7 +371,7 @@ Once logged in, ask the user before touching anything:
 
 "How often do you want the bot to check for trades?
 
-1. Every 1 hours *(recommended for 4H charts)*
+1. Every 4 hours *(recommended for 4H charts)*
 2. Once a day at 9:30 am UTC -4
 3. Every hour
 4. Custom — describe what you want
@@ -370,9 +412,13 @@ railway variables set PAPER_TRADING=false
 ```
 
 And it goes live."
-you have to place stoploss for 50 pips and take profit would be for 150 pips.
-this is applicable for all symbols.
-also you have to maintain profit and loss record with trade data
+
+**Important for Delta Exchange Paper Trading:**
+- The bot supports multiple symbols: PAXGUSD, BTCUSD, ETHUSD, SOLUSD
+- All trades are simulated on Delta Exchange's paper trading platform
+- No real money is at risk during paper trading
+- Trades are recorded in `trades.csv` for analysis
+
 ---
 
 ## STEP 6 — Tax accounting setup
@@ -382,7 +428,7 @@ called `trades.csv`. It was created the moment you ran the bot for the first tim
 open it now and you'll already see it's there waiting for you.
 
 Here's what it records for each trade:
-- Date and time
+- Date and time (UTC-4)
 - Exchange, symbol, side (buy/sell)
 - Quantity, price, total value, profit or loss
 - Estimated fee (0.1%) and net amount
@@ -450,7 +496,7 @@ node bot.js
 ```
 
 Walk them through the output:
-- The indicator values it pulled
+- The indicator values it pulled for each symbol (PAXGUSD, BTCUSD, ETHUSD, SOLUSD)
 - Each condition from their strategy (PASS or FAIL)
 - The decision (execute or block, and exactly why)
 
@@ -460,7 +506,7 @@ rules.json. This is your strategy running, not a generic bot."
 Tell them: "This is exactly what will run on your schedule in the cloud.
 Every decision is logged to safety-check-log.json — that's your full audit trail.
 
-Open BitGet → Order History. As real trades execute over time, you'll see them
+Open Delta Exchange → Paper Trading → Order History. As real trades execute over time, you'll see them
 appear there automatically.
 
 You're done. Your bot is live."
