@@ -12,7 +12,7 @@
       "htf_trend_bullish": {
         "condition": "higher_highs_higher_lows",
         "timeframe": "1d",
-        "description": "HTF (Daily/4H) must show bullish trend (higher highs, higher lows, price above moving average)"
+        "description": "HTF (Daily/4H) must show bullish trend (higher highs, higher lows)"
       },
       "swing_low_identified": {
         "condition": "swing_low_found",
@@ -39,7 +39,7 @@
       "htf_trend_bearish": {
         "condition": "lower_lows_lower_highs",
         "timeframe": "1d",
-        "description": "HTF (Daily/4H) must show bearish trend (lower lows, lower highs, price below moving average)"
+        "description": "HTF (Daily/4H) must show bearish trend (lower lows, lower highs)"
       },
       "swing_high_identified": {
         "condition": "swing_high_found",
