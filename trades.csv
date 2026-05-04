@@ -1,3 +1,4 @@
 Date,Time (UTC),Exchange,Symbol,Side,Quantity,Price,Total USD,Fee (est.),Net Amount,Order ID,Mode,Notes, profit , loss
 ,,,,,,,,,,,"NOTE","Hey, if you're at this stage of the video, you must be enjoying it... perhaps you could hit subscribe now? :)"
-2026-05-03,15:28:38,BitGet,BTCUSDT,BUY,0.000127,78755.26,10.00,0.0100,9.99,PAPER-1777822118833,PAPER,"All conditions met"
+2026-05-03,15:28:38,BitGet,BTCUSDT,BUY,0.000127,78755.26,10.00,0.0100,9.99,PAPER-1777822118833,PAPER,"All conditions met"2026-05-04,15:12:37,BitGet,BTCUSDT,BUY,0.000125,80043.76,10.00,0.0100,9.99,PAPER-1777907557066,PAPER,"All conditions met"
+2026-05-04,16:37:16,BitGet,BTCUSDT,BUY,0.000196,50912.53,10.00,0.0100,9.99,PAPER-1777912636118,PAPER,"All conditions met"

@@ -28,6 +28,64 @@
         "maxTradesPerDay": 20,
         "tradesToday": 0
       }
+    },
+    {
+      "timestamp": "2026-05-04T15:12:37.066Z",
+      "symbol": "BTCUSDT",
+      "timeframe": "15M",
+      "price": 80043.76,
+      "indicators": {},
+      "conditions": [
+        {
+          "label": "Price valid",
+          "pass": true,
+          "value": "Price: $80043.76"
+        },
+        {
+          "label": "HTF Bullish Trend",
+          "pass": true,
+          "value": "Trend analysis based on price action"
+        }
+      ],
+      "allPass": true,
+      "tradeSize": 10,
+      "orderPlaced": true,
+      "orderId": "PAPER-1777907557066",
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 1000,
+        "maxTradesPerDay": 20,
+        "tradesToday": 0
+      }
+    },
+    {
+      "timestamp": "2026-05-04T16:37:16.118Z",
+      "symbol": "BTCUSDT",
+      "timeframe": "15M",
+      "price": 50912.52669118647,
+      "indicators": {},
+      "conditions": [
+        {
+          "label": "Price valid",
+          "pass": true,
+          "value": "Price: $50912.53"
+        },
+        {
+          "label": "HTF Bullish Trend",
+          "pass": true,
+          "value": "Trend analysis based on price action"
+        }
+      ],
+      "allPass": true,
+      "tradeSize": 10,
+      "orderPlaced": true,
+      "orderId": "PAPER-1777912636118",
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 1000,
+        "maxTradesPerDay": 20,
+        "tradesToday": 1
+      }
     }
   ]
 }
