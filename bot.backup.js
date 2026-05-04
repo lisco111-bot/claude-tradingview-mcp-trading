@@ -83,7 +83,7 @@ const CONFIG = {
     apiKey: process.env.BINANCE_API_KEY,
     secretKey: process.env.BINANCE_SECRET_KEY,
     passphrase: process.env.BINANCE_PASSPHRASE,
-    baseUrl: process.env.BINANCE_BASE_URL || "https://api.binance.us",
+    baseUrl: process.env.BINANCE_BASE_URL || "https://api.binance.com",
   },
 };
 
