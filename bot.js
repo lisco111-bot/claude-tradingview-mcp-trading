@@ -178,6 +178,22 @@ const CONFIG = {
       baseUrl: process.env.BITGET_BASE_URL || "https://api.bitget.com",
     },
   },
+  // Alternative data sources
+  dataSources: {
+    binance: {
+      enabled: process.env.DISABLE_BINANCE !== "true",
+      endpoints: [
+        "https://api.binance.com",
+        "https://api1.binance.com",
+        "https://api2.binance.com",
+        "https://api3.binance.com"
+      ]
+    },
+    coinbase: {
+      enabled: process.env.PREFER_COINBASE === "true" || process.env.DISABLE_BINANCE === "true",
+      baseUrl: "https://api.pro.coinbase.com"
+    }
+  },
 };
 
 const LOG_FILE = "safety-check-log.json";
@@ -217,19 +233,74 @@ async function fetchCandles(symbol, interval, limit = 100) {
   };
   const binanceInterval = intervalMap[interval] || "1m";
 
-  const url = `https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=${binanceInterval}&limit=${limit}`;
-  const res = await fetch(url);
-  if (!res.ok) throw new Error(`Binance API error: ${res.status}`);
-  const data = await res.json();
+  // Try using different Binance API endpoints first
+  if (CONFIG.dataSources.binance.enabled) {
+    const endpoints = CONFIG.dataSources.binance.endpoints.map(base =>
+      `${base}/api/v3/klines?symbol=${symbol}&interval=${binanceInterval}&limit=${limit}`
+    );
 
-  return data.map((k) => ({
-    time: k[0],
-    open: parseFloat(k[1]),
-    high: parseFloat(k[2]),
-    low: parseFloat(k[3]),
-    close: parseFloat(k[4]),
-    volume: parseFloat(k[5]),
-  }));
+    let lastError;
+
+    for (const url of endpoints) {
+      try {
+        console.log("🔄 Trying Binance endpoint...");
+        const res = await fetch(url);
+        if (res.ok) {
+          const data = await res.json();
+          console.log("✅ Successfully fetched data from Binance");
+          return data.map((k) => ({
+            time: k[0],
+            open: parseFloat(k[1]),
+            high: parseFloat(k[2]),
+            low: parseFloat(k[3]),
+            close: parseFloat(k[4]),
+            volume: parseFloat(k[5]),
+          }));
+        } else {
+          lastError = `Binance API error: ${res.status} - ${res.statusText}`;
+          if (res.status === 451) {
+            console.log("⚠️  Binance API unavailable in your region. Trying alternative endpoint...");
+          } else {
+            console.log(`⚠️  Binance API returned status: ${res.status}`);
+          }
+        }
+      } catch (error) {
+        lastError = error.message;
+        console.log(`⚠️  Error connecting to Binance: ${error.message}`);
+      }
+    }
+  }
+
+  // If Binance fails, try Coinbase as fallback
+  if (CONFIG.dataSources.coinbase.enabled) {
+    try {
+      console.log("🔄 Trying Coinbase as fallback...");
+      const coinbaseInterval = intervalMap[interval] || "3600"; // Coinbase uses seconds
+      const url = `${CONFIG.dataSources.coinbase.baseUrl}/products/${symbol.toLowerCase()}/candles?granularity=${coinbaseInterval}&limit=${limit}`;
+
+      const res = await fetch(url);
+      if (res.ok) {
+        const data = await res.json();
+        console.log("✅ Successfully fetched data from Coinbase");
+        // Coinbase format: [timestamp, low, high, open, close, volume]
+        return data.map((k) => ({
+          time: k[0],
+          open: parseFloat(k[3]),
+          high: parseFloat(k[2]),
+          low: parseFloat(k[1]),
+          close: parseFloat(k[4]),
+          volume: parseFloat(k[5]),
+        }));
+      } else {
+        console.log(`⚠️  Coinbase API returned status: ${res.status}`);
+        throw new Error(`Coinbase API error: ${res.status}`);
+      }
+    } catch (error) {
+      console.log(`⚠️  Error connecting to Coinbase: ${error.message}`);
+    }
+  }
+
+  throw new Error("All data sources failed. Binance error: " + (lastError || "Unknown error"));
 }
 
 // ─── Trade Limits ────────────────────────────────────────────────────────────
@@ -534,6 +605,24 @@ function runSafetyCheck(price, rules) {
 async function run() {
   checkOnboarding();
   initCsv();
+
+  // Check data source connectivity
+  console.log("🔍 Checking data source connectivity...\n");
+
+  try {
+    // Quick test to see if Binance is accessible
+    const testUrl = "https://api.binance.com/api/v3/ping";
+    const testRes = await fetch(testUrl);
+    if (!testRes.ok) {
+      throw new Error(`Binance ping failed: ${testRes.status}`);
+    }
+    console.log("✅ Binance API is accessible\n");
+  } catch (error) {
+    console.log("⚠️  Cannot connect to Binance API");
+    console.log(`   Error: ${error.message}\n`);
+    console.log("Attempting with alternative endpoints...\n");
+  }
+
   console.log("═══════════════════════════════════════════════════════════");
   console.log("  Claude Trading Bot");
   console.log(`  ${new Date().toISOString()}`);
@@ -555,9 +644,53 @@ async function run() {
     return;
   }
 
-  // Fetch candle data
-  console.log("\n── Fetching market data from Binance ───────────────────\n");
-  const candles = await fetchCandles(CONFIG.symbol, CONFIG.timeframe, 100);
+  // Fetch candle data with retry logic
+  console.log("\n── Fetching market data ────────────────────────────────\n");
+  let candles = [];
+  let fetchAttempts = 0;
+  const maxAttempts = 3;
+
+  // Skip data fetching if in test mode or if symbol is not supported
+  if (process.env.SKIP_DATA_FETCH === "true") {
+    console.log("📊 Skipping market data fetch (test mode)");
+    // Generate mock data for testing
+    candles = Array.from({ length: 100 }, (_, i) => ({
+      time: Date.now() - (100 - i) * 60000,
+      open: 50000 + Math.random() * 1000,
+      high: 50100 + Math.random() * 1000,
+      low: 49900 + Math.random() * 1000,
+      close: 50000 + Math.random() * 1000,
+      volume: 1000 + Math.random() * 500,
+    }));
+  } else {
+    while (fetchAttempts < maxAttempts) {
+      try {
+        candles = await fetchCandles(CONFIG.symbol, CONFIG.timeframe, 100);
+        break;
+      } catch (error) {
+        fetchAttempts++;
+        console.log(`\n⚠️  Attempt ${fetchAttempts}/${maxAttempts} failed: ${error.message}`);
+
+        if (fetchAttempts < maxAttempts) {
+          console.log(`⏳ Waiting 5 seconds before retry...\n`);
+          await new Promise(resolve => setTimeout(resolve, 5000));
+        } else {
+          console.log("\n❌ Failed to fetch market data after all attempts.");
+          console.log("   This could be due to:");
+          console.log("   • Regional restrictions on Binance API");
+          console.log("   • API maintenance or downtime");
+          console.log("   • Network connectivity issues");
+          console.log("\n   Troubleshooting:");
+          console.log("   • Set DISABLE_BINANCE=true to use Coinbase only");
+          console.log("   • Set SKIP_DATA_FETCH=true to run in test mode");
+          console.log("   • Check your internet connection");
+          console.log("   • Try running again later");
+          return;
+        }
+      }
+    }
+  }
+
   const closes = candles.map((c) => c.close);
   const price = closes[closes.length - 1];
   console.log(`  Current price: $${price.toFixed(2)}`);
