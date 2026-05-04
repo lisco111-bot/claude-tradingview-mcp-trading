@@ -1,0 +1,8 @@
+{
+  "build": {
+    "setup": [
+      "echo 'export NIXPACKS_PATH=/usr/local/bin' >> /root/.profile",
+      "echo 'export PATH=/usr/local/bin:$PATH' >> /root/.profile"
+    ]
+  }
+}
