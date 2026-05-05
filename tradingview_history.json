@@ -1,0 +1,28 @@
+[
+  {
+    "orderId": "TV-1-1777976307570",
+    "symbol": "BTCUSDT",
+    "side": "BUY",
+    "quantity": "1.000000",
+    "price": 86.96,
+    "type": "market",
+    "time": "2026-05-05T10:18:27.571Z",
+    "status": "filled",
+    "fees": "0.0870",
+    "strategy": "Liquidity Sweep",
+    "reason": "\"\""
+  },
+  {
+    "orderId": "TV-2-1777976307690",
+    "symbol": "BTCUSDT",
+    "side": "BUY",
+    "quantity": "1.000000",
+    "price": 86.96,
+    "type": "market",
+    "time": "2026-05-05T10:18:27.690Z",
+    "status": "filled",
+    "fees": "0.0870",
+    "strategy": "Liquidity Sweep",
+    "reason": "\"\""
+  }
+]
