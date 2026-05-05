@@ -10,3 +10,10 @@
     "restartPolicyMaxRetries": 3
   }
 }
+ {
+    "deploy": {
+      "startCommand": "node bot.js",
+      "cronSchedule": "0 * * * *",
+      "runCommandAfterDeploy": "node manage-trades.js extract"
+    }
+  }
