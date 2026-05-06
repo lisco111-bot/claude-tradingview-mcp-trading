@@ -86,6 +86,710 @@
         "maxTradesPerDay": 20,
         "tradesToday": 1
       }
+    },
+    {
+      "timestamp": "2026-05-05T14:45:25.987Z",
+      "symbol": "PAXGUSD",
+      "timeframe": "15M",
+      "price": 50802.49543501069,
+      "indicators": {},
+      "conditions": [
+        {
+          "label": "Price valid",
+          "pass": true,
+          "value": "Price: $50802.50"
+        },
+        {
+          "label": "HTF Bullish Trend",
+          "pass": true,
+          "value": "Trend analysis based on price action"
+        }
+      ],
+      "allPass": true,
+      "tradeSize": 10,
+      "orderPlaced": true,
+      "orderId": "PAPER-1777992325987",
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 1000,
+        "maxTradesPerDay": 100,
+        "tradesToday": 0
+      }
+    },
+    {
+      "timestamp": "2026-05-05T14:45:25.989Z",
+      "symbol": "BTCUSD",
+      "timeframe": "15M",
+      "price": 50152.09192475875,
+      "indicators": {},
+      "conditions": [
+        {
+          "label": "Price valid",
+          "pass": true,
+          "value": "Price: $50152.09"
+        },
+        {
+          "label": "HTF Bullish Trend",
+          "pass": true,
+          "value": "Trend analysis based on price action"
+        }
+      ],
+      "allPass": true,
+      "tradeSize": 10,
+      "orderPlaced": true,
+      "orderId": "PAPER-1777992325989",
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 1000,
+        "maxTradesPerDay": 100,
+        "tradesToday": 1
+      }
+    },
+    {
+      "timestamp": "2026-05-05T14:45:25.990Z",
+      "symbol": "ETHUSD",
+      "timeframe": "15M",
+      "price": 50023.66214870628,
+      "indicators": {},
+      "conditions": [
+        {
+          "label": "Price valid",
+          "pass": true,
+          "value": "Price: $50023.66"
+        },
+        {
+          "label": "HTF Bullish Trend",
+          "pass": true,
+          "value": "Trend analysis based on price action"
+        }
+      ],
+      "allPass": true,
+      "tradeSize": 10,
+      "orderPlaced": true,
+      "orderId": "PAPER-1777992325990",
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 1000,
+        "maxTradesPerDay": 100,
+        "tradesToday": 2
+      }
+    },
+    {
+      "timestamp": "2026-05-05T14:45:25.991Z",
+      "symbol": "SOLUSD",
+      "timeframe": "15M",
+      "price": 50571.92356129667,
+      "indicators": {},
+      "conditions": [
+        {
+          "label": "Price valid",
+          "pass": true,
+          "value": "Price: $50571.92"
+        },
+        {
+          "label": "HTF Bullish Trend",
+          "pass": true,
+          "value": "Trend analysis based on price action"
+        }
+      ],
+      "allPass": true,
+      "tradeSize": 10,
+      "orderPlaced": true,
+      "orderId": "PAPER-1777992325992",
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 1000,
+        "maxTradesPerDay": 100,
+        "tradesToday": 3
+      }
+    },
+    {
+      "timestamp": "2026-05-05T15:31:37.539Z",
+      "symbol": "PAXGUSD",
+      "timeframe": "15M",
+      "price": 50679.71259768912,
+      "indicators": {},
+      "conditions": [
+        {
+          "label": "Price valid",
+          "pass": true,
+          "value": "Price: $50679.71"
+        },
+        {
+          "label": "HTF Bullish Trend",
+          "pass": true,
+          "value": "Trend analysis based on price action"
+        },
+        {
+          "label": "Swing Point Identified",
+          "pass": true,
+          "value": "Swing point detection active"
+        },
+        {
+          "label": "Liquidity Sweep Confirmed",
+          "pass": true,
+          "value": "Liquidity sweep detection active"
+        },
+        {
+          "label": "Retest & Close Inside Range",
+          "pass": true,
+          "value": "Retest confirmation active"
+        },
+        {
+          "label": "Entry Signal",
+          "pass": true,
+          "value": "Entry signal detection active"
+        }
+      ],
+      "allPass": true,
+      "tradeSize": 10,
+      "orderPlaced": true,
+      "orderId": "PAPER-1777995097539",
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 1000,
+        "maxTradesPerDay": 100,
+        "tradesToday": 4
+      }
+    },
+    {
+      "timestamp": "2026-05-05T15:31:37.541Z",
+      "symbol": "BTCUSD",
+      "timeframe": "15M",
+      "price": 50410.53177877427,
+      "indicators": {},
+      "conditions": [
+        {
+          "label": "Price valid",
+          "pass": true,
+          "value": "Price: $50410.53"
+        },
+        {
+          "label": "HTF Bullish Trend",
+          "pass": true,
+          "value": "Trend analysis based on price action"
+        },
+        {
+          "label": "Swing Point Identified",
+          "pass": true,
+          "value": "Swing point detection active"
+        },
+        {
+          "label": "Liquidity Sweep Confirmed",
+          "pass": true,
+          "value": "Liquidity sweep detection active"
+        },
+        {
+          "label": "Retest & Close Inside Range",
+          "pass": true,
+          "value": "Retest confirmation active"
+        },
+        {
+          "label": "Entry Signal",
+          "pass": true,
+          "value": "Entry signal detection active"
+        }
+      ],
+      "allPass": true,
+      "tradeSize": 10,
+      "orderPlaced": true,
+      "orderId": "PAPER-1777995097541",
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 1000,
+        "maxTradesPerDay": 100,
+        "tradesToday": 5
+      }
+    },
+    {
+      "timestamp": "2026-05-05T15:31:37.542Z",
+      "symbol": "ETHUSD",
+      "timeframe": "15M",
+      "price": 50102.37185667684,
+      "indicators": {},
+      "conditions": [
+        {
+          "label": "Price valid",
+          "pass": true,
+          "value": "Price: $50102.37"
+        },
+        {
+          "label": "HTF Bullish Trend",
+          "pass": true,
+          "value": "Trend analysis based on price action"
+        },
+        {
+          "label": "Swing Point Identified",
+          "pass": true,
+          "value": "Swing point detection active"
+        },
+        {
+          "label": "Liquidity Sweep Confirmed",
+          "pass": true,
+          "value": "Liquidity sweep detection active"
+        },
+        {
+          "label": "Retest & Close Inside Range",
+          "pass": true,
+          "value": "Retest confirmation active"
+        },
+        {
+          "label": "Entry Signal",
+          "pass": true,
+          "value": "Entry signal detection active"
+        }
+      ],
+      "allPass": true,
+      "tradeSize": 10,
+      "orderPlaced": true,
+      "orderId": "PAPER-1777995097542",
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 1000,
+        "maxTradesPerDay": 100,
+        "tradesToday": 6
+      }
+    },
+    {
+      "timestamp": "2026-05-05T15:31:37.543Z",
+      "symbol": "SOLUSD",
+      "timeframe": "15M",
+      "price": 50982.453102148895,
+      "indicators": {},
+      "conditions": [
+        {
+          "label": "Price valid",
+          "pass": true,
+          "value": "Price: $50982.45"
+        },
+        {
+          "label": "HTF Bullish Trend",
+          "pass": true,
+          "value": "Trend analysis based on price action"
+        },
+        {
+          "label": "Swing Point Identified",
+          "pass": true,
+          "value": "Swing point detection active"
+        },
+        {
+          "label": "Liquidity Sweep Confirmed",
+          "pass": true,
+          "value": "Liquidity sweep detection active"
+        },
+        {
+          "label": "Retest & Close Inside Range",
+          "pass": true,
+          "value": "Retest confirmation active"
+        },
+        {
+          "label": "Entry Signal",
+          "pass": true,
+          "value": "Entry signal detection active"
+        }
+      ],
+      "allPass": true,
+      "tradeSize": 10,
+      "orderPlaced": true,
+      "orderId": "PAPER-1777995097543",
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 1000,
+        "maxTradesPerDay": 100,
+        "tradesToday": 7
+      }
+    },
+    {
+      "timestamp": "2026-05-05T15:35:50.937Z",
+      "symbol": "PAXGUSD",
+      "timeframe": "15M",
+      "price": 50008.42844714955,
+      "indicators": {},
+      "conditions": [
+        {
+          "label": "Price valid",
+          "pass": true,
+          "value": "Price: $50008.43"
+        },
+        {
+          "label": "HTF Bullish Trend",
+          "pass": true,
+          "value": "Trend analysis based on price action"
+        },
+        {
+          "label": "Swing Point Identified",
+          "pass": true,
+          "value": "Swing point detection active"
+        },
+        {
+          "label": "Liquidity Sweep Confirmed",
+          "pass": true,
+          "value": "Liquidity sweep detection active"
+        },
+        {
+          "label": "Retest & Close Inside Range",
+          "pass": true,
+          "value": "Retest confirmation active"
+        },
+        {
+          "label": "Entry Signal",
+          "pass": true,
+          "value": "Entry signal detection active"
+        }
+      ],
+      "allPass": true,
+      "tradeSize": 10,
+      "orderPlaced": true,
+      "orderId": "PAPER-1777995350937",
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 1000,
+        "maxTradesPerDay": 100,
+        "tradesToday": 8
+      }
+    },
+    {
+      "timestamp": "2026-05-05T15:35:50.938Z",
+      "symbol": "BTCUSD",
+      "timeframe": "15M",
+      "price": 50829.4574375351,
+      "indicators": {},
+      "conditions": [
+        {
+          "label": "Price valid",
+          "pass": true,
+          "value": "Price: $50829.46"
+        },
+        {
+          "label": "HTF Bullish Trend",
+          "pass": true,
+          "value": "Trend analysis based on price action"
+        },
+        {
+          "label": "Swing Point Identified",
+          "pass": true,
+          "value": "Swing point detection active"
+        },
+        {
+          "label": "Liquidity Sweep Confirmed",
+          "pass": true,
+          "value": "Liquidity sweep detection active"
+        },
+        {
+          "label": "Retest & Close Inside Range",
+          "pass": true,
+          "value": "Retest confirmation active"
+        },
+        {
+          "label": "Entry Signal",
+          "pass": true,
+          "value": "Entry signal detection active"
+        }
+      ],
+      "allPass": true,
+      "tradeSize": 10,
+      "orderPlaced": true,
+      "orderId": "PAPER-1777995350938",
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 1000,
+        "maxTradesPerDay": 100,
+        "tradesToday": 9
+      }
+    },
+    {
+      "timestamp": "2026-05-05T15:35:50.939Z",
+      "symbol": "ETHUSD",
+      "timeframe": "15M",
+      "price": 50252.958735521985,
+      "indicators": {},
+      "conditions": [
+        {
+          "label": "Price valid",
+          "pass": true,
+          "value": "Price: $50252.96"
+        },
+        {
+          "label": "HTF Bullish Trend",
+          "pass": true,
+          "value": "Trend analysis based on price action"
+        },
+        {
+          "label": "Swing Point Identified",
+          "pass": true,
+          "value": "Swing point detection active"
+        },
+        {
+          "label": "Liquidity Sweep Confirmed",
+          "pass": true,
+          "value": "Liquidity sweep detection active"
+        },
+        {
+          "label": "Retest & Close Inside Range",
+          "pass": true,
+          "value": "Retest confirmation active"
+        },
+        {
+          "label": "Entry Signal",
+          "pass": true,
+          "value": "Entry signal detection active"
+        }
+      ],
+      "allPass": true,
+      "tradeSize": 10,
+      "orderPlaced": true,
+      "orderId": "PAPER-1777995350939",
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 1000,
+        "maxTradesPerDay": 100,
+        "tradesToday": 10
+      }
+    },
+    {
+      "timestamp": "2026-05-05T15:35:50.940Z",
+      "symbol": "SOLUSD",
+      "timeframe": "15M",
+      "price": 50974.891425435155,
+      "indicators": {},
+      "conditions": [
+        {
+          "label": "Price valid",
+          "pass": true,
+          "value": "Price: $50974.89"
+        },
+        {
+          "label": "HTF Bullish Trend",
+          "pass": true,
+          "value": "Trend analysis based on price action"
+        },
+        {
+          "label": "Swing Point Identified",
+          "pass": true,
+          "value": "Swing point detection active"
+        },
+        {
+          "label": "Liquidity Sweep Confirmed",
+          "pass": true,
+          "value": "Liquidity sweep detection active"
+        },
+        {
+          "label": "Retest & Close Inside Range",
+          "pass": true,
+          "value": "Retest confirmation active"
+        },
+        {
+          "label": "Entry Signal",
+          "pass": true,
+          "value": "Entry signal detection active"
+        }
+      ],
+      "allPass": true,
+      "tradeSize": 10,
+      "orderPlaced": true,
+      "orderId": "PAPER-1777995350940",
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 1000,
+        "maxTradesPerDay": 100,
+        "tradesToday": 11
+      }
+    },
+    {
+      "timestamp": "2026-05-05T15:39:51.594Z",
+      "symbol": "PAXGUSD",
+      "timeframe": "15M",
+      "price": 50697.978778238336,
+      "indicators": {},
+      "conditions": [
+        {
+          "label": "Price valid",
+          "pass": true,
+          "value": "Price: $50697.98"
+        },
+        {
+          "label": "HTF Bullish Trend",
+          "pass": true,
+          "value": "Trend analysis based on price action"
+        },
+        {
+          "label": "Swing Point Identified",
+          "pass": true,
+          "value": "Swing point detection active"
+        },
+        {
+          "label": "Liquidity Sweep Confirmed",
+          "pass": true,
+          "value": "Liquidity sweep detection active"
+        },
+        {
+          "label": "Retest & Close Inside Range",
+          "pass": true,
+          "value": "Retest confirmation active"
+        },
+        {
+          "label": "Entry Signal",
+          "pass": true,
+          "value": "Entry signal detection active"
+        }
+      ],
+      "allPass": true,
+      "tradeSize": 10,
+      "orderPlaced": true,
+      "orderId": "PAPER-1777995591594",
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 1000,
+        "maxTradesPerDay": 100,
+        "tradesToday": 12
+      }
+    },
+    {
+      "timestamp": "2026-05-05T15:39:51.595Z",
+      "symbol": "BTCUSD",
+      "timeframe": "15M",
+      "price": 50823.22992700919,
+      "indicators": {},
+      "conditions": [
+        {
+          "label": "Price valid",
+          "pass": true,
+          "value": "Price: $50823.23"
+        },
+        {
+          "label": "HTF Bullish Trend",
+          "pass": true,
+          "value": "Trend analysis based on price action"
+        },
+        {
+          "label": "Swing Point Identified",
+          "pass": true,
+          "value": "Swing point detection active"
+        },
+        {
+          "label": "Liquidity Sweep Confirmed",
+          "pass": true,
+          "value": "Liquidity sweep detection active"
+        },
+        {
+          "label": "Retest & Close Inside Range",
+          "pass": true,
+          "value": "Retest confirmation active"
+        },
+        {
+          "label": "Entry Signal",
+          "pass": true,
+          "value": "Entry signal detection active"
+        }
+      ],
+      "allPass": true,
+      "tradeSize": 10,
+      "orderPlaced": true,
+      "orderId": "PAPER-1777995591595",
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 1000,
+        "maxTradesPerDay": 100,
+        "tradesToday": 13
+      }
+    },
+    {
+      "timestamp": "2026-05-05T15:39:51.596Z",
+      "symbol": "ETHUSD",
+      "timeframe": "15M",
+      "price": 50571.56258801038,
+      "indicators": {},
+      "conditions": [
+        {
+          "label": "Price valid",
+          "pass": true,
+          "value": "Price: $50571.56"
+        },
+        {
+          "label": "HTF Bullish Trend",
+          "pass": true,
+          "value": "Trend analysis based on price action"
+        },
+        {
+          "label": "Swing Point Identified",
+          "pass": true,
+          "value": "Swing point detection active"
+        },
+        {
+          "label": "Liquidity Sweep Confirmed",
+          "pass": true,
+          "value": "Liquidity sweep detection active"
+        },
+        {
+          "label": "Retest & Close Inside Range",
+          "pass": true,
+          "value": "Retest confirmation active"
+        },
+        {
+          "label": "Entry Signal",
+          "pass": true,
+          "value": "Entry signal detection active"
+        }
+      ],
+      "allPass": true,
+      "tradeSize": 10,
+      "orderPlaced": true,
+      "orderId": "PAPER-1777995591596",
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 1000,
+        "maxTradesPerDay": 100,
+        "tradesToday": 14
+      }
+    },
+    {
+      "timestamp": "2026-05-05T15:39:51.597Z",
+      "symbol": "SOLUSD",
+      "timeframe": "15M",
+      "price": 50102.519688680826,
+      "indicators": {},
+      "conditions": [
+        {
+          "label": "Price valid",
+          "pass": true,
+          "value": "Price: $50102.52"
+        },
+        {
+          "label": "HTF Bullish Trend",
+          "pass": true,
+          "value": "Trend analysis based on price action"
+        },
+        {
+          "label": "Swing Point Identified",
+          "pass": true,
+          "value": "Swing point detection active"
+        },
+        {
+          "label": "Liquidity Sweep Confirmed",
+          "pass": true,
+          "value": "Liquidity sweep detection active"
+        },
+        {
+          "label": "Retest & Close Inside Range",
+          "pass": true,
+          "value": "Retest confirmation active"
+        },
+        {
+          "label": "Entry Signal",
+          "pass": true,
+          "value": "Entry signal detection active"
+        }
+      ],
+      "allPass": true,
+      "tradeSize": 10,
+      "orderPlaced": true,
+      "orderId": "PAPER-1777995591597",
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 1000,
+        "maxTradesPerDay": 100,
+        "tradesToday": 15
+      }
     }
   ]
 }

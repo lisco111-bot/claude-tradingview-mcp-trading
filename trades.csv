@@ -1,4 +1,4 @@
-Date,Time (UTC),Exchange,Symbol,Side,Quantity,Price,Total USD,Fee (est.),Net Amount,Order ID,Mode,Notes, profit , loss
-,,,,,,,,,,,"NOTE","Hey, if you're at this stage of the video, you must be enjoying it... perhaps you could hit subscribe now? :)"
-2026-05-03,15:28:38,BitGet,BTCUSDT,BUY,0.000127,78755.26,10.00,0.0100,9.99,PAPER-1777822118833,PAPER,"All conditions met"2026-05-04,15:12:37,BitGet,BTCUSDT,BUY,0.000125,80043.76,10.00,0.0100,9.99,PAPER-1777907557066,PAPER,"All conditions met"
-2026-05-04,16:37:16,BitGet,BTCUSDT,BUY,0.000196,50912.53,10.00,0.0100,9.99,PAPER-1777912636118,PAPER,"All conditions met"
+Date,Time (UTC),Symbol,Side,Entry Price,Exit Price,Net Profit/Loss (USD),Trade Executed,Reason for Execution,Reason for Non-Execution,Order ID,Mode,Notes2026-05-05,15:39:51,PAXGUSD,BUY,50697.98,,,YES (PAPER),"All conditions met for paper trade","",PAPER-1777995591594,PAPER,"Paper trade - would execute in live mode"
+2026-05-05,15:39:51,BTCUSD,BUY,50823.23,,,YES (PAPER),"All conditions met for paper trade","",PAPER-1777995591595,PAPER,"Paper trade - would execute in live mode"
+2026-05-05,15:39:51,ETHUSD,BUY,50571.56,,,YES (PAPER),"All conditions met for paper trade","",PAPER-1777995591596,PAPER,"Paper trade - would execute in live mode"
+2026-05-05,15:39:51,SOLUSD,BUY,50102.52,,,YES (PAPER),"All conditions met for paper trade","",PAPER-1777995591597,PAPER,"Paper trade - would execute in live mode"
