@@ -9,7 +9,7 @@ The trading bot has been updated to track profit and loss for all trades with ti
 The trades.csv file now includes:
 - **Date**: Trade date (YYYY-MM-DD)
 - **Time (UTC)**: Trade time in UTC-4 (HH:MM:SS)
-- **Exchange**: Trading exchange (BitGet)
+- **Exchange**: Trading exchange (DELTA EXCHANGE)
 - **Symbol**: Trading pair (e.g., EURUSDT)
 - **Side**: Buy/Sell direction
 - **Quantity**: Asset quantity
