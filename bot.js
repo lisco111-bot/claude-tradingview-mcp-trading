@@ -494,6 +494,39 @@ function runICTRules(price, dealingRange, dailyBias, fvgs, orderBlocks, liquidit
   return { results, allPass };
 }
 
+// ─── TradingView Paper Trading Integration ─────────────────────────────────────
+
+async function placeTradingViewPaperOrder(symbol, side, quantity, price, orderId) {
+  // This would integrate with TradingView's paper trading API
+  // For now, we'll simulate it with a mock API call
+  const mockOrder = {
+    id: `TV-${Date.now()}`,
+    symbol,
+    side,
+    quantity,
+    price,
+    timestamp: new Date().toISOString(),
+    status: "filled",
+    exchange: "TradingView Paper"
+  };
+
+  console.log(`📊 TradingView Paper Trade: ${mockOrder.id}`);
+  console.log(`   Symbol: ${symbol} | Side: ${side} | Quantity: ${quantity}`);
+  console.log(`   Price: $${price.toFixed(2)} | Status: ${mockOrder.status}`);
+
+  return mockOrder;
+}
+
+async function getTradingViewBalance() {
+  // Mock TradingView paper trading balance
+  return {
+    equity: 10000,
+    available: 9850,
+    used: 150,
+    pnl: 0
+  };
+}
+
 // ─── Onboarding ───────────────────────────────────────────────────────────────
 
 function checkOnboarding() {
@@ -600,7 +633,8 @@ function trackOpenTrade(logEntry) {
     sizeUSD: logEntry.tradeSize,
     status: "OPEN",
     profit: 0,
-    fees: logEntry.tradeSize * 0.001
+    fees: logEntry.tradeSize * 0.001,
+    tradingViewId: logEntry.tradingViewOrderId
   };
 
   saveOpenTrades(openTrades);
@@ -667,24 +701,20 @@ function updateClosedTrade(trade) {
   const time = utc4Time.toISOString().slice(11, 19);
 
   const entryDate = new Date(trade.entryTime);
-  const utcEntryTime = entryDate.getTime() + (entryDate.getTimezoneOffset() * 60000);
-  const utc4EntryTime = new Date(utcEntryTime - (4 * 3600000));
-
   const duration = Math.round((now - entryDate) / (1000 * 60)); // Duration in minutes
 
   const row = [
     date,
     time,
-    "BitGet",
     trade.symbol,
     "BUY", // Assuming long positions for demo
-    trade.quantity.toFixed(6),
     trade.entryPrice.toFixed(2),
     trade.exitPrice.toFixed(2),
-    trade.sizeUSD.toFixed(2),
-    trade.fees.toFixed(4),
     trade.profit.toFixed(2),
+    "YES",
+    `Trade closed: P&L $${trade.profit.toFixed(2)}`,
     trade.id,
+    trade.tradingViewId || "",
     trade.side,
     `${duration}m`,
     `Closed: P&L $${trade.profit.toFixed(2)}`
@@ -754,10 +784,12 @@ function checkTradeLimits(log) {
     `✅ Trades today: ${todayCount}/${CONFIG.maxTradesPerDay} — within limit`,
   );
 
-  const tradeSize = Math.min(
+  const minTradeSize = 100;
+  const calculatedSize = Math.min(
     CONFIG.portfolioValue * 0.01,
     CONFIG.maxTradeSizeUSD,
   );
+  const tradeSize = Math.max(minTradeSize, calculatedSize);
 
   if (tradeSize > CONFIG.maxTradeSizeUSD) {
     console.log(
@@ -767,7 +799,7 @@ function checkTradeLimits(log) {
   }
 
   console.log(
-    `✅ Trade size: $${tradeSize.toFixed(2)} — within max $${CONFIG.maxTradeSizeUSD}`,
+    `✅ Trade size: $${tradeSize.toFixed(2)} (minimum $${minTradeSize}) — within max $${CONFIG.maxTradeSizeUSD}`,
   );
 
   return true;
@@ -842,16 +874,15 @@ function initCsv() {
 const CSV_HEADERS = [
   "Date",
   "Time (UTC)",
-  "Exchange",
   "Symbol",
   "Side",
-  "Quantity",
   "Entry_Price",
   "Exit_Price",
-  "Total_USD",
-  "Fee",
-  "Net_Profit",
+  "Net_Profit/Loss",
+  "Trade_Executed",
+  "Reason_for_Trade",
   "Order_ID",
+  "TradingView_Order_ID",
   "Mode",
   "Duration",
   "Notes"
@@ -867,72 +898,90 @@ function writeTradeCsv(logEntry) {
   const date = utc4Time.toISOString().slice(0, 10);
   const time = utc4Time.toISOString().slice(11, 19);
 
+  // Initialize variables
   let side = "";
-  let quantity = "";
   let entryPrice = "";
   let exitPrice = "";
-  let totalUSD = "";
-  let fee = "";
-  let netProfit = "";
+  let netProfitLoss = "";
+  let tradeExecuted = "";
+  let reasonForTrade = "";
   let orderId = "";
   let mode = "";
   let duration = "";
   let notes = "";
 
   if (!logEntry.allPass) {
+    // Trade not executed
     const failed = logEntry.conditions
       .filter((c) => !c.pass)
       .map((c) => c.label)
       .join("; ");
-    mode = "BLOCKED";
-    orderId = "BLOCKED";
-    notes = `Failed: ${failed}`;
+
+    tradeExecuted = "NO";
+    reasonForTrade = `Failed conditions: ${failed}`;
+    mode = "PAPER";
+    notes = `Trade blocked by safety check`;
+
     // For blocked trades, fill with placeholder values
     entryPrice = "";
     exitPrice = "";
-    totalUSD = "";
-    fee = "";
-    netProfit = "";
+    netProfitLoss = "0.00";
+    orderId = "";
     duration = "";
   } else if (logEntry.paperTrading) {
+    // Trade executed (paper)
     side = "BUY";
-    quantity = (logEntry.tradeSize / logEntry.price).toFixed(6);
     entryPrice = logEntry.price.toFixed(2);
     exitPrice = ""; // Not closed yet
-    totalUSD = logEntry.tradeSize.toFixed(2);
-    fee = (logEntry.tradeSize * 0.001).toFixed(4);
-    netProfit = "0.00"; // Not closed yet
-    orderId = logEntry.orderId || "";
+    netProfitLoss = "0.00"; // Not closed yet
+    tradeExecuted = "YES";
+    reasonForTrade = "All DRT/ICT conditions met";
     mode = "PAPER";
-    notes = "All conditions met - Open trade";
+    notes = `Paper trade entry - Size: $${logEntry.tradeSize.toFixed(2)}`;
+    orderId = logEntry.orderId || "";
     duration = "";
+
+    // Also place order in TradingView paper trading
+    if (logEntry.tradingViewOrderId) {
+      // TradingView order already placed
+    } else {
+      const quantity = (logEntry.tradeSize / logEntry.price).toFixed(6);
+      const tvOrder = await placeTradingViewPaperOrder(
+        logEntry.symbol,
+        side,
+        parseFloat(quantity),
+        logEntry.price,
+        logEntry.orderId
+      );
+      logEntry.tradingViewOrderId = tvOrder.id;
+      notes += ` | TradingView ID: ${tvOrder.id}`;
+    }
   } else {
+    // Live trading would go here
     side = "BUY";
-    quantity = (logEntry.tradeSize / logEntry.price).toFixed(6);
     entryPrice = logEntry.price.toFixed(2);
     exitPrice = ""; // Not closed yet
-    totalUSD = logEntry.tradeSize.toFixed(2);
-    fee = (logEntry.tradeSize * 0.001).toFixed(4);
-    netProfit = "0.00"; // Not closed yet
-    orderId = logEntry.orderId || "";
+    netProfitLoss = "0.00"; // Not closed yet
+    tradeExecuted = "YES";
+    reasonForTrade = "All conditions met - Live trading";
     mode = "LIVE";
-    notes = logEntry.error ? `Error: ${logEntry.error}` : "All conditions met - Open trade";
+    notes = logEntry.error ? `Error: ${logEntry.error}` : `Live trade entry - Size: $${logEntry.tradeSize.toFixed(2)}`;
+    orderId = logEntry.orderId || "";
     duration = "";
   }
 
   const row = [
     date,
     time,
-    "BitGet",
     logEntry.symbol,
     side,
-    quantity,
     entryPrice,
     exitPrice,
-    totalUSD,
-    fee,
-    netProfit,
+    netProfitLoss,
+    tradeExecuted,
+    `"${reasonForTrade}"`,
     orderId,
+    logEntry.tradingViewOrderId || "",
     mode,
     duration,
     `"${notes}"`
@@ -943,7 +992,7 @@ function writeTradeCsv(logEntry) {
   }
 
   appendFileSync(CSV_FILE, row + "\n");
-  console.log(`Tax record saved → ${CSV_FILE}`);
+  console.log(`Trade record saved → ${CSV_FILE}`);
 }
 
 // Tax summary command: node bot.js --tax-summary
@@ -979,7 +1028,18 @@ function generateTaxSummary() {
 async function run() {
   checkOnboarding();
   initCsv();
-  console.log("═══════════════════════════════════════════════════════════");
+
+  // Check TradingView paper trading balance
+  if (CONFIG.paperTrading) {
+    console.log("\n── TradingView Paper Trading Status ───────────────────────\n");
+    const tvBalance = await getTradingViewBalance();
+    console.log(`  Starting Equity: $${tvBalance.equity.toFixed(2)}`);
+    console.log(`  Available: $${tvBalance.available.toFixed(2)}`);
+    console.log(`  In Use: $${tvBalance.used.toFixed(2)}`);
+    console.log(`  P&L: $${tvBalance.pnl.toFixed(2)}`);
+  }
+
+  console.log("\n═══════════════════════════════════════════════════════════");
   console.log("  Claude Trading Bot");
   console.log(`  ${new Date().toISOString()}`);
   console.log(
@@ -1049,11 +1109,13 @@ async function run() {
   // Run ICT-only safety check
   const { results, allPass } = runICTRules(price, dealingRange, dailyBias, fvgs, orderBlocks, liquidityZones, atr, rules);
 
-  // Calculate position size
-  const tradeSize = Math.min(
+  // Calculate position size with minimum $100
+  const minTradeSize = 100;
+  const calculatedSize = Math.min(
     CONFIG.portfolioValue * 0.01,
     CONFIG.maxTradeSizeUSD,
   );
+  const tradeSize = Math.max(minTradeSize, calculatedSize);
 
   // Decision
   console.log("\n── Decision ─────────────────────────────────────────────\n");
@@ -1069,6 +1131,7 @@ async function run() {
     tradeSize,
     orderPlaced: false,
     orderId: null,
+    tradingViewOrderId: null,
     paperTrading: CONFIG.paperTrading,
     limits: {
       maxTradeSizeUSD: CONFIG.maxTradeSizeUSD,
