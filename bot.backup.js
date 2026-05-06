@@ -113,7 +113,7 @@ function checkOnboarding() {
         "# Trading config",
         "PORTFOLIO_VALUE_USD=50",
         "MAX_TRADE_SIZE_USD=2500",
-        "MAX_TRADES_PER_DAY=20",
+        "MAX_TRADES_PER_DAY=100",
         "PAPER_TRADING=true",
         "SYMBOL=PAXGUSD",
         "TIMEFRAME=1H",
@@ -160,7 +160,7 @@ const CONFIG = {
   timeframe: process.env.TIMEFRAME || "1H",
   portfolioValue: parseFloat(process.env.PORTFOLIO_VALUE_USD || "500"),
   maxTradeSizeUSD: parseFloat(process.env.MAX_TRADE_SIZE_USD || "2500"),
-  maxTradesPerDay: parseInt(process.env.MAX_TRADES_PER_DAY || "20"),
+  maxTradesPerDay: parseInt(process.env.MAX_TRADES_PER_DAY || "100"),
   paperTrading: process.env.PAPER_TRADING !== "false",
   tradeMode: process.env.TRADE_MODE || "future",
   exchange: {
