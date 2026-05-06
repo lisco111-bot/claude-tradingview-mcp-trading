@@ -23,8 +23,12 @@
     "ATR_PERIOD": "14",
     "STOP_LOSS_MULTIPLIER": "2.5",
     "TAKE_PROFIT_RATIOS": "1,2,3",
-    "DELTAEXCHANGE_API_KEY": "demo_key",
-    "DELTAEXCHANGE_SECRET_KEY": "demo_secret",
-    "DELTAEXCHANGE_PASSPHRASE": "demo_passphrase"
+    "BINANCE_API_KEY": "demo_binance_key",
+    "BINANCE_SECRET_KEY": "demo_binance_secret",
+    "BINANCE_PASSPHRASE": "demo_binance_passphrase",
+    "DELTA_API_KEY": "demo_delta_key",
+    "DELTA_SECRET_KEY": "demo_delta_secret",
+    "DELTA_PASSPHRASE": "demo_delta_passphrase",
+    "EXCHANGE": "binance"
   }
 }

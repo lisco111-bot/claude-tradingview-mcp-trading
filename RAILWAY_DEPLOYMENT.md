@@ -36,10 +36,18 @@ ATR_PERIOD=14
 STOP_LOSS_MULTIPLIER=2.5
 TAKE_PROFIT_RATIOS=1,2,3
 
-# DELTA EXCHANGE API Credentials (use demo for testing)
-DELTAEXCHANGE_API_KEY=
-DELTAEXCHANGE_SECRET_KEY=
-DELTAEXCHANGE_PASSPHRASE=
+# Binance API Credentials (use demo for testing)
+BINANCE_API_KEY=demo_binance_key
+BINANCE_SECRET_KEY=demo_binance_secret
+BINANCE_PASSPHRASE=demo_binance_passphrase
+
+# Delta Exchange API Credentials (optional - if using Delta)
+DELTA_API_KEY=demo_delta_key
+DELTA_SECRET_KEY=demo_delta_secret
+DELTA_PASSPHRASE=demo_delta_passphrase
+
+# Exchange Selection
+EXCHANGE=binance  # Options: "binance" or "delta"
 ```
 
 ### railway.json

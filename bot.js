@@ -530,7 +530,7 @@ async function getTradingViewBalance() {
 // ─── Onboarding ───────────────────────────────────────────────────────────────
 
 function checkOnboarding() {
-  const required = ["BITGET_API_KEY", "BITGET_SECRET_KEY", "BITGET_PASSPHRASE"];
+  const required = ["BINANCE_API_KEY", "BINANCE_SECRET_KEY", "BINANCE_PASSPHRASE"];
   const missing = required.filter((k) => !process.env[k]);
 
   // Skip .env file creation for Railway deployment
@@ -542,8 +542,17 @@ function checkOnboarding() {
     console.log(`\n⚠️  Missing credentials in .env: ${missing.join(", ")}`);
     console.log("Opening .env for you now...\n");
     try {
-      execSync("open .env");
-    } catch {}
+      // Cross-platform file opening
+      if (process.platform === 'win32') {
+        execSync("start notepad .env");
+      } else if (process.platform === 'darwin') {
+        execSync("open .env");
+      } else {
+        execSync("xdg-open .env");
+      }
+    } catch {
+      // If file opening fails, just continue
+    }
     console.log("Add the missing values then re-run: node bot.js\n");
     process.exit(0);
   }
@@ -567,11 +576,18 @@ const CONFIG = {
   maxTradesPerDay: parseInt(process.env.MAX_TRADES_PER_DAY || "20"),
   paperTrading: process.env.PAPER_TRADING !== "false",
   tradeMode: process.env.TRADE_MODE || "future",
-  bitget: {
+  exchange: process.env.EXCHANGE || "binance", // Options: "binance", "delta"
+  binance: {
     apiKey: process.env.BINANCE_API_KEY,
     secretKey: process.env.BINANCE_SECRET_KEY,
     passphrase: process.env.BINANCE_PASSPHRASE,
     baseUrl: process.env.BINANCE_BASE_URL || "https://api.binance.com",
+  },
+  delta: {
+    apiKey: process.env.DELTA_API_KEY,
+    secretKey: process.env.DELTA_SECRET_KEY,
+    passphrase: process.env.DELTA_PASSPHRASE,
+    baseUrl: process.env.DELTA_BASE_URL || "https://api.delta.exchange",
   },
 };
 
@@ -794,56 +810,108 @@ function checkTradeLimits(log) {
   return true;
 }
 
-// ─── BitGet Execution ────────────────────────────────────────────────────────
+// ─── Exchange Execution ───────────────────────────────────────────────────────
 
-function signBitGet(timestamp, method, path, body = "") {
+function signBinance(timestamp, method, path, body = "") {
   const message = `${timestamp}${method}${path}${body}`;
   return crypto
-    .createHmac("sha256", CONFIG.bitget.secretKey)
+    .createHmac("sha256", CONFIG.binance.secretKey)
     .update(message)
-    .digest("base64");
+    .digest("hex");
 }
 
-async function placeBitGetOrder(symbol, side, sizeUSD, price) {
+function signDelta(timestamp, method, path, body = "") {
+  const message = timestamp + method.toUpperCase() + path + body;
+  return crypto
+    .createHmac("sha256", CONFIG.delta.secretKey)
+    .update(message)
+    .digest("hex");
+}
+
+async function placeOrder(symbol, side, sizeUSD, price) {
+  if (CONFIG.exchange === "binance") {
+    return placeBinanceOrder(symbol, side, sizeUSD, price);
+  } else if (CONFIG.exchange === "delta") {
+    return placeDeltaOrder(symbol, side, sizeUSD, price);
+  } else {
+    throw new Error(`Unsupported exchange: ${CONFIG.exchange}`);
+  }
+}
+
+async function placeBinanceOrder(symbol, side, sizeUSD, price) {
   const quantity = (sizeUSD / price).toFixed(6);
   const timestamp = Date.now().toString();
-  const path =
-    CONFIG.tradeMode === "spot"
-      ? "/api/v2/spot/trade/placeOrder"
-      : "/api/v2/mix/order/placeOrder";
 
+  // Convert symbol to Binance format
+  const binanceSymbol = symbol.replace(/USDT$/, "");
+
+  const path = "/api/v3/order";
   const body = JSON.stringify({
-    symbol,
-    side,
-    orderType: "market",
-    quantity,
-    ...(CONFIG.tradeMode === "futures" && {
-      productType: "USDT-FUTURES",
-      marginMode: "isolated",
-      marginCoin: "USDT",
-    }),
+    symbol: binanceSymbol,
+    side: side.toUpperCase(),
+    type: "MARKET",
+    quantity: quantity,
+    timestamp: timestamp,
   });
 
-  const signature = signBitGet(timestamp, "POST", path, body);
+  const signature = signBinance(timestamp, "POST", path, body);
 
-  const res = await fetch(`${CONFIG.binance.baseUrl}${path}`, {
+  const res = await fetch(`${CONFIG.binance.baseUrl}${path}?${body}&signature=${signature}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "ACCESS-KEY": CONFIG.binance.apiKey,
-      "ACCESS-SIGN": signature,
-      "ACCESS-TIMESTAMP": timestamp,
-      "ACCESS-PASSPHRASE": CONFIG.binance.passphrase,
+      "X-MBX-APIKEY": CONFIG.binance.apiKey,
+    },
+  });
+
+  const data = await res.json();
+  if (data.code) {
+    throw new Error(`Binance order failed: ${data.msg}`);
+  }
+
+  return {
+    orderId: data.orderId,
+    symbol: data.symbol,
+    status: data.status,
+  };
+}
+
+async function placeDeltaOrder(symbol, side, sizeUSD, price) {
+  const quantity = (sizeUSD / price).toFixed(6);
+  const timestamp = Date.now().toString();
+
+  const path = "/api/v1/orders";
+  const body = JSON.stringify({
+    symbol: symbol,
+    side: side.toUpperCase(),
+    order_type: "MARKET",
+    size: quantity,
+    timestamp: timestamp,
+  });
+
+  const signature = signDelta(timestamp, "POST", path, body);
+
+  const res = await fetch(`${CONFIG.delta.baseUrl}${path}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${CONFIG.delta.apiKey}`,
+      "X-API-Timestamp": timestamp,
+      "X-API-Signature": signature,
     },
     body,
   });
 
   const data = await res.json();
-  if (data.code !== "00000") {
-    throw new Error(`Binance order failed: ${data.msg}`);
+  if (!data.success) {
+    throw new Error(`Delta order failed: ${data.error || "Unknown error"}`);
   }
 
-  return data.data;
+  return {
+    orderId: data.order_id,
+    symbol: data.symbol,
+    status: data.status,
+  };
 }
 
 // ─── Tax CSV Logging ─────────────────────────────────────────────────────────
@@ -1162,8 +1230,9 @@ async function run() {
       console.log(
         `\n🔴 PLACING LIVE ORDER — $${tradeSize.toFixed(2)} BUY ${CONFIG.symbol}`,
       );
+      console.log(`   Exchange: ${CONFIG.exchange.toUpperCase()}`);
       try {
-        const order = await placeBitGetOrder(
+        const order = await placeOrder(
           CONFIG.symbol,
           "buy",
           tradeSize,
