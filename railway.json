@@ -23,8 +23,8 @@
     "ATR_PERIOD": "14",
     "STOP_LOSS_MULTIPLIER": "2.5",
     "TAKE_PROFIT_RATIOS": "1,2,3",
-    "BITGET_API_KEY": "demo_key",
-    "BITGET_SECRET_KEY": "demo_secret",
-    "BITGET_PASSPHRASE": "demo_passphrase"
+    "DELTAEXCHANGE_API_KEY": "demo_key",
+    "DELTAEXCHANGE_SECRET_KEY": "demo_secret",
+    "DELTAEXCHANGE_PASSPHRASE": "demo_passphrase"
   }
 }
