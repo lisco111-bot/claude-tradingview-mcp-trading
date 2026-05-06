@@ -888,7 +888,7 @@ const CSV_HEADERS = [
   "Notes"
 ].join(",");
 
-function writeTradeCsv(logEntry) {
+async function writeTradeCsv(logEntry) {
   const now = new Date(logEntry.timestamp);
 
   // Convert to UTC-4 timezone
@@ -1187,7 +1187,7 @@ async function run() {
   }
 
   // Write tax CSV row for every run (executed, paper, or blocked)
-  writeTradeCsv(logEntry);
+  await writeTradeCsv(logEntry);
 
   // Check for trade closures
   checkTradeClosures();
