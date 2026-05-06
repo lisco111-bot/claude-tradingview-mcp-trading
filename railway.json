@@ -11,11 +11,3 @@
   }
 }
 
-
- {
-    "deploy": {
-      "startCommand": "node bot.js",
-      "cronSchedule": "*/15 * * * *",
-      "runCommandAfterDeploy": "node manage-trades.js extract"
-    }
-  }
