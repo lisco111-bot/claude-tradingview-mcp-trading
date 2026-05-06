@@ -8,6 +8,23 @@
     "cronSchedule": "0 * * * *",
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 3
+  },
+  "variables": {
+    "PORTFOLIO_VALUE_USD": "10000",
+    "MAX_TRADE_SIZE_USD": "250",
+    "MAX_TRADES_PER_DAY": "5",
+    "PAPER_TRADING": "true",
+    "SYMBOL": "EURUSDT",
+    "TIMEFRAME": "15m",
+    "TRADE_MODE": "future",
+    "DRT_ENABLED": "true",
+    "DAILY_BIAS_LOOKBACK": "3",
+    "PO3_CONFIRMATION_REQUIRED": "2",
+    "ATR_PERIOD": "14",
+    "STOP_LOSS_MULTIPLIER": "2.5",
+    "TAKE_PROFIT_RATIOS": "1,2,3",
+    "BITGET_API_KEY": "demo_key",
+    "BITGET_SECRET_KEY": "demo_secret",
+    "BITGET_PASSPHRASE": "demo_passphrase"
   }
 }
-

@@ -533,34 +533,9 @@ function checkOnboarding() {
   const required = ["BITGET_API_KEY", "BITGET_SECRET_KEY", "BITGET_PASSPHRASE"];
   const missing = required.filter((k) => !process.env[k]);
 
+  // Skip .env file creation for Railway deployment
   if (!existsSync(".env")) {
-    console.log(
-      "\n⚠️  No .env file found — opening it for you to fill in...\n",
-    );
-    writeFileSync(
-      ".env",
-      [
-        "# Binance credentials",
-        "BINANCE_API_KEY=",
-        "BINANCE_SECRET_KEY=",
-        "BINANCE_PASSPHRASE=",
-        "",
-        "# Trading config",
-        "PORTFOLIO_VALUE_USD500",
-        "MAX_TRADE_SIZE_USD=2500",
-        "MAX_TRADES_PER_DAY=20",
-        "PAPER_TRADING=true",
-        "SYMBOL=BTCUSDT",
-        "TIMEFRAME=1H",
-      ].join("\n") + "\n",
-    );
-    try {
-      execSync("open .env");
-    } catch {}
-    console.log(
-      "Fill in your Binance credentials in .env then re-run: node bot.js\n",
-    );
-    process.exit(0);
+    console.log("\n⚠️  No .env file found — using environment variables\n");
   }
 
   if (missing.length > 0) {
@@ -603,6 +578,11 @@ const CONFIG = {
 const LOG_FILE = "safety-check-log.json";
 const OPEN_TRADES_FILE = "open-trades.json";
 
+// In-memory fallback for Railway's read-only filesystem
+const useInMemoryStorage = !!process.env.RAILWAY_APP_ID || process.env.NODE_ENV === "production";
+const inMemoryTrades = [];
+const inMemoryOpenTrades = {};
+
 // ─── Logging ────────────────────────────────────────────────────────────────
 
 function loadLog() {
@@ -611,12 +591,19 @@ function loadLog() {
 }
 
 function loadOpenTrades() {
+  if (useInMemoryStorage) {
+    return inMemoryOpenTrades;
+  }
   if (!existsSync(OPEN_TRADES_FILE)) return {};
   return JSON.parse(readFileSync(OPEN_TRADES_FILE, "utf8"));
 }
 
 function saveOpenTrades(openTrades) {
-  writeFileSync(OPEN_TRADES_FILE, JSON.stringify(openTrades, null, 2));
+  if (useInMemoryStorage) {
+    Object.assign(inMemoryOpenTrades, openTrades);
+  } else {
+    writeFileSync(OPEN_TRADES_FILE, JSON.stringify(openTrades, null, 2));
+  }
 }
 
 function trackOpenTrade(logEntry) {
@@ -724,7 +711,9 @@ function updateClosedTrade(trade) {
 }
 
 function saveLog(log) {
-  writeFileSync(LOG_FILE, JSON.stringify(log, null, 2));
+  if (!useInMemoryStorage) {
+    writeFileSync(LOG_FILE, JSON.stringify(log, null, 2));
+  }
 }
 
 function countTodaysTrades(log) {
@@ -863,7 +852,7 @@ const CSV_FILE = "trades.csv";
 
 // Always ensure trades.csv exists with headers — open it in Excel/Sheets any time
 function initCsv() {
-  if (!existsSync(CSV_FILE)) {
+  if (!existsSync(CSV_FILE) && !useInMemoryStorage) {
     const funnyNote = `,,,,,,,,,,,"NOTE","Hey, if you're at this stage of the video, you must be enjoying it... perhaps you could hit subscribe now? :)"`;
     writeFileSync(CSV_FILE, CSV_HEADERS + "\n" + funnyNote + "\n");
     console.log(
@@ -987,23 +976,37 @@ async function writeTradeCsv(logEntry) {
     `"${notes}"`
   ].join(",");
 
-  if (!existsSync(CSV_FILE)) {
+  if (!existsSync(CSV_FILE) && !useInMemoryStorage) {
     writeFileSync(CSV_FILE, CSV_HEADERS + "\n");
   }
 
-  appendFileSync(CSV_FILE, row + "\n");
-  console.log(`Trade record saved → ${CSV_FILE}`);
+  if (useInMemoryStorage) {
+    inMemoryTrades.push(row);
+    console.log(`Trade record saved → in-memory storage (Railway)`);
+  } else {
+    appendFileSync(CSV_FILE, row + "\n");
+    console.log(`Trade record saved → ${CSV_FILE}`);
+  }
 }
 
 // Tax summary command: node bot.js --tax-summary
 function generateTaxSummary() {
-  if (!existsSync(CSV_FILE)) {
-    console.log("No trades.csv found — no trades have been recorded yet.");
-    return;
-  }
+  let rows = [];
 
-  const lines = readFileSync(CSV_FILE, "utf8").trim().split("\n");
-  const rows = lines.slice(1).map((l) => l.split(","));
+  if (useInMemoryStorage) {
+    if (inMemoryTrades.length === 0) {
+      console.log("No trades found — no trades have been recorded yet.");
+      return;
+    }
+    rows = inMemoryTrades.map((l) => l.split(","));
+  } else {
+    if (!existsSync(CSV_FILE)) {
+      console.log("No trades.csv found — no trades have been recorded yet.");
+      return;
+    }
+    const lines = readFileSync(CSV_FILE, "utf8").trim().split("\n");
+    rows = lines.slice(1).map((l) => l.split(","));
+  }
 
   const live = rows.filter((r) => r[11] === "LIVE");
   const paper = rows.filter((r) => r[11] === "PAPER");
