@@ -36,10 +36,10 @@ ATR_PERIOD=14
 STOP_LOSS_MULTIPLIER=2.5
 TAKE_PROFIT_RATIOS=1,2,3
 
-# BitGet API Credentials (use demo for testing)
-BITGET_API_KEY=demo_key
-BITGET_SECRET_KEY=demo_secret
-BITGET_PASSPHRASE=demo_passphrase
+# DELTA EXCHANGE API Credentials (use demo for testing)
+DELTAEXCHANGE_API_KEY=
+DELTAEXCHANGE_SECRET_KEY=
+DELTAEXCHANGE_PASSPHRASE=
 ```
 
 ### railway.json
