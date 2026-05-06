@@ -1,5 +1,125 @@
 {
-  "watchlist": ["BTCUSDT"],
-  "default_timeframe": "1m",
-
-
+  "strategy": {
+    "name": "Ali Khan ICT DRT Strategy",
+    "description": "Based on Ali Khan's Dealing Range Theory (DRT) and ICT concepts including Power of 3 and Fair Value Gaps"
+  },
+  "entry_rules": {
+    "timeframe": "1M",
+    "symbol": "BTCUSDT",
+    "conditions": [
+      {
+        "indicator": "market_structure",
+        "operator": "higher_high_lower_low",
+        "value": "confirmed",
+        "description": "HH/LL pattern confirmed for trend direction"
+      },
+      {
+        "indicator": "dealing_range_type",
+        "operator": "type_3",
+        "value": "inside",
+        "description": "Type 3 dealing range identified"
+      },
+      {
+        "indicator": "liquidity",
+        "operator": "sweeped",
+        "value": "external",
+        "description": "External liquidity has been swept"
+      },
+      {
+        "indicator": "fvg",
+        "operator": "present",
+        "value": "inside_range",
+        "description": "Fair Value Gap present inside dealing range"
+      },
+      {
+        "indicator": "power_of_3",
+        "operator": "phase",
+        "value": "distribution",
+        "description": "Power of 3 in distribution phase"
+      }
+    ]
+  },
+  "exit_rules": {
+    "stop_loss": {
+      "pips": 50,
+      "type": "fixed",
+      "description": "Fixed 50 pip stop loss for all symbols"
+    },
+    "take_profit": {
+      "pips": 150,
+      "type": "fixed",
+      "description": "Fixed 150 pip take profit for all symbols"
+    },
+    "partial_profit": {
+      "levels": [
+        {
+          "percentage": 50,
+          "pips": 75
+        }
+      ]
+    }
+  },
+  "risk_management": {
+    "max_trades_per_day": 20,
+    "max_trade_size_usd": 2500,
+    "min_trade_size_usd": 100,
+    "portfolio_value_usd": 50,
+    "position_size_percent": 10,
+    "risk_per_trade": 2
+  },
+  "drt_components": {
+    "type_1_range": {
+      "description": "Consolidation range before expansion",
+      "entry_signal": "breakout of range"
+    },
+    "type_2_range": {
+      "description": "Retracement range after initial move",
+      "entry_signal": "continuation after range"
+    },
+    "type_3_range": {
+      "description": "Final range before reversal",
+      "entry_signal": "breakdown of range"
+    },
+    "quadrant_levels": {
+      "25DRT": "First quadrant support/resistance",
+      "50DRT": "Mid-range key level",
+      "75DRT": "Third quadrant key level",
+      "100DRT": "Range boundary"
+    }
+  },
+  "ict_concepts": {
+    "power_of_3": {
+      "accumulation": "Initial quiet accumulation phase",
+      "manipulation": "Smart money manipulation phase",
+      "distribution": "Final distribution phase"
+    },
+    "fair_value_gap": {
+      "formation": "Three-candle pattern with gap",
+      "rejection": "Price rejects FVG level",
+      "fill": "Price returns to fill FVG"
+    },
+    "liquidity": {
+      "buy_side": "Stop loss orders below key levels",
+      "sell_side": "Stop loss orders above key levels",
+      "sweep": "Price runs through liquidity to trigger orders"
+    }
+  },
+  "trade_execution": {
+    "entry_conditions": [
+      "Market structure confirms trend",
+      "Dealing range type identified",
+      "Liquidity swept",
+      "FVG present in zone",
+      "PO3 phase aligned"
+    ],
+    "entry_timing": "On pullback after liquidity sweep",
+    "position_sizing": "2% of portfolio per trade",
+    "exit_strategy": "50% at 75 pips, 50% at 150 pips"
+  },
+  "notes": {
+    "strategy_source": "Ali Khan ICT and DRT methodology",
+    "stop_loss": "Always 50 pips",
+    "take_profit": "Always 150 pips",
+    "record_trading": "All trades recorded in trades.csv with profit/loss columns"
+  }
+}

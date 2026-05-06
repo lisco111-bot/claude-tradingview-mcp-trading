@@ -1,0 +1,1163 @@
+{
+  "trades": [
+    {
+      "timestamp": "2026-04-30T17:46:07.808Z",
+      "symbol": "BTCUSDT",
+      "timeframe": "1M",
+      "price": 76182.94,
+      "indicators": {
+        "ema8": 76169.36067785433,
+        "vwap": 76294.0857240362,
+        "rsi3": 100
+      },
+      "conditions": [
+        {
+          "label": "Price above EMA",
+          "pass": true,
+          "value": true,
+          "expected": "Price > EMA(8)"
+        },
+        {
+          "label": "Price below VWAP",
+          "pass": true,
+          "value": true,
+          "expected": "Price < VWAP"
+        },
+        {
+          "label": "RSI oversold",
+          "pass": false,
+          "value": 100,
+          "expected": "RSI < 30"
+        }
+      ],
+      "allPass": false,
+      "tradeSize": 0.5,
+      "orderPlaced": false,
+      "orderId": null,
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 2500,
+        "maxTradesPerDay": 20,
+        "tradesToday": 0
+      }
+    },
+    {
+      "timestamp": "2026-04-30T17:47:25.714Z",
+      "symbol": "BTCUSDT",
+      "timeframe": "1M",
+      "price": 76231.11,
+      "indicators": {
+        "ema8": 76188.57558894844,
+        "vwap": 76294.17027505863,
+        "rsi3": 100
+      },
+      "conditions": [
+        {
+          "label": "Price above EMA",
+          "pass": true,
+          "value": true,
+          "expected": "Price > EMA(8)"
+        },
+        {
+          "label": "Price below VWAP",
+          "pass": true,
+          "value": true,
+          "expected": "Price < VWAP"
+        },
+        {
+          "label": "RSI oversold",
+          "pass": false,
+          "value": 100,
+          "expected": "RSI < 30"
+        }
+      ],
+      "allPass": false,
+      "tradeSize": 0.5,
+      "orderPlaced": false,
+      "orderId": null,
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 2500,
+        "maxTradesPerDay": 20,
+        "tradesToday": 0
+      }
+    },
+    {
+      "timestamp": "2026-04-30T17:47:50.436Z",
+      "symbol": "BTCUSDT",
+      "timeframe": "1M",
+      "price": 76215,
+      "indicators": {
+        "ema8": 76184.99558894844,
+        "vwap": 76294.16169936387,
+        "rsi3": 100
+      },
+      "conditions": [
+        {
+          "label": "Price above EMA",
+          "pass": true,
+          "value": true,
+          "expected": "Price > EMA(8)"
+        },
+        {
+          "label": "Price below VWAP",
+          "pass": true,
+          "value": true,
+          "expected": "Price < VWAP"
+        },
+        {
+          "label": "RSI oversold",
+          "pass": false,
+          "value": 100,
+          "expected": "RSI < 30"
+        }
+      ],
+      "allPass": false,
+      "tradeSize": 0.5,
+      "orderPlaced": false,
+      "orderId": null,
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 2500,
+        "maxTradesPerDay": 20,
+        "tradesToday": 0
+      }
+    },
+    {
+      "timestamp": "2026-05-01T06:48:00.177Z",
+      "symbol": "BTCUSDT",
+      "timeframe": "1M",
+      "price": 77006.25,
+      "previousPrice": 77017.43,
+      "conditions": [
+        {
+          "label": "Liquidity sweep detected",
+          "pass": false,
+          "value": "-0.01%",
+          "expected": "> 0.5% price movement"
+        },
+        {
+          "label": "FVG potential",
+          "pass": false,
+          "value": "11.179999999993015 pips",
+          "expected": "> 50 pips movement"
+        },
+        {
+          "label": "PO3 alignment",
+          "pass": false,
+          "value": "0.01%",
+          "expected": "> 0.3% volatility"
+        }
+      ],
+      "allPass": false,
+      "tradeSize": 0.5,
+      "orderPlaced": false,
+      "orderId": null,
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 2500,
+        "maxTradesPerDay": 20,
+        "tradesToday": 0
+      }
+    },
+    {
+      "timestamp": "2026-05-01T06:48:22.521Z",
+      "symbol": "BTCUSDT",
+      "timeframe": "1M",
+      "price": 76998.67,
+      "previousPrice": 77006.25,
+      "conditions": [
+        {
+          "label": "Liquidity sweep detected",
+          "pass": false,
+          "value": "-0.01%",
+          "expected": "> 0.5% price movement"
+        },
+        {
+          "label": "FVG potential",
+          "pass": false,
+          "value": "7.580000000001746 pips",
+          "expected": "> 50 pips movement"
+        },
+        {
+          "label": "PO3 alignment",
+          "pass": false,
+          "value": "0.01%",
+          "expected": "> 0.3% volatility"
+        }
+      ],
+      "allPass": false,
+      "tradeSize": 0.5,
+      "orderPlaced": false,
+      "orderId": null,
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 2500,
+        "maxTradesPerDay": 20,
+        "tradesToday": 0
+      }
+    },
+    {
+      "timestamp": "2026-05-01T06:49:06.477Z",
+      "symbol": "BTCUSDT",
+      "timeframe": "1M",
+      "price": 76993.86,
+      "previousPrice": 76994.74,
+      "conditions": [
+        {
+          "label": "Liquidity sweep detected",
+          "pass": false,
+          "value": "-0.00%",
+          "expected": "> 0.5% price movement"
+        },
+        {
+          "label": "FVG potential",
+          "pass": false,
+          "value": "0.8800000000046566 pips",
+          "expected": "> 50 pips movement"
+        },
+        {
+          "label": "PO3 alignment",
+          "pass": false,
+          "value": "0.00%",
+          "expected": "> 0.3% volatility"
+        }
+      ],
+      "allPass": false,
+      "tradeSize": 0.5,
+      "orderPlaced": false,
+      "orderId": null,
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 2500,
+        "maxTradesPerDay": 20,
+        "tradesToday": 0
+      }
+    },
+    {
+      "timestamp": "2026-05-01T06:50:34.537Z",
+      "symbol": "BTCUSDT",
+      "timeframe": "1M",
+      "price": 76929.13,
+      "previousPrice": 76982.02,
+      "conditions": [
+        {
+          "label": "Liquidity sweep detected",
+          "pass": false,
+          "value": "-0.07%",
+          "expected": "> 0.1% price movement"
+        },
+        {
+          "label": "FVG potential",
+          "pass": true,
+          "value": "52.88999999999942 pips",
+          "expected": "> 10 pips movement"
+        },
+        {
+          "label": "PO3 alignment",
+          "pass": true,
+          "value": "0.07%",
+          "expected": "> 0.05% volatility"
+        }
+      ],
+      "allPass": false,
+      "tradeSize": 0.5,
+      "orderPlaced": false,
+      "orderId": null,
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 2500,
+        "maxTradesPerDay": 20,
+        "tradesToday": 0
+      }
+    },
+    {
+      "timestamp": "2026-05-01T06:50:53.591Z",
+      "symbol": "BTCUSDT",
+      "timeframe": "1M",
+      "price": 76907.34,
+      "previousPrice": 76982.02,
+      "conditions": [
+        {
+          "label": "Liquidity sweep detected",
+          "pass": false,
+          "value": "-0.10%",
+          "expected": "> 0.1% price movement"
+        },
+        {
+          "label": "FVG potential",
+          "pass": true,
+          "value": "74.68000000000757 pips",
+          "expected": "> 10 pips movement"
+        },
+        {
+          "label": "PO3 alignment",
+          "pass": true,
+          "value": "0.10%",
+          "expected": "> 0.05% volatility"
+        }
+      ],
+      "allPass": false,
+      "tradeSize": 0.5,
+      "orderPlaced": false,
+      "orderId": null,
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 2500,
+        "maxTradesPerDay": 20,
+        "tradesToday": 0
+      }
+    },
+    {
+      "timestamp": "2026-05-01T06:52:24.768Z",
+      "symbol": "BTCUSDT",
+      "timeframe": "1M",
+      "price": 76936.69,
+      "previousPrice": 76921.08,
+      "conditions": [
+        {
+          "label": "Liquidity sweep detected",
+          "pass": false,
+          "value": "0.02%",
+          "expected": "> 0.05% price movement"
+        },
+        {
+          "label": "FVG potential",
+          "pass": true,
+          "value": "15.610000000000582 pips",
+          "expected": "> 10 pips movement"
+        },
+        {
+          "label": "PO3 alignment",
+          "pass": false,
+          "value": "0.02%",
+          "expected": "> 0.05% volatility"
+        }
+      ],
+      "allPass": false,
+      "tradeSize": 0.5,
+      "orderPlaced": false,
+      "orderId": null,
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 2500,
+        "maxTradesPerDay": 20,
+        "tradesToday": 0
+      }
+    },
+    {
+      "timestamp": "2026-05-01T08:36:15.699Z",
+      "symbol": "BTCUSDT",
+      "timeframe": "1M",
+      "price": 77379.44,
+      "previousPrice": 77407.76,
+      "conditions": [
+        {
+          "label": "Liquidity sweep detected",
+          "pass": false,
+          "value": "-0.04%",
+          "expected": "> 0.05% price movement"
+        },
+        {
+          "label": "FVG potential",
+          "pass": true,
+          "value": "28.319999999992433 pips",
+          "expected": "> 10 pips movement"
+        },
+        {
+          "label": "PO3 alignment",
+          "pass": false,
+          "value": "0.04%",
+          "expected": "> 0.05% volatility"
+        }
+      ],
+      "allPass": false,
+      "tradeSize": 0.5,
+      "orderPlaced": false,
+      "orderId": null,
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 2500,
+        "maxTradesPerDay": 20,
+        "tradesToday": 0
+      }
+    },
+    {
+      "timestamp": "2026-05-01T08:36:48.377Z",
+      "symbol": "BTCUSDT",
+      "timeframe": "1M",
+      "price": 77380.53,
+      "previousPrice": 77407.76,
+      "conditions": [
+        {
+          "label": "Liquidity sweep detected",
+          "pass": false,
+          "value": "-0.04%",
+          "expected": "> 0.05% price movement"
+        },
+        {
+          "label": "FVG potential",
+          "pass": true,
+          "value": "27.229999999995925 pips",
+          "expected": "> 10 pips movement"
+        },
+        {
+          "label": "PO3 alignment",
+          "pass": false,
+          "value": "0.04%",
+          "expected": "> 0.05% volatility"
+        }
+      ],
+      "allPass": false,
+      "tradeSize": 0.5,
+      "orderPlaced": false,
+      "orderId": null,
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 2500,
+        "maxTradesPerDay": 20,
+        "tradesToday": 0
+      }
+    },
+    {
+      "timestamp": "2026-05-01T08:37:13.068Z",
+      "symbol": "BTCUSDT",
+      "timeframe": "1M",
+      "price": 77389.93,
+      "previousPrice": 77378.33,
+      "conditions": [
+        {
+          "label": "Liquidity sweep detected",
+          "pass": false,
+          "value": "0.01%",
+          "expected": "> 0.05% price movement"
+        },
+        {
+          "label": "FVG potential",
+          "pass": true,
+          "value": "11.599999999991269 pips",
+          "expected": "> 10 pips movement"
+        },
+        {
+          "label": "PO3 alignment",
+          "pass": false,
+          "value": "0.01%",
+          "expected": "> 0.05% volatility"
+        }
+      ],
+      "allPass": false,
+      "tradeSize": 0.5,
+      "orderPlaced": false,
+      "orderId": null,
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 2500,
+        "maxTradesPerDay": 20,
+        "tradesToday": 0
+      }
+    },
+    {
+      "timestamp": "2026-05-01T09:31:31.185Z",
+      "symbol": "BTCUSDT",
+      "timeframe": "1M",
+      "price": 77320.91,
+      "previousPrice": 77320.92,
+      "conditions": [
+        {
+          "label": "Liquidity sweep detected",
+          "pass": false,
+          "value": "-0.00%",
+          "expected": "> 0.05% price movement"
+        },
+        {
+          "label": "FVG potential",
+          "pass": false,
+          "value": "0.00999999999476131 pips",
+          "expected": "> 10 pips movement"
+        },
+        {
+          "label": "PO3 alignment",
+          "pass": false,
+          "value": "0.00%",
+          "expected": "> 0.05% volatility"
+        }
+      ],
+      "allPass": false,
+      "tradeSize": 0.5,
+      "orderPlaced": false,
+      "orderId": null,
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 2500,
+        "maxTradesPerDay": 20,
+        "tradesToday": 0
+      }
+    },
+    {
+      "timestamp": "2026-05-01T10:31:31.701Z",
+      "symbol": "BTCUSDT",
+      "timeframe": "1M",
+      "price": 77361.77,
+      "previousPrice": 77350.98,
+      "conditions": [
+        {
+          "label": "Liquidity sweep detected",
+          "pass": false,
+          "value": "0.01%",
+          "expected": "> 0.05% price movement"
+        },
+        {
+          "label": "FVG potential",
+          "pass": true,
+          "value": "10.790000000008149 pips",
+          "expected": "> 10 pips movement"
+        },
+        {
+          "label": "PO3 alignment",
+          "pass": false,
+          "value": "0.01%",
+          "expected": "> 0.05% volatility"
+        }
+      ],
+      "allPass": false,
+      "tradeSize": 0.5,
+      "orderPlaced": false,
+      "orderId": null,
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 2500,
+        "maxTradesPerDay": 20,
+        "tradesToday": 0
+      }
+    },
+    {
+      "timestamp": "2026-05-01T10:36:11.353Z",
+      "symbol": "BTCUSDT",
+      "timeframe": "1M",
+      "price": 77313.57,
+      "previousPrice": 77313.56,
+      "conditions": [
+        {
+          "label": "Liquidity sweep detected",
+          "pass": false,
+          "value": "0.00%",
+          "expected": "> 0.05% price movement"
+        },
+        {
+          "label": "FVG potential",
+          "pass": false,
+          "value": "0.010000000009313226 pips",
+          "expected": "> 10 pips movement"
+        },
+        {
+          "label": "PO3 alignment",
+          "pass": false,
+          "value": "0.00%",
+          "expected": "> 0.05% volatility"
+        }
+      ],
+      "allPass": false,
+      "tradeSize": 0.5,
+      "orderPlaced": false,
+      "orderId": null,
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 2500,
+        "maxTradesPerDay": 20,
+        "tradesToday": 0
+      }
+    },
+    {
+      "timestamp": "2026-05-01T11:36:13.984Z",
+      "symbol": "BTCUSDT",
+      "timeframe": "1M",
+      "price": 77344.79,
+      "previousPrice": 77355.09,
+      "conditions": [
+        {
+          "label": "Liquidity sweep detected",
+          "pass": false,
+          "value": "-0.01%",
+          "expected": "> 0.05% price movement"
+        },
+        {
+          "label": "FVG potential",
+          "pass": true,
+          "value": "10.30000000000291 pips",
+          "expected": "> 10 pips movement"
+        },
+        {
+          "label": "PO3 alignment",
+          "pass": false,
+          "value": "0.01%",
+          "expected": "> 0.05% volatility"
+        }
+      ],
+      "allPass": false,
+      "tradeSize": 0.5,
+      "orderPlaced": false,
+      "orderId": null,
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 2500,
+        "maxTradesPerDay": 20,
+        "tradesToday": 0
+      }
+    },
+    {
+      "timestamp": "2026-05-01T11:55:09.473Z",
+      "symbol": "BTCUSDT",
+      "timeframe": "1M",
+      "price": 77401.12,
+      "previousPrice": 77401.12,
+      "conditions": [
+        {
+          "label": "Liquidity sweep detected",
+          "pass": false,
+          "value": "0.00%",
+          "expected": "> 0.05% price movement"
+        },
+        {
+          "label": "FVG potential",
+          "pass": false,
+          "value": "0 pips",
+          "expected": "> 10 pips movement"
+        },
+        {
+          "label": "PO3 alignment",
+          "pass": false,
+          "value": "0.00%",
+          "expected": "> 0.05% volatility"
+        }
+      ],
+      "allPass": false,
+      "tradeSize": 0.5,
+      "orderPlaced": false,
+      "orderId": null,
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 2500,
+        "maxTradesPerDay": 20,
+        "tradesToday": 0
+      }
+    },
+    {
+      "timestamp": "2026-05-01T12:36:10.803Z",
+      "symbol": "BTCUSDT",
+      "timeframe": "1M",
+      "price": 78044.64,
+      "previousPrice": 77992.08,
+      "conditions": [
+        {
+          "label": "Liquidity sweep detected",
+          "pass": true,
+          "value": "0.07%",
+          "expected": "> 0.05% price movement"
+        },
+        {
+          "label": "FVG potential",
+          "pass": true,
+          "value": "52.55999999999767 pips",
+          "expected": "> 10 pips movement"
+        },
+        {
+          "label": "PO3 alignment",
+          "pass": true,
+          "value": "0.07%",
+          "expected": "> 0.05% volatility"
+        }
+      ],
+      "allPass": true,
+      "tradeSize": 0.5,
+      "orderPlaced": true,
+      "orderId": "PAPER-1777638970803",
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 2500,
+        "maxTradesPerDay": 20,
+        "tradesToday": 0
+      }
+    },
+    {
+      "timestamp": "2026-05-01T12:55:10.006Z",
+      "symbol": "BTCUSDT",
+      "timeframe": "1M",
+      "price": 77978.49,
+      "previousPrice": 77950.49,
+      "conditions": [
+        {
+          "label": "Liquidity sweep detected",
+          "pass": false,
+          "value": "0.04%",
+          "expected": "> 0.05% price movement"
+        },
+        {
+          "label": "FVG potential",
+          "pass": true,
+          "value": "28 pips",
+          "expected": "> 10 pips movement"
+        },
+        {
+          "label": "PO3 alignment",
+          "pass": false,
+          "value": "0.04%",
+          "expected": "> 0.05% volatility"
+        }
+      ],
+      "allPass": false,
+      "tradeSize": 0.5,
+      "orderPlaced": false,
+      "orderId": null,
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 2500,
+        "maxTradesPerDay": 20,
+        "tradesToday": 1
+      }
+    },
+    {
+      "timestamp": "2026-05-01T13:36:12.531Z",
+      "symbol": "BTCUSDT",
+      "timeframe": "1M",
+      "price": 78463.19,
+      "previousPrice": 78457.16,
+      "conditions": [
+        {
+          "label": "Liquidity sweep detected",
+          "pass": false,
+          "value": "0.01%",
+          "expected": "> 0.05% price movement"
+        },
+        {
+          "label": "FVG potential",
+          "pass": false,
+          "value": "6.029999999998836 pips",
+          "expected": "> 10 pips movement"
+        },
+        {
+          "label": "PO3 alignment",
+          "pass": false,
+          "value": "0.01%",
+          "expected": "> 0.05% volatility"
+        }
+      ],
+      "allPass": false,
+      "tradeSize": 0.5,
+      "orderPlaced": false,
+      "orderId": null,
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 2500,
+        "maxTradesPerDay": 20,
+        "tradesToday": 1
+      }
+    },
+    {
+      "timestamp": "2026-05-01T13:55:10.526Z",
+      "symbol": "BTCUSDT",
+      "timeframe": "1M",
+      "price": 78827.16,
+      "previousPrice": 78781.62,
+      "conditions": [
+        {
+          "label": "Liquidity sweep detected",
+          "pass": true,
+          "value": "0.06%",
+          "expected": "> 0.05% price movement"
+        },
+        {
+          "label": "FVG potential",
+          "pass": true,
+          "value": "45.54000000000815 pips",
+          "expected": "> 10 pips movement"
+        },
+        {
+          "label": "PO3 alignment",
+          "pass": true,
+          "value": "0.06%",
+          "expected": "> 0.05% volatility"
+        }
+      ],
+      "allPass": true,
+      "tradeSize": 0.5,
+      "orderPlaced": true,
+      "orderId": "PAPER-1777643710526",
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 2500,
+        "maxTradesPerDay": 20,
+        "tradesToday": 1
+      }
+    },
+    {
+      "timestamp": "2026-05-01T14:36:12.998Z",
+      "symbol": "BTCUSDT",
+      "timeframe": "1M",
+      "price": 78217.82,
+      "previousPrice": 78264.37,
+      "conditions": [
+        {
+          "label": "Liquidity sweep detected",
+          "pass": true,
+          "value": "-0.06%",
+          "expected": "> 0.05% price movement"
+        },
+        {
+          "label": "FVG potential",
+          "pass": true,
+          "value": "46.54999999998836 pips",
+          "expected": "> 10 pips movement"
+        },
+        {
+          "label": "PO3 alignment",
+          "pass": true,
+          "value": "0.06%",
+          "expected": "> 0.05% volatility"
+        }
+      ],
+      "allPass": true,
+      "tradeSize": 0.5,
+      "orderPlaced": true,
+      "orderId": "PAPER-1777646172998",
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 2500,
+        "maxTradesPerDay": 20,
+        "tradesToday": 2
+      }
+    },
+    {
+      "timestamp": "2026-05-01T14:55:11.037Z",
+      "symbol": "BTCUSDT",
+      "timeframe": "1M",
+      "price": 78317.64,
+      "previousPrice": 78318.86,
+      "conditions": [
+        {
+          "label": "Liquidity sweep detected",
+          "pass": false,
+          "value": "-0.00%",
+          "expected": "> 0.05% price movement"
+        },
+        {
+          "label": "FVG potential",
+          "pass": false,
+          "value": "1.2200000000011642 pips",
+          "expected": "> 10 pips movement"
+        },
+        {
+          "label": "PO3 alignment",
+          "pass": false,
+          "value": "0.00%",
+          "expected": "> 0.05% volatility"
+        }
+      ],
+      "allPass": false,
+      "tradeSize": 0.5,
+      "orderPlaced": false,
+      "orderId": null,
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 2500,
+        "maxTradesPerDay": 20,
+        "tradesToday": 3
+      }
+    },
+    {
+      "timestamp": "2026-05-01T15:36:19.635Z",
+      "symbol": "BTCUSDT",
+      "timeframe": "1M",
+      "price": 78545,
+      "previousPrice": 78528.06,
+      "conditions": [
+        {
+          "label": "Liquidity sweep detected",
+          "pass": false,
+          "value": "0.02%",
+          "expected": "> 0.05% price movement"
+        },
+        {
+          "label": "FVG potential",
+          "pass": true,
+          "value": "16.94000000000233 pips",
+          "expected": "> 10 pips movement"
+        },
+        {
+          "label": "PO3 alignment",
+          "pass": false,
+          "value": "0.02%",
+          "expected": "> 0.05% volatility"
+        }
+      ],
+      "allPass": false,
+      "tradeSize": 0.5,
+      "orderPlaced": false,
+      "orderId": null,
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 2500,
+        "maxTradesPerDay": 20,
+        "tradesToday": 3
+      }
+    },
+    {
+      "timestamp": "2026-05-01T15:55:11.664Z",
+      "symbol": "BTCUSDT",
+      "timeframe": "1M",
+      "price": 78358.01,
+      "previousPrice": 78360.01,
+      "conditions": [
+        {
+          "label": "Liquidity sweep detected",
+          "pass": false,
+          "value": "-0.00%",
+          "expected": "> 0.05% price movement"
+        },
+        {
+          "label": "FVG potential",
+          "pass": false,
+          "value": "2 pips",
+          "expected": "> 10 pips movement"
+        },
+        {
+          "label": "PO3 alignment",
+          "pass": false,
+          "value": "0.00%",
+          "expected": "> 0.05% volatility"
+        }
+      ],
+      "allPass": false,
+      "tradeSize": 0.5,
+      "orderPlaced": false,
+      "orderId": null,
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 2500,
+        "maxTradesPerDay": 20,
+        "tradesToday": 3
+      }
+    },
+    {
+      "timestamp": "2026-05-01T16:36:12.742Z",
+      "symbol": "BTCUSDT",
+      "timeframe": "1M",
+      "price": 78269.51,
+      "previousPrice": 78275.03,
+      "conditions": [
+        {
+          "label": "Liquidity sweep detected",
+          "pass": false,
+          "value": "-0.01%",
+          "expected": "> 0.05% price movement"
+        },
+        {
+          "label": "FVG potential",
+          "pass": false,
+          "value": "5.5200000000040745 pips",
+          "expected": "> 10 pips movement"
+        },
+        {
+          "label": "PO3 alignment",
+          "pass": false,
+          "value": "0.01%",
+          "expected": "> 0.05% volatility"
+        }
+      ],
+      "allPass": false,
+      "tradeSize": 0.5,
+      "orderPlaced": false,
+      "orderId": null,
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 2500,
+        "maxTradesPerDay": 20,
+        "tradesToday": 3
+      }
+    },
+    {
+      "timestamp": "2026-05-01T16:55:12.207Z",
+      "symbol": "BTCUSDT",
+      "timeframe": "1M",
+      "price": 78320,
+      "previousPrice": 78299.96,
+      "conditions": [
+        {
+          "label": "Liquidity sweep detected",
+          "pass": false,
+          "value": "0.03%",
+          "expected": "> 0.05% price movement"
+        },
+        {
+          "label": "FVG potential",
+          "pass": true,
+          "value": "20.039999999993597 pips",
+          "expected": "> 10 pips movement"
+        },
+        {
+          "label": "PO3 alignment",
+          "pass": false,
+          "value": "0.03%",
+          "expected": "> 0.05% volatility"
+        }
+      ],
+      "allPass": false,
+      "tradeSize": 0.5,
+      "orderPlaced": false,
+      "orderId": null,
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 2500,
+        "maxTradesPerDay": 20,
+        "tradesToday": 3
+      }
+    },
+    {
+      "timestamp": "2026-05-01T17:36:15.545Z",
+      "symbol": "BTCUSDT",
+      "timeframe": "1M",
+      "price": 78258.49,
+      "previousPrice": 78238.64,
+      "conditions": [
+        {
+          "label": "Liquidity sweep detected",
+          "pass": false,
+          "value": "0.03%",
+          "expected": "> 0.05% price movement"
+        },
+        {
+          "label": "FVG potential",
+          "pass": true,
+          "value": "19.85000000000582 pips",
+          "expected": "> 10 pips movement"
+        },
+        {
+          "label": "PO3 alignment",
+          "pass": false,
+          "value": "0.03%",
+          "expected": "> 0.05% volatility"
+        }
+      ],
+      "allPass": false,
+      "tradeSize": 0.5,
+      "orderPlaced": false,
+      "orderId": null,
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 2500,
+        "maxTradesPerDay": 20,
+        "tradesToday": 3
+      }
+    },
+    {
+      "timestamp": "2026-05-01T17:55:12.724Z",
+      "symbol": "BTCUSDT",
+      "timeframe": "1M",
+      "price": 78524.36,
+      "previousPrice": 78516.47,
+      "conditions": [
+        {
+          "label": "Liquidity sweep detected",
+          "pass": false,
+          "value": "0.01%",
+          "expected": "> 0.05% price movement"
+        },
+        {
+          "label": "FVG potential",
+          "pass": false,
+          "value": "7.889999999999418 pips",
+          "expected": "> 10 pips movement"
+        },
+        {
+          "label": "PO3 alignment",
+          "pass": false,
+          "value": "0.01%",
+          "expected": "> 0.05% volatility"
+        }
+      ],
+      "allPass": false,
+      "tradeSize": 0.5,
+      "orderPlaced": false,
+      "orderId": null,
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 2500,
+        "maxTradesPerDay": 20,
+        "tradesToday": 3
+      }
+    },
+    {
+      "timestamp": "2026-05-01T18:36:12.011Z",
+      "symbol": "BTCUSDT",
+      "timeframe": "1M",
+      "price": 78470.01,
+      "previousPrice": 78483.34,
+      "conditions": [
+        {
+          "label": "Liquidity sweep detected",
+          "pass": false,
+          "value": "-0.02%",
+          "expected": "> 0.05% price movement"
+        },
+        {
+          "label": "FVG potential",
+          "pass": true,
+          "value": "13.330000000001746 pips",
+          "expected": "> 10 pips movement"
+        },
+        {
+          "label": "PO3 alignment",
+          "pass": false,
+          "value": "0.02%",
+          "expected": "> 0.05% volatility"
+        }
+      ],
+      "allPass": false,
+      "tradeSize": 0.5,
+      "orderPlaced": false,
+      "orderId": null,
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 2500,
+        "maxTradesPerDay": 20,
+        "tradesToday": 3
+      }
+    },
+    {
+      "timestamp": "2026-05-01T18:55:13.309Z",
+      "symbol": "BTCUSDT",
+      "timeframe": "1M",
+      "price": 78439.21,
+      "previousPrice": 78439.21,
+      "conditions": [
+        {
+          "label": "Liquidity sweep detected",
+          "pass": false,
+          "value": "0.00%",
+          "expected": "> 0.05% price movement"
+        },
+        {
+          "label": "FVG potential",
+          "pass": false,
+          "value": "0 pips",
+          "expected": "> 10 pips movement"
+        },
+        {
+          "label": "PO3 alignment",
+          "pass": false,
+          "value": "0.00%",
+          "expected": "> 0.05% volatility"
+        }
+      ],
+      "allPass": false,
+      "tradeSize": 0.5,
+      "orderPlaced": false,
+      "orderId": null,
+      "paperTrading": true,
+      "limits": {
+        "maxTradeSizeUSD": 2500,
+        "maxTradesPerDay": 20,
+        "tradesToday": 3
+      }
+    }
+  ]
+}

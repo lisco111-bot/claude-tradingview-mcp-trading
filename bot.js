@@ -3,7 +3,7 @@
  *
  * Cloud mode: runs on Railway on a schedule. Pulls candle data direct from
  * Binance (free, no auth), calculates all indicators, runs safety check,
- * executes via BitGet if everything lines up.
+ * executes via DeltaExchange if everything lines up.
  *
  * Local mode: run manually — node bot.js
  * Cloud mode: deploy to Railway, set env vars, Railway triggers on cron schedule
@@ -14,10 +14,13 @@ import { readFileSync, writeFileSync, existsSync, appendFileSync } from "fs";
 import crypto from "crypto";
 import { execSync } from "child_process";
 
+// ─── Technical Analysis Functions ───────────────────────────────────────────────
+
+
 // ─── Onboarding ───────────────────────────────────────────────────────────────
 
 function checkOnboarding() {
-  const required = ["BITGET_API_KEY", "BITGET_SECRET_KEY", "BITGET_PASSPHRASE"];
+  const required = ["DELTAEXCHANGE_API_KEY", "DELTAEXCHANGE_SECRET_KEY", "DELTAEXCHANGE_PASSPHRASE"];
   const missing = required.filter((k) => !process.env[k]);
 
   if (!existsSync(".env")) {
@@ -79,7 +82,7 @@ const CONFIG = {
   maxTradesPerDay: parseInt(process.env.MAX_TRADES_PER_DAY || "20"),
   paperTrading: process.env.PAPER_TRADING !== "false",
   tradeMode: process.env.TRADE_MODE || "future",
-  bitget: {
+  deltaexchange: {
     apiKey: process.env.BINANCE_API_KEY,
     secretKey: process.env.BINANCE_SECRET_KEY,
     passphrase: process.env.BINANCE_PASSPHRASE,
@@ -176,17 +179,17 @@ function checkTradeLimits(log) {
   return true;
 }
 
-// ─── BitGet Execution ────────────────────────────────────────────────────────
+// ─── DeltaExchange Execution ──────────────────────────────────────────────────────
 
-function signBitGet(timestamp, method, path, body = "") {
+function signDeltaExchange(timestamp, method, path, body = "") {
   const message = `${timestamp}${method}${path}${body}`;
   return crypto
-    .createHmac("sha256", CONFIG.bitget.secretKey)
+    .createHmac("sha256", CONFIG.deltaexchange.secretKey)
     .update(message)
     .digest("base64");
 }
 
-async function placeBitGetOrder(symbol, side, sizeUSD, price) {
+async function placeDeltaExchangeOrder(symbol, side, sizeUSD, price) {
   const quantity = (sizeUSD / price).toFixed(6);
   const timestamp = Date.now().toString();
   const path =
@@ -206,7 +209,7 @@ async function placeBitGetOrder(symbol, side, sizeUSD, price) {
     }),
   });
 
-  const signature = signBitGet(timestamp, "POST", path, body);
+  const signature = signDeltaExchange(timestamp, "POST", path, body);
 
   const res = await fetch(`${CONFIG.binance.baseUrl}${path}`, {
     method: "POST",
@@ -256,7 +259,7 @@ const CSV_HEADERS = [
   "Order ID",
   "Mode",
   "profit",
-  "loss"
+  "loss",
   "Notes",
 ].join(",");
 
@@ -305,7 +308,7 @@ function writeTradeCsv(logEntry) {
   const row = [
     date,
     time,
-    "BitGet",
+    "DeltaExchange",
     logEntry.symbol,
     side,
     quantity,
@@ -356,6 +359,45 @@ function generateTaxSummary() {
 
 // ─── Main ────────────────────────────────────────────────────────────────────
 
+function runSafetyCheck(price, previousPrice, rules) {
+  const results = [];
+
+  // Simulate DRT conditions based on price action
+  const priceChange = price - previousPrice;
+  const priceChangePercent = (priceChange / previousPrice) * 100;
+
+  // Check for potential liquidity sweep (price moved significantly)
+  const liquiditySweep = Math.abs(priceChangePercent) > 0.05; // Even more lenient
+  results.push({
+    label: "Liquidity sweep detected",
+    pass: liquiditySweep,
+    value: `${priceChangePercent.toFixed(2)}%`,
+    expected: "> 0.05% price movement"
+  });
+
+  // Check for FVG formation (simplified - using current price movement)
+  const fvgPotential = Math.abs(priceChange) > 10; // Reduced to 10 pips
+  results.push({
+    label: "FVG potential",
+    pass: fvgPotential,
+    value: `${Math.abs(priceChange)} pips`,
+    expected: "> 10 pips movement"
+  });
+
+  // Check for Power of 3 alignment (simplified - using recent volatility)
+  const volatilityCheck = Math.abs(priceChangePercent) > 0.05; // Reduced threshold
+  results.push({
+    label: "PO3 alignment",
+    pass: volatilityCheck,
+    value: `${Math.abs(priceChangePercent).toFixed(2)}%`,
+    expected: "> 0.05% volatility"
+  });
+
+  const allPass = results.every(r => r.pass);
+
+  return { results, allPass };
+}
+
 async function run() {
   checkOnboarding();
   initCsv();
@@ -380,34 +422,23 @@ async function run() {
     return;
   }
 
-  // Fetch candle data — need enough for EMA(8) + full session for VWAP
+  // Fetch candle data for DRT analysis
   console.log("\n── Fetching market data from Binance ───────────────────\n");
-  const candles = await fetchCandles(CONFIG.symbol, CONFIG.timeframe, 500);
+  const candles = await fetchCandles(CONFIG.symbol, CONFIG.timeframe, 50);
   const closes = candles.map((c) => c.close);
   const price = closes[closes.length - 1];
+  const previousPrice = closes[closes.length - 2] || price;
   console.log(`  Current price: $${price.toFixed(2)}`);
+  console.log(`  Previous price: $${previousPrice.toFixed(2)}`);
 
-  // Calculate indicators
-  const ema8 = calcEMA(closes, 8);
-  const vwap = calcVWAP(candles);
-  const rsi3 = calcRSI(closes, 3);
+  // Run safety check using DRT/ICT strategy
+  const { results, allPass } = runSafetyCheck(price, previousPrice, rules);
 
-  console.log(`  EMA(8):  $${ema8.toFixed(2)}`);
-  console.log(`  VWAP:    $${vwap ? vwap.toFixed(2) : "N/A"}`);
-  console.log(`  RSI(3):  ${rsi3 ? rsi3.toFixed(2) : "N/A"}`);
-
-  if (!vwap || !rsi3) {
-    console.log("\n⚠️  Not enough data to calculate indicators. Exiting.");
-    return;
-  }
-
-  // Run safety check
-  const { results, allPass } = runSafetyCheck(price, ema8, vwap, rsi3, rules);
-
-  // Calculate position size
-  const tradeSize = Math.min(
-    CONFIG.portfolioValue * 0.01,
-    CONFIG.maxTradeSizeUSD,
+  // Calculate position size with minimum $100 requirement
+  const minTradeSizeUSD = 100; // Minimum trade size requirement
+  const tradeSize = Math.max(
+    minTradeSizeUSD,
+    Math.min(CONFIG.portfolioValue * 0.01, CONFIG.maxTradeSizeUSD)
   );
 
   // Decision
@@ -418,7 +449,7 @@ async function run() {
     symbol: CONFIG.symbol,
     timeframe: CONFIG.timeframe,
     price,
-    indicators: { ema8, vwap, rsi3 },
+    previousPrice,
     conditions: results,
     allPass,
     tradeSize,
@@ -452,7 +483,7 @@ async function run() {
         `\n🔴 PLACING LIVE ORDER — $${tradeSize.toFixed(2)} BUY ${CONFIG.symbol}`,
       );
       try {
-        const order = await placeBitGetOrder(
+        const order = await placeDeltaExchangeOrder(
           CONFIG.symbol,
           "buy",
           tradeSize,

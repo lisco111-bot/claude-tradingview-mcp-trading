@@ -1,0 +1,78 @@
+AMIT DRT ALONE 2 - STRATEGY DOCUMENTATION
+
+Based on Ali Khan's ICT (Inner Circle Trader) and DRT (Dealing Range Theory) Methodology
+
+STRATEGY OVERVIEW:
+This strategy combines Ali Khan's Dealing Range Theory with ICT concepts for high-probability trading.
+
+CORE COMPONENTS:
+
+1. DEALING RANGE THEORY (DRT)
+   - Type 1 Range: Consolidation before expansion
+   - Type 2 Range: Retracement after initial move
+   - Type 3 Range: Final range before reversal
+   - Quadrant Levels: 25DRT, 50DRT, 75DRT, 100DRT
+
+2. POWER OF 3 (PO3)
+   - Accumulation: Quiet accumulation phase
+   - Manipulation: Smart money manipulation phase
+   - Distribution: Final distribution phase
+
+3. FAIR VALUE GAP (FVG)
+   - Three-candle pattern with unfilled gap
+   - Price often returns to fill FVG
+   - Acts as support/resistance level
+
+4. LIQUIDITY CONCEPTS
+   - Buy-side liquidity: Stop loss orders below key levels
+   - Sell-side liquidity: Stop loss orders above key levels
+   - Sweep: Price runs through liquidity to trigger orders
+
+ENTRY CONDITIONS:
+1. Market structure confirms HH/LL pattern
+2. Type 3 dealing range identified
+3. External liquidity has been swept
+4. FVG present inside dealing range
+5. PO3 in distribution phase
+
+ENTRY TIMING:
+- Enter on pullback after liquidity sweep
+- Wait for price to close back inside dealing range
+- Confirm alignment of bias, structure, and liquidity
+
+EXIT RULES:
+- Stop Loss: 50 pips (fixed for all symbols)
+- Take Profit: 150 pips (fixed for all symbols)
+- Partial Profit: 50% at 75 pips, remaining 50% at 150 pips
+
+RISK MANAGEMENT:
+- Max trades per day: 20
+- Max trade size: $2,500
+- Portfolio value: $50
+- Position size: 10% of portfolio
+- Risk per trade: 2%
+
+TRADE EXECUTION:
+1. Identify market structure and trend
+2. Locate appropriate dealing range type
+3. Wait for liquidity sweep
+4. Confirm FVG presence
+5. Check PO3 phase alignment
+6. Enter on pullback
+7. Set stop loss at 50 pips
+8. Set take profit at 150 pips
+
+RECORD KEEPING:
+All trades automatically recorded in trades.csv with:
+- Date and time
+- Symbol and side
+- Entry/exit prices
+- Profit/loss amounts
+- Order ID
+- Notes on strategy conditions
+
+STRATEGY VALIDATION:
+- Only execute when ALL conditions align
+- No partial conditions accepted
+- Market structure is primary filter
+- Liquidity sweep is key timing signal
