@@ -20,45 +20,18 @@ import { execSync } from "child_process";
 // ─── Onboarding ───────────────────────────────────────────────────────────────
 
 function checkOnboarding() {
-  const required = ["BINANCE_API_KEY", "BINANCE_SECRET_KEY", "BINANCE_PASSPHRASE"];
+  // Check for required environment variables
+  const required = ["BINANCE_API_KEY", "BINANCE_SECRET_KEY", "BINANCE_PASSPHRASE", "DELTAEXCHANGE_API_KEY", "DELTAEXCHANGE_SECRET_KEY", "DELTAEXCHANGE_PASSPHRASE"];
   const missing = required.filter((k) => !process.env[k]);
 
-  if (!existsSync(".env")) {
-    console.log(
-      "\n⚠️  No .env file found — creating one for you...\n",
-    );
-    writeFileSync(
-      ".env",
-      [
-        "# Binance credentials",
-        "BINANCE_API_KEY=",
-        "BINANCE_SECRET_KEY=",
-        "BINANCE_PASSPHRASE=",
-        "",
-        "# Trading config",
-        "PORTFOLIO_VALUE_USD=500",
-        "MAX_TRADE_SIZE_USD=2500",
-        "MAX_TRADES_PER_DAY=20",
-        "PAPER_TRADING=true",
-        "SYMBOL=BTCUSDT",
-        "TIMEFRAME=1M",
-        "",
-        "# DeltaExchange credentials (if using DeltaExchange)",
-        "DELTAEXCHANGE_API_KEY=",
-        "DELTAEXCHANGE_SECRET_KEY=",
-        "DELTAEXCHANGE_PASSPHRASE=",
-      ].join("\n") + "\n",
-    );
-    console.log(
-      "Fill in your Binance credentials in .env then re-run: node bot.js\n",
-    );
-    process.exit(0);
-  }
-
   if (missing.length > 0) {
-    console.log(`\n⚠️  Missing credentials in .env: ${missing.join(", ")}`);
-    console.log("Please add these values to your .env file then re-run: node bot.js\n");
-    process.exit(0);
+    console.log(`\n⚠️  Missing credentials in environment: ${missing.join(", ")}`);
+    console.log("Please add these values to your Railway environment variables then re-deploy:\n");
+    console.log("1. Go to your Railway project dashboard");
+    console.log("2. Navigate to Variables");
+    console.log("3. Add the missing variables with their values");
+    console.log("4. Re-deploy the service\n");
+    process.exit(1);
   }
 
   // Always print the CSV location so users know where to find their trade log
@@ -80,7 +53,7 @@ const CONFIG = {
   maxTradesPerDay: parseInt(process.env.MAX_TRADES_PER_DAY || "20"),
   paperTrading: process.env.PAPER_TRADING !== "false",
   tradeMode: process.env.TRADE_MODE || "future",
-  deltaexchange: {
+  binance: {
     apiKey: process.env.BINANCE_API_KEY,
     secretKey: process.env.BINANCE_SECRET_KEY,
     passphrase: process.env.BINANCE_PASSPHRASE,
