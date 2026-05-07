@@ -213,7 +213,7 @@ In Railway → Settings → Cron Schedule, set how often the bot runs. Recommend
 
 | Timeframe | Schedule | What it means |
 |-----------|----------|----------------|
-| 4H chart | `0 */4 * * *` | Every 4 hours |
+| 4H chart | `0/5 * * * *` | Every 5 MINUTES |
 | 1D chart | `0 9 * * *` | Once a day at 9am UTC |
 | 1H chart | `0 * * * *` | Every hour |
 
