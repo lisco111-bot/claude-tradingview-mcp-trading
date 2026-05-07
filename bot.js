@@ -89,7 +89,7 @@ function calcDealingRange(candles, minPoints = 8, maxPoints = 20) {
   return null;
 }
 
-function calcDailyBias(candles, timeframe = '1H', lookback = 3) {
+function calcDailyBias(candles, timeframe = '1H', lookback = CONFIG.dailyBiasLookback) {
   // Simple bias calculation based on recent price action
   let recent = candles.slice(-lookback);
   let closes = recent.map(c => c.close);
@@ -224,7 +224,7 @@ function calcLiquidityZones(candles, searchRadius = 50, threshold = 0.0005) {
   return zones;
 }
 
-function calcATR(candles, period = 14) {
+function calcATR(candles, period = CONFIG.atrPeriod) {
   let tr = [];
 
   for (let i = 1; i < candles.length; i++) {
@@ -233,6 +233,11 @@ function calcATR(candles, period = 14) {
     let lowClose = Math.abs(candles[i].low - candles[i - 1].close);
 
     tr.push(Math.max(highLow, highClose, lowClose));
+  }
+
+  if (tr.length < period) {
+    // Not enough data for full ATR calculation
+    return tr.reduce((a, b) => a + b, 0) / tr.length || 0;
   }
 
   let atr = tr.slice(0, period).reduce((a, b) => a + b) / period;
@@ -321,18 +326,16 @@ function runDRTRules(price, dealingRange, dailyBias, fvgs, orderBlocks, liquidit
 
   const po3Condition = {
     label: "PO3 Confluence",
-    pass: po3Score >= rules.indicators.power_of_3.confirmation.required,
+    pass: po3Score >= CONFIG.po3ConfirmationRequired,
     value: `${po3Score}/${po3Max}`,
-    threshold: rules.indicators.power_of_3.confirmation.required
+    threshold: CONFIG.po3ConfirmationRequired
   };
   results.push(po3Condition);
   if (!po3Condition.pass) allPass = false;
 
-  // Check 6: Time Filter (using UTC-4)
+  // Check 6: Time Filter (using system timezone)
   const now = new Date();
-  const utcTime = now.getTime() + (now.getTimezoneOffset() * 60000);
-  const utc4Time = new Date(utcTime - (4 * 3600000));
-  const currentHour = utc4Time.getUTCHours();
+  const currentHour = now.getHours();
   const timeCondition = {
     label: "Session Hours",
     pass: currentHour >= 8 && currentHour <= 17,
@@ -345,7 +348,7 @@ function runDRTRules(price, dealingRange, dailyBias, fvgs, orderBlocks, liquidit
   // Check 7: Risk Management
   const maxPositionSize = rules.strategy.risk_management.max_position_size;
   const riskPerTrade = rules.strategy.risk_management.risk_per_trade;
-  const stopLossMultiplier = rules.strategy.risk_management.stop_loss_atr_multiplier;
+  const stopLossMultiplier = CONFIG.stopLossMultiplier;
 
   const stopLossPrice = dailyBias.bullish ?
     price - (atr * stopLossMultiplier) :
@@ -458,11 +461,9 @@ function runICTRules(price, dealingRange, dailyBias, fvgs, orderBlocks, liquidit
   results.push(liquidityCondition);
   if (!liquidityCondition.pass) allPass = false;
 
-  // Check 8: Time Filter
+  // Check 8: Time Filter (using system timezone)
   const now = new Date();
-  const utcTime = now.getTime() + (now.getTimezoneOffset() * 60000);
-  const utc4Time = new Date(utcTime - (4 * 3600000));
-  const currentHour = utc4Time.getUTCHours();
+  const currentHour = now.getHours();
   const timeCondition = {
     label: "Session Hours",
     pass: currentHour >= 8 && currentHour <= 17,
@@ -475,7 +476,7 @@ function runICTRules(price, dealingRange, dailyBias, fvgs, orderBlocks, liquidit
   // Check 9: Risk Management
   const maxPositionSize = rules.strategy.risk_management.max_position_size;
   const riskPerTrade = rules.strategy.risk_management.risk_per_trade;
-  const stopLossMultiplier = rules.strategy.risk_management.stop_loss_atr_multiplier;
+  const stopLossMultiplier = CONFIG.stopLossMultiplier;
 
   const stopLossPrice = dailyBias.bullish ?
     price - (atr * stopLossMultiplier) :
@@ -539,22 +540,17 @@ function checkOnboarding() {
   }
 
   if (missing.length > 0) {
-    console.log(`\n⚠️  Missing credentials in .env: ${missing.join(", ")}`);
-    console.log("Opening .env for you now...\n");
-    try {
-      // Cross-platform file opening
-      if (process.platform === 'win32') {
-        execSync("start notepad .env");
-      } else if (process.platform === 'darwin') {
-        execSync("open .env");
-      } else {
-        execSync("xdg-open .env");
-      }
-    } catch {
-      // If file opening fails, just continue
+    console.log(`\n⚠️  Missing environment variables: ${missing.join(", ")}`);
+    console.log("Please set these variables in the Railway dashboard or .env file\n");
+
+    // For Railway, don't exit - just continue with demo mode
+    if (process.env.RAILWAY_APP_ID) {
+      console.log("Running in demo mode with Railway environment variables...\n");
+      return;
+    } else {
+      console.log("Add the missing values then re-run: node bot.js\n");
+      process.exit(0);
     }
-    console.log("Add the missing values then re-run: node bot.js\n");
-    process.exit(0);
   }
 
   // Always print the CSV location so users know where to find their trade log
@@ -569,14 +565,19 @@ function checkOnboarding() {
 // ─── Config ────────────────────────────────────────────────────────────────
 
 const CONFIG = {
-  symbol: process.env.SYMBOL || "BTCUSDT",
-  timeframe: process.env.TIMEFRAME || "1H",
-  portfolioValue: parseFloat(process.env.PORTFOLIO_VALUE_USD || "500"),
-  maxTradeSizeUSD: parseFloat(process.env.MAX_TRADE_SIZE_USD || "2500"),
-  maxTradesPerDay: parseInt(process.env.MAX_TRADES_PER_DAY || "20"),
+  symbol: process.env.SYMBOL || "EURUSDT",
+  timeframe: process.env.TIMEFRAME || "15m",
+  portfolioValue: parseFloat(process.env.PORTFOLIO_VALUE_USD || "10000"),
+  maxTradeSizeUSD: parseFloat(process.env.MAX_TRADE_SIZE_USD || "250"),
+  maxTradesPerDay: parseInt(process.env.MAX_TRADES_PER_DAY || "5"),
   paperTrading: process.env.PAPER_TRADING !== "false",
   tradeMode: process.env.TRADE_MODE || "future",
-  exchange: process.env.EXCHANGE || "binance", // Options: "binance", "delta"
+  exchange: process.env.EXCHANGE || "binance",
+  drtEnabled: process.env.DRT_ENABLED === "true",
+  dailyBiasLookback: parseInt(process.env.DAILY_BIAS_LOOKBACK || "3"),
+  po3ConfirmationRequired: parseInt(process.env.PO3_CONFIRMATION_REQUIRED || "2"),
+  atrPeriod: parseInt(process.env.ATR_PERIOD || "14"),
+  stopLossMultiplier: parseFloat(process.env.STOP_LOSS_MULTIPLIER || "2.5"),
   binance: {
     apiKey: process.env.BINANCE_API_KEY,
     secretKey: process.env.BINANCE_SECRET_KEY,
@@ -813,6 +814,9 @@ function checkTradeLimits(log) {
 // ─── Exchange Execution ───────────────────────────────────────────────────────
 
 function signBinance(timestamp, method, path, body = "") {
+  if (!CONFIG.binance.secretKey || !CONFIG.binance.apiKey) {
+    throw new Error("Binance API credentials not configured");
+  }
   const message = `${timestamp}${method}${path}${body}`;
   return crypto
     .createHmac("sha256", CONFIG.binance.secretKey)
@@ -821,6 +825,9 @@ function signBinance(timestamp, method, path, body = "") {
 }
 
 function signDelta(timestamp, method, path, body = "") {
+  if (!CONFIG.delta.secretKey || !CONFIG.delta.apiKey) {
+    throw new Error("Delta API credentials not configured");
+  }
   const message = timestamp + method.toUpperCase() + path + body;
   return crypto
     .createHmac("sha256", CONFIG.delta.secretKey)
@@ -829,6 +836,13 @@ function signDelta(timestamp, method, path, body = "") {
 }
 
 async function placeOrder(symbol, side, sizeUSD, price) {
+  // Check if we have API keys configured
+  if (CONFIG.exchange === "binance" && (!CONFIG.binance.apiKey || !CONFIG.binance.secretKey)) {
+    throw new Error("Binance API credentials not configured");
+  } else if (CONFIG.exchange === "delta" && (!CONFIG.delta.apiKey || !CONFIG.delta.secretKey)) {
+    throw new Error("Delta API credentials not configured");
+  }
+
   if (CONFIG.exchange === "binance") {
     return placeBinanceOrder(symbol, side, sizeUSD, price);
   } else if (CONFIG.exchange === "delta") {
@@ -839,6 +853,10 @@ async function placeOrder(symbol, side, sizeUSD, price) {
 }
 
 async function placeBinanceOrder(symbol, side, sizeUSD, price) {
+  if (!CONFIG.binance.apiKey || !CONFIG.binance.secretKey) {
+    throw new Error("Binance API credentials not configured");
+  }
+
   const quantity = (sizeUSD / price).toFixed(6);
   const timestamp = Date.now().toString();
 
@@ -1177,8 +1195,10 @@ async function run() {
   console.log(`  Order Blocks: ${orderBlocks.length} found`);
   console.log(`  ATR: ${atr.toFixed(4)}`);
 
-  // Run ICT-only safety check
-  const { results, allPass } = runICTRules(price, dealingRange, dailyBias, fvgs, orderBlocks, liquidityZones, atr, rules);
+  // Run appropriate safety check based on configuration
+  const { results, allPass } = CONFIG.drtEnabled ?
+    runDRTRules(price, dealingRange, dailyBias, fvgs, orderBlocks, liquidityZones, atr, rules) :
+    runICTRules(price, dealingRange, dailyBias, fvgs, orderBlocks, liquidityZones, atr, rules);
 
   // Calculate position size with minimum $100
   const minTradeSize = 100;
@@ -1231,19 +1251,31 @@ async function run() {
         `\n🔴 PLACING LIVE ORDER — $${tradeSize.toFixed(2)} BUY ${CONFIG.symbol}`,
       );
       console.log(`   Exchange: ${CONFIG.exchange.toUpperCase()}`);
-      try {
-        const order = await placeOrder(
-          CONFIG.symbol,
-          "buy",
-          tradeSize,
-          price,
-        );
-        logEntry.orderPlaced = true;
-        logEntry.orderId = order.orderId;
-        console.log(`✅ ORDER PLACED — ${order.orderId}`);
-      } catch (err) {
-        console.log(`❌ ORDER FAILED — ${err.message}`);
-        logEntry.error = err.message;
+
+      // Check if API keys are configured
+      if (CONFIG.exchange === "binance" && (!CONFIG.binance.apiKey || !CONFIG.binance.secretKey)) {
+        console.log(`❌ ORDER FAILED — Binance API credentials not configured`);
+        console.log(`   Set BINANCE_API_KEY, BINANCE_SECRET_KEY, BINANCE_PASSPHRASE in Railway dashboard`);
+        logEntry.error = "Binance API credentials not configured";
+      } else if (CONFIG.exchange === "delta" && (!CONFIG.delta.apiKey || !CONFIG.delta.secretKey)) {
+        console.log(`❌ ORDER FAILED — Delta API credentials not configured`);
+        console.log(`   Set DELTA_API_KEY, DELTA_SECRET_KEY, DELTA_PASSPHRASE in Railway dashboard`);
+        logEntry.error = "Delta API credentials not configured";
+      } else {
+        try {
+          const order = await placeOrder(
+            CONFIG.symbol,
+            "buy",
+            tradeSize,
+            price,
+          );
+          logEntry.orderPlaced = true;
+          logEntry.orderId = order.orderId;
+          console.log(`✅ ORDER PLACED — ${order.orderId}`);
+        } catch (err) {
+          console.log(`❌ ORDER FAILED — ${err.message}`);
+          logEntry.error = err.message;
+        }
       }
     }
   }
