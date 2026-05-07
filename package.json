@@ -1,21 +1,26 @@
 {
-  "name": "ict-trading-bot",
+  "name": "ali-khan-drt-bot",
   "version": "1.0.0",
-  "description": "ICT Smart Money Trading Bot",
+  "description": "Ali Khan DRT Trading Bot - Automated trading based on Dealing Range Theory",
   "main": "bot.js",
+  "type": "module",
   "scripts": {
-    "start": "node bot.js"
+    "start": "node bot.js",
+    "test": "node bot.js --tax-summary",
+    "dev": "node bot.js"
   },
   "dependencies": {
-    "axios": "^1.15.2",
-    "dotenv": "^16.4.5",
+    "dotenv": "^16.3.1",
     "node-fetch": "^3.3.2"
   },
-  "engines": {
-    "node": ">=18.0.0"
-  },
-  "type": "module",
-  "railway": {
-    "startCommand": "node bot.js"
-  }
+  "keywords": [
+    "trading",
+    "forex",
+    "crypto",
+    "ict",
+    "drt",
+    "algorithmic"
+  ],
+  "author": "Ali Khan Trading Strategy",
+  "license": "MIT"
 }

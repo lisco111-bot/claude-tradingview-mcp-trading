@@ -5,17 +5,30 @@
   },
   "deploy": {
     "startCommand": "node bot.js",
-    "cronSchedule": "0 */1 * * *",
+    "cronSchedule": "*/5 * * * *",
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 3
+  },
+  "variables": {
+    "PORTFOLIO_VALUE_USD": "10000",
+    "MAX_TRADE_SIZE_USD": "250",
+    "MAX_TRADES_PER_DAY": "5",
+    "PAPER_TRADING": "true",
+    "SYMBOL": "EURUSDT",
+    "TIMEFRAME": "15m",
+    "TRADE_MODE": "future",
+    "DRT_ENABLED": "true",
+    "DAILY_BIAS_LOOKBACK": "3",
+    "PO3_CONFIRMATION_REQUIRED": "2",
+    "ATR_PERIOD": "14",
+    "STOP_LOSS_MULTIPLIER": "2.5",
+    "TAKE_PROFIT_RATIOS": "1,2,3",
+    "BINANCE_API_KEY": "demo_binance_key",
+    "BINANCE_SECRET_KEY": "demo_binance_secret",
+    "BINANCE_PASSPHRASE": "demo_binance_passphrase",
+    "DELTA_API_KEY": "demo_delta_key",
+    "DELTA_SECRET_KEY": "demo_delta_secret",
+    "DELTA_PASSPHRASE": "demo_delta_passphrase",
+    "EXCHANGE": "binance"
   }
 }
-
-
- {
-    "deploy": {
-      "startCommand": "node bot.js",
-      "cronSchedule": "*/15 * * * *",
-      "runCommandAfterDeploy": "node manage-trades.js extract"
-    }
-  }
