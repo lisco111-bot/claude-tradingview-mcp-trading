@@ -22,13 +22,13 @@ RUN mkdir -p /run/secrets
 # Expose port if needed
 EXPOSE 3000
 
+# Create cron job file (as root)
+RUN echo "*/5 * * * * cd /app && node start-bot.js" | crontab -
+
 # Use a non-root user
 RUN addgroup -g 1001 -S nodejs && \
     adduser -S nextjs -u 1001
 USER nextjs
-
-# Create cron job file
-RUN echo "*/5 * * * * cd /app && node start-bot.js" | crontab -
 
 # Start cron and keep container running
 CMD ["dcron", "-f"]
