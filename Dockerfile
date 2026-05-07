@@ -2,7 +2,7 @@
 FROM node:18-alpine
 
 # Install cron
-RUN apk add --no-cache cron
+RUN apk add --no-cache dcron
 
 # Set working directory
 WORKDIR /app
@@ -31,4 +31,4 @@ USER nextjs
 RUN echo "*/5 * * * * cd /app && node start-bot.js" | crontab -
 
 # Start cron and keep container running
-CMD ["crond", "-f"]
+CMD ["dcron", "-f"]
