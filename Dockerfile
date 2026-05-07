@@ -1,6 +1,9 @@
 # Use the official Node.js runtime
 FROM node:18-alpine
 
+# Install cron
+RUN apk add --no-cache cron
+
 # Set working directory
 WORKDIR /app
 
@@ -24,5 +27,8 @@ RUN addgroup -g 1001 -S nodejs && \
     adduser -S nextjs -u 1001
 USER nextjs
 
-# Start the application
-CMD ["node", "bot.js"]
+# Create cron job file
+RUN echo "*/5 * * * * cd /app && node start-bot.js" | crontab -
+
+# Start cron and keep container running
+CMD ["crond", "-f"]
