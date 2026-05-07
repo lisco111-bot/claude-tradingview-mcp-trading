@@ -20,12 +20,12 @@ import { execSync } from "child_process";
 // ─── Onboarding ───────────────────────────────────────────────────────────────
 
 function checkOnboarding() {
-  const required = ["DELTAEXCHANGE_API_KEY", "DELTAEXCHANGE_SECRET_KEY", "DELTAEXCHANGE_PASSPHRASE"];
+  const required = ["BINANCE_API_KEY", "BINANCE_SECRET_KEY", "BINANCE_PASSPHRASE"];
   const missing = required.filter((k) => !process.env[k]);
 
   if (!existsSync(".env")) {
     console.log(
-      "\n⚠️  No .env file found — opening it for you to fill in...\n",
+      "\n⚠️  No .env file found — creating one for you...\n",
     );
     writeFileSync(
       ".env",
@@ -36,17 +36,19 @@ function checkOnboarding() {
         "BINANCE_PASSPHRASE=",
         "",
         "# Trading config",
-        "PORTFOLIO_VALUE_USD500",
+        "PORTFOLIO_VALUE_USD=500",
         "MAX_TRADE_SIZE_USD=2500",
         "MAX_TRADES_PER_DAY=20",
         "PAPER_TRADING=true",
         "SYMBOL=BTCUSDT",
-        "TIMEFRAME=1H",
+        "TIMEFRAME=1M",
+        "",
+        "# DeltaExchange credentials (if using DeltaExchange)",
+        "DELTAEXCHANGE_API_KEY=",
+        "DELTAEXCHANGE_SECRET_KEY=",
+        "DELTAEXCHANGE_PASSPHRASE=",
       ].join("\n") + "\n",
     );
-    try {
-      execSync("open .env");
-    } catch {}
     console.log(
       "Fill in your Binance credentials in .env then re-run: node bot.js\n",
     );
@@ -55,11 +57,7 @@ function checkOnboarding() {
 
   if (missing.length > 0) {
     console.log(`\n⚠️  Missing credentials in .env: ${missing.join(", ")}`);
-    console.log("Opening .env for you now...\n");
-    try {
-      execSync("open .env");
-    } catch {}
-    console.log("Add the missing values then re-run: node bot.js\n");
+    console.log("Please add these values to your .env file then re-run: node bot.js\n");
     process.exit(0);
   }
 
